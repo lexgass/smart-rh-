@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Smart RH — Nos offres 2026 en une page</title>
+<style>
+@font-face{font-family:'Sora';font-weight:400 800;src:url('../app/public/fonts/sora-latin.woff2') format('woff2');}
+@font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin.woff2') format('woff2');}
+@font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin-ext.woff2') format('woff2');unicode-range:U+0100-024F,U+20A0-20CF;}
+:root{ --foret:#123F33; --action:#17694F; --action-cl:#E5F1EB; --raphia:#D9A441; --raphia-cl:#FBF1DC; --raphia-f:#7C5A12; --encre:#17211D; --n700:#3E4A45; --n500:#5E6A64; --n200:#E2E7E3; --n100:#EEF1EE; --fond:#F3F5F2; }
+@page{ size:A4; margin:0; }
+*{ box-sizing:border-box; } html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body{ margin:0; font-family:'Manrope','Segoe UI',sans-serif; color:var(--encre); font-size:10pt; line-height:1.45; }
+h1,h2,h3{ font-family:'Sora','Segoe UI',sans-serif; margin:0; color:var(--foret); }
+.page{ width:210mm; height:296mm; padding:14mm 15mm 11mm; display:flex; flex-direction:column; overflow:hidden; }
+.page > *{ flex-shrink:0; }
+.entete{ display:flex; justify-content:space-between; align-items:center; padding-bottom:4mm; margin-bottom:6mm; border-bottom:1px solid var(--n200); }
+.marque{ display:flex; align-items:center; gap:8px; font-family:'Sora'; font-weight:700; font-size:12pt; color:var(--foret); } .marque img{ width:24px; height:24px; border-radius:6px; } .marque b{ color:var(--raphia); }
+.entete span{ font-size:8pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--n500); }
+h1{ font-size:22pt; margin-bottom:3mm; }
+.intro{ margin:0 0 6mm; color:var(--n700); font-size:10.5pt; }
+.formules{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:4mm; margin-bottom:7mm; }
+.formules div{ background:var(--fond); border-radius:10px; padding:3.5mm 4mm; }
+.formules b{ display:block; font-family:'Sora'; color:var(--foret); font-size:10.5pt; margin-bottom:.8mm; }
+.formules span{ font-size:9pt; color:var(--n700); }
+.colonnes{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:4mm; }
+.cat{ border:1px solid var(--n200); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
+.cat-tete{ background:var(--foret); color:#fff; padding:4mm 4.5mm; }
+.cat-tete h2{ color:#fff; font-size:15pt; }
+.cat-tete span{ color:#C9DAD2; font-size:9pt; }
+.offre{ padding:4mm 4.5mm; border-top:1px solid var(--n100); }
+.cat-tete + .offre{ border-top:0; }
+.offre h3{ font-size:10.5pt; margin-bottom:2.5mm; }
+.ligne{ display:flex; justify-content:space-between; align-items:baseline; gap:3mm; padding:1.2mm 0; }
+.ligne span{ font-size:8.8pt; color:var(--n700); }
+.ligne b{ font-family:'Sora'; font-weight:800; color:var(--foret); font-size:11pt; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.ligne.une-fois b{ color:var(--raphia-f); }
+.sous{ font-size:8.3pt; color:var(--n500); margin:1mm 0 0; }
+.exemple{ margin-top:6mm; background:var(--action-cl); border-radius:12px; padding:4.5mm 5.5mm; }
+.exemple b.t{ display:block; font-family:'Sora'; color:var(--foret); font-size:10.5pt; margin-bottom:1.5mm; }
+.exemple p{ margin:0; font-size:9.8pt; }
+.plus{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-top:4mm; }
+.plus div{ background:var(--raphia-cl); border-radius:12px; padding:3.5mm 4.5mm; font-size:9.3pt; }
+.plus b{ color:var(--raphia-f); }
+.pied{ margin-top:auto; padding-top:3mm; border-top:1px solid var(--n200); display:flex; justify-content:space-between; font-size:7.6pt; color:var(--n500); }
+</style>
+</head>
+<body>
+<section class="page">
+  <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span>Nos offres 2026</span></div>
+  <h1>Nos offres en une page</h1>
+  <p class="intro">Pour chaque client, deux formules. Prix en FCFA, hors taxes. TPE : très petites entreprises ; État : ministères, administrations et établissements publics.</p>
+
+  <div class="formules">
+    <div><b>Logiciel seul</b><span>Smart RH est installé sur l'ordinateur du client.</span></div>
+    <div><b>Clé en main</b><span>Nous fournissons et installons le serveur, la sauvegarde et l'onduleur.</span></div>
+    <div><b>Toujours compris</b><span>Mises à jour légales, maintenance, assistance et formation.</span></div>
+  </div>
+
+  <div class="colonnes">
+    <div class="cat">
+      <div class="cat-tete"><h2>TPE</h2><span>1 à 15 salariés</span></div>
+      <div class="offre"><h3>Logiciel seul</h3>
+        <div class="ligne"><span>Chaque année</span><b>180 000</b></div></div>
+      <div class="offre"><h3>Clé en main</h3>
+        <div class="ligne une-fois"><span>Installation, une fois</span><b>755 000</b></div>
+        <div class="ligne"><span>Puis chaque année</span><b>180 000</b></div></div>
+    </div>
+    <div class="cat">
+      <div class="cat-tete"><h2>PME</h2><span>16 à 100 salariés</span></div>
+      <div class="offre"><h3>Logiciel seul, chaque année</h3>
+        <div class="ligne"><span>16 à 50 salariés</span><b>420 000</b></div>
+        <div class="ligne"><span>51 à 100 salariés</span><b>780 000</b></div></div>
+      <div class="offre"><h3>Clé en main, installation une fois</h3>
+        <div class="ligne une-fois"><span>16 à 50 salariés</span><b>755 000</b></div>
+        <div class="ligne une-fois"><span>51 à 100 salariés</span><b>1 325 000</b></div>
+        <p class="sous">puis l'abonnement ci-dessus, chaque année</p></div>
+    </div>
+    <div class="cat">
+      <div class="cat-tete"><h2>État</h2><span>par structure, jusqu'à 100 agents</span></div>
+      <div class="offre"><h3>Logiciel seul</h3>
+        <div class="ligne"><span>Chaque année</span><b>780 000</b></div>
+        <div class="ligne"><span>Ou 4 ans d'avance</span><b>2 808 000</b></div>
+        <p class="sous">soit 10 % de moins sur 4 ans</p></div>
+      <div class="offre"><h3>Clé en main</h3>
+        <div class="ligne une-fois"><span>Installation, une fois</span><b>1 325 000</b></div>
+        <p class="sous">puis l'abonnement ci-dessus</p></div>
+    </div>
+  </div>
+
+  <div class="exemple"><b class="t">Exemple : une PME de 30 salariés en clé en main</b>
+    <p>1re année : 755 000 (installation) + 420 000 (abonnement) = <b>1 175 000 FCFA</b>. Les années suivantes : <b>420 000 FCFA par an</b> seulement.</p></div>
+
+  <div class="plus">
+    <div><b>Option, sauvegarde à distance</b> chaque nuit, pour le clé en main : 120 000 par an (TPE et PME), 240 000 par an (État).</div>
+    <div><b>Plus de 100 salariés ou agents</b> : prix sur devis.</div>
+  </div>
+
+  <div class="pied"><span>L'installation comprend le matériel (serveur, sauvegarde, onduleur) et sa mise en route ; transport et douane en sus.</span><span>Smart RH, 2026</span></div>
+</section>
+</body>
+</html>
