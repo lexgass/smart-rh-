@@ -1,0 +1,22 @@
+{
+  "name": "smart-rh",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Smart RH : gestion RH et paie pour les PME du Congo-Brazzaville",
+  "scripts": {
+    "start": "node --no-warnings server.js",
+    "demo": "node --no-warnings scripts/demo.js",
+    "test": "node --no-warnings tests/paie.js && node --no-warnings tests/migration.js && node --no-warnings tests/integration.js demo && node --no-warnings tests/integration.js production",
+    "paquet": "node scripts/paquet.js",
+    "certificat": "node scripts/certificat.js",
+    "charge": "node --no-warnings scripts/charge.js",
+    "restaurer": "node --no-warnings scripts/restaurer.js",
+    "demo:preparer": "node --no-warnings scripts/preparer-demo.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}

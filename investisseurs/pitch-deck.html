@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Smart RH — Pitch deck</title>
+<style>
+  :root{ --vert:#0B3D2E; --vert2:#14614A; --menthe:#E6F2EC; --or:#F2B705; --rouge:#C8452C; --encre:#14211C; --gris:#5C6B65; --trait:#D9E2DD; --fond:#F6F9F7; }
+  @page{ size:1280px 720px; margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Segoe UI",Arial,sans-serif; color:var(--encre); background:#888; }
+  .d{ width:1280px; height:720px; background:#fff; position:relative; overflow:hidden; padding:56px 72px; break-after:page; }
+  .d.sombre{ background:var(--vert); color:#fff; }
+  .sur{ font-size:14px; letter-spacing:3px; text-transform:uppercase; font-weight:600; color:var(--vert2); margin-bottom:10px; }
+  .sombre .sur{ color:var(--or); }
+  h1{ margin:0 0 28px; font-size:42px; line-height:1.12; letter-spacing:-.6px; font-weight:700; color:var(--vert); max-width:1000px; }
+  .sombre h1{ color:#fff; }
+  h1 em{ font-style:normal; color:var(--or); }
+  .pied{ position:absolute; left:72px; right:72px; bottom:26px; display:flex; justify-content:space-between; font-size:12px; color:var(--gris); }
+  .sombre .pied{ color:#B9D3C8; }
+  .logo{ display:flex; align-items:center; gap:12px; font-size:22px; font-weight:700; }
+  .pastille{ width:40px; height:40px; border-radius:11px; background:var(--or); color:var(--vert); display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:22px; }
+  .g{ display:grid; gap:22px; } .g2{ grid-template-columns:1fr 1fr; } .g3{ grid-template-columns:repeat(3,1fr); } .g4{ grid-template-columns:repeat(4,1fr); }
+  .c{ background:var(--fond); border-radius:16px; padding:24px 26px; }
+  .c h3{ margin:0 0 8px; font-size:21px; color:var(--vert); }
+  .c p{ margin:0; font-size:16.5px; line-height:1.45; color:#33433D; }
+  .ico{ width:46px; height:46px; border-radius:50%; background:var(--vert); color:var(--or); display:flex; align-items:center; justify-content:center; font-size:21px; font-weight:700; margin-bottom:14px; }
+  .k{ background:var(--vert); color:#fff; border-radius:16px; padding:24px 26px; }
+  .k b{ display:block; font-size:50px; line-height:1; color:var(--or); font-weight:700; letter-spacing:-1px; white-space:nowrap; }
+  .k span{ display:block; margin-top:10px; font-size:16px; line-height:1.35; opacity:.94; }
+  .sombre .k{ background:var(--vert2); }
+  .rond{ position:absolute; border-radius:50%; }
+  ul.l{ margin:0; padding:0; list-style:none; }
+  ul.l li{ font-size:19px; line-height:1.4; padding:11px 0 11px 34px; position:relative; border-bottom:1px solid var(--trait); }
+  ul.l li:last-child{ border-bottom:none; }
+  ul.l li::before{ content:""; position:absolute; left:4px; top:20px; width:12px; height:12px; border-radius:50%; background:var(--or); }
+  /* maquette d'écran */
+  .ecran{ background:#fff; border-radius:16px; box-shadow:0 18px 50px rgba(11,61,46,.22); overflow:hidden; border:1px solid var(--trait); }
+  .barre{ background:var(--vert); color:#fff; padding:12px 18px; font-size:14px; font-weight:600; display:flex; justify-content:space-between; }
+  .barre span{ opacity:.8; font-weight:400; }
+  .ecran table{ width:100%; border-collapse:collapse; font-size:14.5px; }
+  .ecran th{ text-align:left; padding:10px 18px; color:var(--gris); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.8px; background:var(--fond); }
+  .ecran td{ padding:11px 18px; border-top:1px solid var(--trait); }
+  .ecran td.n{ text-align:right; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .et{ display:inline-block; font-size:12px; font-weight:600; border-radius:20px; padding:3px 11px; white-space:nowrap; }
+  .et.ok{ background:var(--menthe); color:var(--vert2); } .et.old{ background:#EEF0EF; color:var(--gris); } .et.new{ background:#FFF1C2; color:#7A5A00; }
+  .bars{ display:flex; align-items:flex-end; gap:54px; height:330px; border-bottom:2px solid var(--trait); padding:0 30px; }
+  .grp{ flex:1; display:flex; align-items:flex-end; justify-content:center; gap:14px; height:100%; }
+  .b{ width:74px; border-radius:8px 8px 0 0; position:relative; }
+  .b i{ position:absolute; top:-30px; left:-20px; right:-20px; text-align:center; font-style:normal; font-size:19px; font-weight:700; }
+  .b.r{ background:var(--vert2); } .b.r i{ color:var(--vert2); } .b.ch{ background:#B9C7C0; } .b.ch i{ color:var(--gris); }
+  .axe{ display:flex; gap:54px; padding:10px 30px 0; font-size:16px; color:var(--gris); }
+  .axe span{ flex:1; text-align:center; }
+  .fr{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  .fr div{ background:var(--fond); border-radius:16px; padding:20px 22px; font-size:15.5px; line-height:1.4; color:#33433D; }
+  .fr small{ display:inline-block; background:var(--or); color:var(--vert); font-weight:700; border-radius:20px; padding:3px 12px; font-size:13px; margin-bottom:10px; }
+  .fr b{ display:block; font-size:21px; color:var(--vert); margin-bottom:4px; }
+  .rep{ display:flex; height:54px; border-radius:14px; overflow:hidden; margin:6px 0 16px; }
+  .rep div{ display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:17px; }
+  .lg{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; font-size:14.5px; line-height:1.35; color:#33433D; }
+  .lg b{ display:block; color:var(--vert); font-size:16px; }
+  .lg i{ display:block; width:26px; height:8px; border-radius:4px; margin-bottom:8px; }
+  .vide{ border:2px dashed #9DB0A8; border-radius:16px; padding:24px 26px; color:var(--gris); font-size:16.5px; line-height:1.45; }
+  .vide b{ display:block; color:var(--encre); font-size:20px; margin-bottom:6px; }
+  table.cmp{ width:100%; border-collapse:collapse; font-size:17px; }
+  table.cmp th{ text-align:center; padding:12px 10px; font-size:15px; color:var(--gris); font-weight:600; }
+  table.cmp th:first-child, table.cmp td:first-child{ text-align:left; }
+  table.cmp th.nous{ background:var(--vert); color:#fff; border-radius:12px 12px 0 0; font-size:17px; }
+  table.cmp td{ padding:13px 10px; border-top:1px solid var(--trait); text-align:center; }
+  table.cmp td.nous{ background:var(--menthe); font-weight:700; color:var(--vert2); }
+  .oui{ color:var(--vert2); font-weight:700; } .non{ color:var(--rouge); font-weight:700; } .mi{ color:#9A7400; font-weight:700; }
+  .c{ padding:30px; } .c h3{ font-size:24px; } .c p{ font-size:19px; }
+  .k{ padding:30px; } .k b{ font-size:58px; } .k span{ font-size:18.5px; } .g4 .k b{ font-size:46px; } .g4 .k{ padding:26px 24px; }
+  .g4 .c{ padding:24px; } .g4 .c p{ font-size:17.5px; }
+  h1{ margin-bottom:34px; } .fr div{ font-size:17.5px; padding:24px; } .fr b{ font-size:24px; } .vide{ font-size:19px; padding:30px; } .vide b{ font-size:22px; }
+  .lg{ font-size:16px; } .lg b{ font-size:18px; }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="d sombre">
+  <div class="rond" style="width:760px;height:760px;right:-230px;top:60px;background:var(--vert2);opacity:.6"></div>
+  <div class="rond" style="width:250px;height:250px;right:90px;top:360px;background:var(--or)"></div>
+  <div class="logo" style="position:relative"><img src="captures/logo.svg" alt="" width="44" height="44" style="border-radius:12px"> Smart RH</div>
+  <div style="position:relative;margin-top:150px">
+    <h1 style="font-size:68px;line-height:1.04;letter-spacing:-1.5px;max-width:800px">La paie et les RH des PME congolaises, <em>enfin simples.</em></h1>
+    <p style="font-size:23px;max-width:640px;line-height:1.4;margin:0;opacity:.94">Le logiciel de gestion RH entièrement paramétrable, conçu pour le Congo-Brazzaville.</p>
+  </div>
+  <div class="pied"><span>Présentation investisseurs · Octobre 2026</span><span>Confidentiel</span></div>
+</section>
+
+<!-- 2 -->
+<section class="d">
+  <div class="sur">Le problème</div>
+  <h1>Faire une paie conforme au Congo est un casse-tête mensuel</h1>
+  <div class="g g3">
+    <div class="c"><div class="ico">6</div><h3>Six prélèvements par salaire</h3><p>Retraite, prestations familiales, accidents du travail, assurance maladie, taxe sur les salaires, impôt : chacun a son taux et son plafond.</p></div>
+    <div class="c"><div class="ico">↻</div><h3>Des règles qui bougent</h3><p>Le SMIG et l'impôt sur les salaires ont changé en moins de deux ans, et un nouveau Code du travail arrive.</p></div>
+    <div class="c"><div class="ico">X</div><h3>Excel comme seul outil</h3><p>Des jours de calcul, des erreurs, aucune trace, et un risque de pénalité à chaque déclaration.</p></div>
+  </div>
+  <div class="pied"><span>Smart RH</span><span>2</span></div>
+</section>
+
+<!-- 3 -->
+<section class="d">
+  <div class="sur">Pourquoi maintenant</div>
+  <h1>Trois changements de loi obligent les PME à revoir leur paie</h1>
+  <div class="g g3">
+    <div class="k"><b>70 400</b><span>FCFA : le nouveau SMIG depuis janvier 2025, contre 50 400 auparavant.</span></div>
+    <div class="k"><b>2026</b><span>L'IRPP disparaît : l'impôt sur les traitements et salaires le remplace, avec un nouveau barème.</span></div>
+    <div class="k"><b>1975</b><span>L'année du Code du travail actuel ; son remplaçant est en cours d'examen.</span></div>
+  </div>
+  <p style="font-size:21px;line-height:1.45;margin:34px 0 0;max-width:1040px;color:#33433D">Chaque changement oblige à refaire les fichiers de calcul. Un logiciel dont les règles se mettent à jour à l'écran répond exactement à ce moment.</p>
+  <div class="pied"><span>Sources : Africa24, Financial Afrik, PaySpace, AllAfrica</span><span>3</span></div>
+</section>
+
+<!-- 4 -->
+<section class="d">
+  <div class="g" style="grid-template-columns:470px 1fr;gap:48px;align-items:center;height:100%">
+    <div>
+      <div class="sur">La solution</div>
+      <h1 style="font-size:40px">Chaque règle se paramètre à l'écran, avec sa date d'effet</h1>
+      <ul class="l">
+        <li>Une loi change : on ajoute une ligne, sans développeur.</li>
+        <li>Les anciens bulletins restent recalculables à l'identique.</li>
+        <li>Un modèle « Congo » prérempli, modifiable par société.</li>
+      </ul>
+    </div>
+    <div class="ecran">
+      <div class="barre">Paramètres de paie · Modèle Congo <span>Société : Exemple SARL</span></div>
+      <table>
+        <tr><th>Règle</th><th style="text-align:right">Valeur</th><th>En vigueur</th><th>État</th></tr>
+        <tr><td>SMIG mensuel</td><td class="n">50 400 FCFA</td><td>jusqu'au 31/12/2024</td><td><span class="et old">Archivée</span></td></tr>
+        <tr><td>SMIG mensuel</td><td class="n">70 400 FCFA</td><td>depuis le 01/01/2025</td><td><span class="et ok">Active</span></td></tr>
+        <tr><td>Retraite CNSS, part salarié</td><td class="n">4 %</td><td>depuis le 01/01/2023</td><td><span class="et ok">Active</span></td></tr>
+        <tr><td>Plafond retraite CNSS</td><td class="n">1 200 000 FCFA</td><td>depuis le 01/01/2023</td><td><span class="et ok">Active</span></td></tr>
+        <tr><td>Assurance maladie, part salarié</td><td class="n">2,27 %</td><td>depuis le 01/01/2023</td><td><span class="et ok">Active</span></td></tr>
+        <tr><td>Impôt sur les salaires (ITS)</td><td class="n">barème 5 tranches</td><td>depuis le 01/01/2026</td><td><span class="et new">Nouvelle</span></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="pied"><span>Écran illustratif · taux indicatifs à valider par l'expert-comptable</span><span>4</span></div>
+</section>
+
+<!-- 5 -->
+<section class="d">
+  <div class="sur">Le produit</div>
+  <h1>Tout le cycle de vie du salarié dans un seul outil</h1>
+  <div class="g g4" style="gap:18px">
+    <div class="c"><div class="ico">1</div><h3>Embauche</h3><p>Dossier salarié, contrat, période d'essai, alertes d'échéance.</p></div>
+    <div class="c"><div class="ico">2</div><h3>Dotations</h3><p>Matériel remis, fiche signée, restitution à la sortie.</p></div>
+    <div class="c"><div class="ico">3</div><h3>Paie</h3><p>Rubriques configurables, bulletins, états pour la CNSS et les impôts.</p></div>
+    <div class="c"><div class="ico">4</div><h3>Vie du contrat</h3><p>Congés, avenants, promotions, sanctions, sortie et documents.</p></div>
+  </div>
+  <div class="g g2" style="margin-top:22px">
+    <div class="k" style="padding:20px 26px"><span style="margin:0;font-size:18px"><b style="display:inline;font-size:22px;letter-spacing:0">Plusieurs sociétés.</b> Un cabinet gère tous ses clients dans une seule installation, chacun cloisonné.</span></div>
+    <div class="k" style="padding:20px 26px"><span style="margin:0;font-size:18px"><b style="display:inline;font-size:22px;letter-spacing:0">Sans internet.</b> Le logiciel tourne en local, chez le client : les coupures ne bloquent pas la paie.</span></div>
+  </div>
+  <div class="pied"><span>Smart RH</span><span>5</span></div>
+</section>
+
+<!-- 5 bis -->
+<section class="d">
+  <div class="g" style="grid-template-columns:400px 1fr;gap:40px;align-items:center;height:100%">
+    <div>
+      <div class="sur">Déjà construit</div>
+      <h1 style="font-size:38px">La version 1.0 fonctionne et s'installe chez un client</h1>
+      <ul class="l">
+        <li>Paie, conventions collectives, congés, déclarations, sorties.</li>
+        <li>Comptes et rôles, journal, sauvegardes quotidiennes.</li>
+        <li>Tests automatiques et guide d'installation pas à pas.</li>
+      </ul>
+    </div>
+    <img src="captures/tableau-de-bord.png" alt="Tableau de bord de Smart RH" style="width:100%;border-radius:14px;box-shadow:0 18px 50px rgba(11,61,46,.25);border:1px solid var(--trait)">
+  </div>
+  <div class="pied"><span>Capture de l'application, données de démonstration fictives</span><span>6</span></div>
+</section>
+
+<!-- 6 -->
+<section class="d">
+  <div class="sur">Positionnement</div>
+  <h1>Face à Congo Paie : cabinets, conventions, local</h1>
+  <table class="cmp">
+    <tr><th></th><th>Excel</th><th>Logiciels internationaux</th><th>Congo Paie (en ligne)</th><th class="nous">Smart RH</th></tr>
+    <tr><td>Règles congolaises intégrées</td><td class="non">Non</td><td class="mi">Sur devis</td><td class="oui">Oui</td><td class="nous">Oui</td></tr>
+    <tr><td>Règles modifiables par le client</td><td class="mi">À la main</td><td class="non">Non</td><td class="mi">Partiel</td><td class="nous">Oui</td></tr>
+    <tr><td>Fonctionne sans internet</td><td class="oui">Oui</td><td class="mi">Selon version</td><td class="non">Non</td><td class="nous">Oui</td></tr>
+    <tr><td>RH complètes (contrats, dotations, sanctions)</td><td class="non">Non</td><td class="oui">Oui</td><td class="mi">Partiel</td><td class="nous">Oui</td></tr>
+    <tr><td>Conventions collectives appliquées</td><td class="non">Non</td><td class="mi">Sur devis</td><td class="mi">Partiel</td><td class="nous">Oui</td></tr>
+    <tr><td>Plusieurs sociétés dans un même compte</td><td class="non">Non</td><td class="mi">Sur devis</td><td class="non">Non</td><td class="nous">Oui</td></tr>
+    <tr><td>Prix accessible à une PME</td><td class="oui">Oui</td><td class="non">Non</td><td class="oui">Oui</td><td class="nous">Oui</td></tr>
+  </table>
+  <div class="pied"><span>Congo Paie : d'après son site et son propre comparatif, octobre 2026 ; autres colonnes par catégorie d'outils</span><span>7</span></div>
+</section>
+
+<!-- 7 -->
+<section class="d">
+  <div class="sur">Le marché</div>
+  <h1>Environ 6 400 entreprises formelles, toutes tenues de produire une paie</h1>
+  <div class="g g4">
+    <div class="k"><b>91 000</b><span>unités économiques recensées au Congo en 2021</span></div>
+    <div class="k"><b>≈ 6 400</b><span>entreprises formelles, soit 7 % du total</span></div>
+    <div class="k"><b>5 827</b><span>entreprises créées en 2025</span></div>
+    <div class="k"><b>80 %</b><span>des entreprises formelles sont des PME</span></div>
+  </div>
+  <div class="g g2" style="margin-top:22px">
+    <div class="c"><h3>Premier canal : les cabinets comptables</h3><p>Ils gèrent déjà la paie de plusieurs PME. Un cabinet convaincu apporte plusieurs sociétés d'un coup.</p></div>
+    <div class="c"><h3>Ensuite : la zone CEMAC</h3><p>Même monnaie, même cadre comptable. Ouvrir un pays revient à créer un nouveau modèle de règles.</p></div>
+  </div>
+  <div class="pied"><span>Sources : INS 2021 et ACPCE 2025, cités par Africa24</span><span>8</span></div>
+</section>
+
+<!-- 8 -->
+<section class="d">
+  <div class="sur">Modèle économique</div>
+  <h1>Un abonnement par palier, et trois logiciels pour un même client</h1>
+  <div class="g g3">
+    <div class="k"><b>15 → 65 k</b><span>FCFA par mois selon l'effectif (jusqu'à 15, 50 ou 100 salariés), aux prix du marché</span></div>
+    <div class="k"><b>150 000</b><span>FCFA de mise en service par société : paramétrage, reprise des données, formation</span></div>
+    <div class="k"><b>35 → 60 k</b><span>FCFA de revenu mensuel par société, de l'année 1 à l'année 3</span></div>
+  </div>
+  <div class="g g3" style="margin-top:22px">
+    <div class="c"><h3>1. Smart RH</h3><p>RH et paie. Le produit d'entrée, disponible en année 1.</p></div>
+    <div class="c"><h3>2. Facturation</h3><p>Devis, factures, relances. Proposée aux clients existants en année 2.</p></div>
+    <div class="c"><h3>3. CRM</h3><p>Prospects et suivi commercial. Complète la suite en année 3.</p></div>
+  </div>
+  <div class="pied"><span>Prix indicatifs, hypothèses du business plan</span><span>9</span></div>
+</section>
+
+<!-- 9 -->
+<section class="d">
+  <div class="sur">Feuille de route</div>
+  <h1>D'une version 1.0 à 400 sociétés clientes en 36 mois</h1>
+  <div class="fr">
+    <div><small>Mois 1 à 4</small><b>Valider</b>Taux validés par l'expert-comptable, deux cabinets pilotes, premières paies réelles.</div>
+    <div><small>Mois 5 à 12</small><b>Lancer</b>Version commerciale, dix cabinets pilotes, 40 sociétés clientes.</div>
+    <div><small>Année 2</small><b>Étendre</b>Synchronisation en ligne, facturation, 150 sociétés clientes.</div>
+    <div><small>Année 3</small><b>Rentabiliser</b>CRM, nouvelles villes, 400 sociétés, exercice bénéficiaire.</div>
+  </div>
+  <div class="g g2" style="margin-top:22px">
+    <div class="c"><h3>Déjà fait</h3><p>Version 1.0 complète, testée automatiquement, avec son guide d'installation.</p></div>
+    <div class="c"><h3>Prochaine étape</h3><p>Validation des taux par un expert-comptable, puis deux cabinets pilotes en parallèle de leur paie actuelle.</p></div>
+  </div>
+  <div class="pied"><span>Smart RH</span><span>10</span></div>
+</section>
+
+<!-- 10 -->
+<section class="d">
+  <div class="g" style="grid-template-columns:1fr 400px;gap:50px;height:100%">
+    <div>
+      <div class="sur">Prévisions financières</div>
+      <h1 style="font-size:38px;margin-bottom:44px">Bénéficiaire dès la troisième année</h1>
+      <div class="bars">
+        <div class="grp"><div class="b r" style="height:5%"><i>12,3</i></div><div class="b ch" style="height:21.5%"><i>58</i></div></div>
+        <div class="grp"><div class="b r" style="height:26%"><i>70,3</i></div><div class="b ch" style="height:37%"><i>100</i></div></div>
+        <div class="grp"><div class="b r" style="height:90%"><i>243</i></div><div class="b ch" style="height:59.3%"><i>160</i></div></div>
+      </div>
+      <div class="axe"><span>Année 1</span><span>Année 2</span><span>Année 3</span></div>
+      <p style="font-size:14px;color:var(--gris);margin:12px 0 0">En millions de FCFA · <b style="color:var(--vert2)">■</b> chiffre d'affaires · <b style="color:#B9C7C0">■</b> charges</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px;justify-content:center">
+      <div class="k"><b>+83 M</b><span>FCFA de résultat prévu en année 3</span></div>
+      <div class="k"><b>−75 M</b><span>FCFA : point bas de trésorerie cumulé, fin de l'année 2</span></div>
+      <div class="c" style="padding:18px 22px"><p style="font-size:15px">Hypothèses : 40, 150 puis 400 sociétés clientes ; aucune perte de client modélisée.</p></div>
+    </div>
+  </div>
+  <div class="pied"><span>Prévisions avant impôt sur les sociétés, détail dans le business plan</span><span>11</span></div>
+</section>
+
+<!-- 11 -->
+<section class="d">
+  <div class="sur">Notre demande</div>
+  <h1>Nous recherchons 90 millions de FCFA pour financer les deux premières années</h1>
+  <div class="rep">
+    <div style="width:45%;background:var(--vert)">45 %</div>
+    <div style="width:25%;background:var(--vert2)">25 %</div>
+    <div style="width:12%;background:#3F8F73">12 %</div>
+    <div style="width:10%;background:var(--or);color:var(--vert)">10 %</div>
+    <div style="width:8%;background:#B9C7C0;color:var(--vert)">8 %</div>
+  </div>
+  <div class="lg">
+    <div><i style="background:var(--vert)"></i><b>Produit et technique</b>40,5 M · équipe de développement, modules suivants</div>
+    <div><i style="background:var(--vert2)"></i><b>Commercial</b>22,5 M · cabinets pilotes, démonstrations</div>
+    <div><i style="background:#3F8F73"></i><b>Exploitation</b>10,8 M · bureau, énergie, hébergement</div>
+    <div><i style="background:var(--or)"></i><b>Conformité</b>9 M · expert-comptable, juriste, veille</div>
+    <div><i style="background:#B9C7C0"></i><b>Réserve</b>7,2 M · marge de sécurité</div>
+  </div>
+  <div class="g g3" style="margin-top:30px">
+    <div class="c"><h3>À 12 mois</h3><p>Produit commercialisé, 40 sociétés clientes, taux validés.</p></div>
+    <div class="c"><h3>À 24 mois</h3><p>150 sociétés clientes, facturation en service.</p></div>
+    <div class="c"><h3>À 36 mois</h3><p>400 sociétés clientes, exercice bénéficiaire.</p></div>
+  </div>
+  <div class="pied"><span>90 millions de FCFA ≈ 137 000 € · forme et conditions de l'opération à définir</span><span>12</span></div>
+</section>
+
+<!-- 12 -->
+<section class="d">
+  <div class="sur">L'équipe</div>
+  <h1>Qui porte le projet</h1>
+  <div class="g g3">
+    <div class="vide"><b>Fondateur — à compléter</b>Nom, parcours, lien avec le Congo, rôle dans le projet.</div>
+    <div class="vide"><b>Expert-comptable référent — à compléter</b>Nom, cabinet, rôle : validation des règles de paie.</div>
+    <div class="vide"><b>Associés et conseillers — à compléter</b>Appuis juridiques, commerciaux ou techniques.</div>
+  </div>
+  <div class="c" style="margin-top:22px"><h3>Recrutements financés par la levée</h3><p>Année 1 : deux développeurs et un commercial. Année 2 : sept personnes, dont le support. Année 3 : onze personnes.</p></div>
+  <div class="pied"><span>Smart RH</span><span>13</span></div>
+</section>
+
+<!-- 13 -->
+<section class="d sombre" style="break-after:auto">
+  <div class="rond" style="width:620px;height:620px;left:-200px;bottom:-320px;background:var(--vert2);opacity:.6"></div>
+  <div class="rond" style="width:170px;height:170px;right:120px;top:90px;background:var(--or)"></div>
+  <div class="logo" style="position:relative"><img src="captures/logo.svg" alt="" width="44" height="44" style="border-radius:12px"> Smart RH</div>
+  <div style="position:relative;margin-top:130px">
+    <h1 style="font-size:58px;letter-spacing:-1px;max-width:900px">Construisons l'outil de gestion des <em>PME congolaises.</em></h1>
+    <p style="font-size:22px;line-height:1.5;margin:0;opacity:.94">Contact : nom, téléphone et e-mail à compléter</p>
+  </div>
+  <div class="pied"><span>Merci</span><span>Confidentiel</span></div>
+</section>
+
+</body>
+</html>

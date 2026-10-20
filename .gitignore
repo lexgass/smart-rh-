@@ -1,0 +1,31 @@
+# Smart RH : ce qui ne doit jamais entrer dans le dépôt
+
+# dépendances (réinstallées par npm ci)
+node_modules/
+
+# données et secrets : bases, sauvegardes, clés, certificats, comptes de démonstration
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.db.chiffre
+sauvegardes/
+cle-sauvegarde.txt
+certificat/
+comptes-demo.txt
+app/demo/
+
+# fichiers produits, régénérables (paquet, archives, version portable avec node.exe)
+app/paquet/
+livraison/
+
+# vidéos rendues (plus de 300 Mo) et aperçus : régénérables avec Remotion
+*.mp4
+video/out/
+video/apercu/
+video/apercu-demo/
+investisseurs/apercu/
+
+# système
+.DS_Store
+Thumbs.db

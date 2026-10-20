@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart RH — Nos offres 2026</title>
+<style>
+@font-face{font-family:'Sora';font-weight:400 800;src:url('../app/public/fonts/sora-latin.woff2') format('woff2');}
+@font-face{font-family:'Sora';font-weight:400 800;src:url('../app/public/fonts/sora-latin-ext.woff2') format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF,U+20A0-20CF;}
+@font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin.woff2') format('woff2');}
+@font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin-ext.woff2') format('woff2');unicode-range:U+0100-024F,U+1E00-1EFF,U+20A0-20CF;}
+:root{ --foret:#123F33; --foret-2:#1B5A48; --action:#17694F; --action-cl:#E5F1EB; --raphia:#D9A441; --raphia-cl:#FBF1DC; --raphia-f:#7C5A12;
+  --encre:#17211D; --n700:#3E4A45; --n500:#5E6A64; --n200:#E2E7E3; --n100:#EEF1EE; --fond:#F3F5F2; --indigo:#2D3E73; --indigo-cl:#E9ECF6; }
+@page{ size:A4; margin:0; }
+*{ box-sizing:border-box; }
+html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body{ margin:0; background:#C9D3CE; font-family:'Manrope','Segoe UI',sans-serif; color:var(--encre); font-size:10.5pt; line-height:1.5; }
+h1,h2,h3{ font-family:'Sora','Segoe UI',sans-serif; margin:0; letter-spacing:-.01em; }
+.page{ width:210mm; height:297mm; margin:10mm auto; background:#fff; position:relative; overflow:hidden; padding:13mm 16mm 11mm; display:flex; flex-direction:column; box-shadow:0 10px 40px rgba(18,63,51,.25); }
+@media print{ body{ background:#fff; } .page{ margin:0; box-shadow:none; page-break-after:always; } }
+.page > *{ flex-shrink:0; }
+.marque{ display:flex; align-items:center; gap:10px; font-family:'Sora'; font-weight:700; font-size:16pt; }
+.marque img{ width:34px; height:34px; border-radius:9px; }
+.marque b{ color:var(--raphia); }
+.entete{ display:flex; justify-content:space-between; align-items:center; padding-bottom:4.5mm; margin-bottom:5.5mm; border-bottom:1px solid var(--n200); }
+.entete .marque{ font-size:12pt; color:var(--foret); } .entete .marque img{ width:26px; height:26px; }
+.entete span{ font-size:8.5pt; color:var(--n500); font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+.surtitre{ font-size:8.5pt; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--raphia-f); margin:0 0 2mm; }
+h2{ font-size:19pt; color:var(--foret); line-height:1.15; margin-bottom:2mm; }
+.chapeau{ color:var(--n700); font-size:10.2pt; max-width:165mm; margin:0 0 5mm; }
+.pied{ margin-top:auto; padding-top:4mm; display:flex; justify-content:space-between; font-size:7.5pt; color:var(--n500); border-top:1px solid var(--n200); }
+.losange{ display:inline-block; width:8px; height:8px; background:var(--raphia); transform:rotate(45deg); border-radius:1.5px; margin-right:7px; vertical-align:1px; }
+.prix{ font-family:'Sora'; font-weight:800; color:var(--foret); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.euro{ display:block; font-size:8pt; color:var(--n500); font-weight:600; font-family:'Manrope'; }
+
+/* couverture */
+.couverture{ background:var(--foret); color:#fff; padding:18mm; }
+.couverture::before{ content:""; position:absolute; inset:0; background:url('../app/public/motif.svg') 0 0/64px 64px; opacity:.32; -webkit-mask:radial-gradient(circle at 92% 88%,#000,transparent 62%); mask:radial-gradient(circle at 92% 88%,#000,transparent 62%); }
+.couverture > *{ position:relative; }
+.couverture .marque{ font-size:18pt; }
+.couverture .titre{ margin-top:46mm; }
+.couverture .surtitre{ color:var(--raphia); }
+.couverture h1{ font-size:40pt; font-weight:800; line-height:1.02; letter-spacing:-.035em; max-width:150mm; }
+.couverture h1 em{ font-style:normal; color:var(--raphia); }
+.couverture .accroche{ font-size:13pt; color:#C9DAD2; max-width:135mm; margin:7mm 0 0; }
+.promesses{ list-style:none; padding:0; margin:auto 0 0; display:grid; grid-template-columns:repeat(3,1fr); gap:5mm; }
+.promesses li{ background:rgba(255,255,255,.07); border:1px solid rgba(217,164,65,.35); border-radius:12px; padding:5mm; }
+.promesses b{ display:block; font-family:'Sora'; font-size:11pt; color:#fff; margin-bottom:1.5mm; }
+.promesses span{ font-size:9pt; color:#C9DAD2; }
+.couverture .pied{ border-top-color:rgba(255,255,255,.15); color:#A9C2B8; margin-top:9mm; }
+
+/* deux niveaux */
+.niveaux{ display:grid; grid-template-columns:1fr 1fr; gap:6mm; margin-bottom:7mm; }
+.niveau{ border:1px solid var(--n200); border-radius:14px; padding:6mm; }
+.niveau.fort{ border:2px solid var(--foret); background:linear-gradient(180deg,var(--action-cl),#fff 40%); }
+.niveau .num{ display:inline-flex; width:24px; height:24px; border-radius:50%; background:var(--n100); color:var(--foret); font-family:'Sora'; font-weight:800; align-items:center; justify-content:center; font-size:10pt; margin-bottom:3mm; }
+.niveau.fort .num{ background:var(--foret); color:var(--raphia); }
+.niveau h3{ font-size:15pt; color:var(--foret); }
+.niveau .pour{ color:var(--n500); font-size:9.5pt; margin:1mm 0 4mm; }
+.coches{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:2.2mm; }
+.coches li{ padding-left:6mm; position:relative; font-size:9.8pt; }
+.coches li::before{ content:""; position:absolute; left:0; top:1.6mm; width:7px; height:4px; border-left:2px solid var(--action); border-bottom:2px solid var(--action); transform:rotate(-45deg); }
+.coches li.plus::before{ border-color:var(--raphia-f); }
+.inclus{ background:var(--foret); color:#E7EFEB; border-radius:14px; padding:6mm 7mm; display:grid; grid-template-columns:1.15fr 1fr; gap:7mm; align-items:center; }
+.inclus h3{ color:#fff; font-size:13pt; margin-bottom:2mm; }
+.inclus p{ margin:0; font-size:9.5pt; color:#C9DAD2; }
+.inclus ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:2mm; font-size:9.5pt; }
+.inclus li b{ color:var(--raphia); }
+.congo{ display:grid; grid-template-columns:repeat(4,1fr); gap:4mm; margin-top:7mm; }
+.congo div{ background:var(--fond); border-radius:12px; padding:4.5mm; }
+.congo b{ display:block; font-family:'Sora'; font-size:10pt; color:var(--foret); margin-bottom:1mm; }
+.congo span{ font-size:8.6pt; color:var(--n700); line-height:1.4; display:block; }
+
+/* grilles */
+.segment{ border:1px solid var(--n200); border-radius:14px; overflow:hidden; margin-bottom:5mm; }
+.segment-tete{ display:flex; justify-content:space-between; align-items:baseline; gap:4mm; padding:3mm 6mm; background:var(--fond); border-bottom:1px solid var(--n200); }
+.segment-tete h3{ font-size:13pt; color:var(--foret); }
+.segment-tete span{ font-size:9pt; color:var(--n500); }
+table{ width:100%; border-collapse:collapse; font-size:9.5pt; }
+th{ text-align:left; font-size:7.6pt; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--n500); padding:2.4mm 6mm 1.4mm; }
+td{ padding:2mm 6mm; border-top:1px solid var(--n100); vertical-align:top; }
+td.n, th.n{ text-align:right; width:46mm; }
+td small{ display:block; color:var(--n500); font-size:8.5pt; }
+.etiquette{ display:inline-block; font-size:7.5pt; font-weight:700; padding:.6mm 2.4mm; border-radius:20px; background:var(--raphia-cl); color:var(--raphia-f); margin-left:2mm; vertical-align:1px; }
+table.public td.n, table.public th.n{ width:36mm; }
+.etiquette{ white-space:nowrap; }
+.note{ font-size:8.4pt; color:var(--n500); margin:0; }
+.deux-col{ display:grid; grid-template-columns:1fr 1fr; gap:6mm; }
+.encadre{ border-radius:14px; padding:4.5mm 5.5mm; background:var(--raphia-cl); }
+.encadre h3{ font-size:11.5pt; color:var(--raphia-f); margin-bottom:2mm; }
+.encadre p, .encadre li{ font-size:9pt; color:var(--encre); margin:0; line-height:1.42; }
+.encadre ul{ margin:0; padding-left:4.5mm; display:flex; flex-direction:column; gap:.8mm; }
+.encadre.vert{ background:var(--action-cl); } .encadre.vert h3{ color:var(--action); }
+.etapes{ list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(4,1fr); gap:4mm; counter-reset:e; }
+.etapes li{ counter-increment:e; border-top:3px solid var(--raphia); padding-top:2mm; font-size:8.8pt; color:var(--n700); line-height:1.4; }
+.etapes li::before{ content:counter(e); display:block; font-family:'Sora'; font-weight:800; font-size:13pt; color:var(--foret); }
+.etapes b{ display:block; color:var(--encre); font-size:9.8pt; }
+.contact{ margin-top:4mm; background:var(--foret); color:#fff; border-radius:14px; padding:5mm 7mm; display:flex; justify-content:space-between; align-items:center; gap:6mm; }
+.contact h3{ color:#fff; font-size:14pt; } .contact p{ margin:1mm 0 0; color:#C9DAD2; font-size:9.5pt; }
+.contact .coord{ text-align:right; font-size:10pt; color:var(--raphia); font-weight:700; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<!-- 1. Couverture -->
+<section class="page couverture">
+  <div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div>
+  <div class="titre">
+    <p class="surtitre">Nos offres 2026</p>
+    <h1>La paie et les RH conformes au <em>droit congolais</em>, sans surprise.</h1>
+    <p class="accroche">Deux niveaux simples pour chaque organisation, PME, grande entreprise ou administration, et l'assistance au quotidien comprise.</p>
+  </div>
+  <ul class="promesses">
+    <li><b>Toujours à jour</b><span>ITS, CNSS, CAMU, TUS, SMIG, conventions : chaque changement de loi est intégré pour vous.</span></li>
+    <li><b>Sans internet</b><span>Installé chez vous, Smart RH fonctionne même quand la connexion est coupée.</span></li>
+    <li><b>Accompagné</b><span>Installation, formation de vos équipes et assistance par téléphone et WhatsApp.</span></li>
+  </ul>
+  <div class="pied"><span>Smart RH, Brazzaville et Pointe-Noire</span><span>Prix valables en 2026, hors taxes</span></div>
+</section>
+
+<!-- 2. Deux niveaux -->
+<section class="page">
+  <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span>Nos offres 2026</span></div>
+  <p class="surtitre">Le principe</p>
+  <h2>Deux niveaux, pour tous les clients</h2>
+  <p class="chapeau">Vous choisissez entre le logiciel seul, installé sur votre ordinateur, et une solution clé en main où nous fournissons aussi le matériel et la sauvegarde. Le logiciel est le même ; seul le service autour change.</p>
+  <div class="niveaux">
+    <div class="niveau">
+      <span class="num">1</span><h3>Logiciel</h3>
+      <p class="pour">Pour les organisations qui ont déjà un ordinateur en bon état.</p>
+      <ul class="coches">
+        <li>Smart RH installé sur votre poste</li>
+        <li>Paie complète, bulletins, congés, déclarations CNSS et DGI</li>
+        <li>Mises à jour légales comprises</li>
+        <li>Formation de vos utilisateurs</li>
+        <li>Assistance par téléphone et WhatsApp</li>
+      </ul>
+    </div>
+    <div class="niveau fort">
+      <span class="num">2</span><h3>Clé en main</h3>
+      <p class="pour">Pour ceux qui veulent zéro souci technique.</p>
+      <ul class="coches">
+        <li>Tout le niveau 1</li>
+        <li class="plus">Serveur dédié fourni et installé chez vous</li>
+        <li class="plus">Sauvegarde de secours sur un second support</li>
+        <li class="plus">Onduleur contre les coupures de courant</li>
+        <li class="plus">Installation et mise en route sur site</li>
+        <li class="plus">En option : sauvegarde à distance chaque nuit</li>
+      </ul>
+    </div>
+  </div>
+  <div class="inclus">
+    <div><h3>La maintenance est toujours comprise</h3><p>Au Congo, les règles de paie changent souvent : la loi de finances 2026 a remplacé l'IRPP par l'ITS, le SMIG a été relevé. Sans mise à jour, la paie devient fausse et l'employeur s'expose à des redressements. Avec Smart RH, ces changements sont intégrés pour vous.</p></div>
+    <ul>
+      <li><span class="losange"></span><b>Mises à jour légales</b> : barèmes ITS, taux CNSS et CAMU, SMIG</li>
+      <li><span class="losange"></span><b>Assistance</b> : téléphone et WhatsApp, jours ouvrés</li>
+      <li><span class="losange"></span><b>Formation</b> : à l'installation et pour chaque nouvel utilisateur</li>
+      <li><span class="losange"></span><b>Nouvelles versions</b> du logiciel</li>
+    </ul>
+  </div>
+  <div class="congo">
+    <div><b>Coupures de courant</b><span>Onduleur et sauvegarde automatique : aucune saisie perdue.</span></div>
+    <div><b>Connexion instable</b><span>Fonctionne sans internet ; la sauvegarde à distance part la nuit.</span></div>
+    <div><b>Formation sur place</b><span>Vos équipes formées dans vos locaux, à l'installation.</span></div>
+    <div><b>Données protégées</b><span>Sauvegardes chiffrées, accès par mode, journal des actions (loi n° 29-2019).</span></div>
+  </div>
+  <div class="pied"><span>Smart RH — Nos offres 2026</span><span>2</span></div>
+</section>
+
+<!-- 3. PME et grandes entreprises -->
+<section class="page">
+  <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span>Nos offres 2026</span></div>
+  <p class="surtitre">Entreprises</p>
+  <h2>PME et grandes entreprises</h2>
+  <p class="chapeau">L'abonnement annuel comprend le logiciel, la maintenance, les mises à jour légales, l'assistance et la formation. Le niveau 2 ajoute le matériel, payé une seule fois à l'installation.</p>
+
+  <div class="segment">
+    <div class="segment-tete"><h3>PME</h3><span>Jusqu'à 50 salariés</span></div>
+    <table>
+      <tr><th>Niveau 1 : Logiciel</th><th class="n">Par an</th></tr>
+      <tr><td><b>Essentiel</b><small>Jusqu'à 15 salariés : paie, bulletins, congés, déclarations</small></td><td class="n"><span class="prix">180 000 FCFA</span><span class="euro">≈ 274 €</span></td></tr>
+      <tr><td><b>Pro</b><small>16 à 50 salariés : en plus, conventions collectives, éléments variables, sorties, dotations, analyses</small></td><td class="n"><span class="prix">420 000 FCFA</span><span class="euro">≈ 640 €</span></td></tr>
+      <tr><th>Niveau 2 : Clé en main, en plus de l'abonnement</th><th class="n">Une fois</th></tr>
+      <tr><td><b>Pack matériel PME</b><small>Mini-serveur professionnel (processeur i5, 16 Go, SSD 512 Go), disque de sauvegarde chiffré 2 To, onduleur 1 200 VA</small></td><td class="n"><span class="prix">605 000 FCFA</span><span class="euro">≈ 920 €</span></td></tr>
+      <tr><td><b>Installation et mise en route sur site</b></td><td class="n"><span class="prix">150 000 FCFA</span><span class="euro">≈ 229 €</span></td></tr>
+    </table>
+  </div>
+
+  <div class="segment">
+    <div class="segment-tete"><h3>Grandes entreprises</h3><span>Plus de 50 salariés, un ou plusieurs sites</span></div>
+    <table>
+      <tr><th>Niveau 1 : Logiciel</th><th class="n">Par an</th></tr>
+      <tr><td><b>Entreprise</b><small>Jusqu'à 100 salariés, plusieurs utilisateurs, assistance prioritaire. Au-delà de 100 salariés ou pour plusieurs sites : sur devis</small></td><td class="n"><span class="prix">780 000 FCFA</span><span class="euro">≈ 1 189 €</span></td></tr>
+      <tr><th>Niveau 2 : Clé en main, en plus de l'abonnement</th><th class="n">Une fois</th></tr>
+      <tr><td><b>Pack matériel Entreprise</b><small>Serveur professionnel, stockage de sauvegarde en miroir (NAS 2 disques de 4 To), onduleur 1 200 VA</small></td><td class="n"><span class="prix">1 025 000 FCFA</span><span class="euro">≈ 1 560 €</span></td></tr>
+      <tr><td><b>Installation, mise en route et formation sur site</b></td><td class="n"><span class="prix">300 000 FCFA</span><span class="euro">≈ 457 €</span></td></tr>
+    </table>
+  </div>
+
+  <div class="encadre vert">
+    <h3>Option pour le niveau 2 : sauvegarde à distance</h3>
+    <p>Chaque nuit, une copie chiffrée de vos données part vers un serveur de sauvegarde distant. En cas d'incendie, de vol ou de panne, tout est restauré sur un nouveau poste. Nous vérifions chaque mois que la sauvegarde fonctionne. <b>PME : 10 000 FCFA par mois (≈ 15 €). Grandes entreprises : 20 000 FCFA par mois (≈ 30 €).</b></p>
+  </div>
+  <div class="pied"><span>Prix hors taxes. Matériel au prix public européen, hors transport et dédouanement. 1 € = 655,957 FCFA.</span><span>3</span></div>
+</section>
+
+<!-- 4. Administrations -->
+<section class="page">
+  <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span>Nos offres 2026</span></div>
+  <p class="surtitre">Secteur public</p>
+  <h2>Administrations et établissements publics</h2>
+  <p class="chapeau">Les mêmes deux niveaux, et un engagement sur quatre ans payé en une fois : une seule dépense, quatre années couvertes.</p>
+
+  <div class="segment">
+    <div class="segment-tete"><h3>Par administration</h3><span>Jusqu'à 100 agents ; au-delà, sur devis</span></div>
+    <table class="public">
+      <tr><th>Formule</th><th class="n">Montant</th><th class="n">Soit par an</th></tr>
+      <tr><td><b>Abonnement annuel</b><small>Logiciel, maintenance, mises à jour légales, assistance, formation</small></td><td class="n"><span class="prix">780 000 FCFA</span><span class="euro">≈ 1 189 € par an</span></td><td class="n"><span class="prix">780 000 FCFA</span></td></tr>
+      <tr><td><b>Engagement 4 ans, payé à la commande</b><span class="etiquette">−10 %</span><small>Sans nouvelle procédure d'achat chaque année</small></td><td class="n"><span class="prix">2 808 000 FCFA</span><span class="euro">≈ 4 281 € pour 4 ans</span></td><td class="n"><span class="prix">702 000 FCFA</span></td></tr>
+      <tr><td><b>Niveau 2 : pack matériel et installation</b><small>Serveur, stockage de sauvegarde en miroir, onduleur, mise en route et formation sur site</small></td><td class="n"><span class="prix">1 325 000 FCFA</span><span class="euro">≈ 2 020 €, une fois</span></td><td></td></tr>
+      <tr><td><b>Option sauvegarde à distance</b></td><td class="n"><span class="prix">240 000 FCFA</span><span class="euro">≈ 366 € par an</span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="deux-col">
+    <div class="encadre">
+      <h3>Conditions de paiement</h3>
+      <ul>
+        <li>Engagement 4 ans : 50 % à la commande, 50 % à la mise en service.</li>
+        <li>Matériel commandé après réception de l'acompte.</li>
+        <li>Abonnement annuel : payable d'avance, chaque année.</li>
+        <li>En cas de retard, le logiciel continue de fonctionner, mais les mises à jour légales sont suspendues jusqu'au règlement.</li>
+      </ul>
+    </div>
+    <div class="encadre vert">
+      <h3>Pourquoi l'engagement 4 ans</h3>
+      <ul>
+        <li>Une seule inscription budgétaire pour quatre exercices.</li>
+        <li>Prix garanti pendant quatre ans.</li>
+        <li>Mises à jour légales et assistance assurées sur toute la durée.</li>
+        <li>Possibilité de passer au niveau 2 en cours de contrat.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="surtitre" style="margin-top:4mm">Comment démarrer</p>
+  <ol class="etapes">
+    <li><b>Démonstration</b>Sur vos propres cas de paie, sans engagement.</li>
+    <li><b>Devis</b>Selon votre effectif et le niveau choisi.</li>
+    <li><b>Installation</b>Et reprise de vos salariés.</li>
+    <li><b>Première paie</b>Contrôlée avec vous, bulletin par bulletin.</li>
+  </ol>
+  <div class="contact">
+    <div><h3>Demandez votre démonstration</h3><p>Nous venons vous présenter Smart RH sur vos propres données.</p></div>
+    <div class="coord">[Téléphone]<br>[E-mail]<br>[Adresse à Brazzaville]</div>
+  </div>
+  <div class="pied"><span>Prix hors taxes, valables en 2026.</span><span>4</span></div>
+</section>
+</body>
+</html>

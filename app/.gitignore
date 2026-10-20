@@ -1,0 +1,10 @@
+node_modules/
+*.db
+*.db-journal
+sauvegardes/
+paquet/
+*.db-wal
+*.db-shm
+cle-sauvegarde.txt
+certificat/
+demo/

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Smart RH — Business plan</title>
+<style>
+  :root{
+    --vert:#0B3D2E; --vert2:#14614A; --menthe:#E6F2EC; --or:#F2B705; --rouge:#C8452C;
+    --encre:#14211C; --gris:#5C6B65; --trait:#D9E2DD; --fond:#F6F9F7;
+  }
+  @page{ size:A4; margin:18mm 17mm 18mm 17mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Segoe UI",Arial,sans-serif; color:var(--encre); font-size:10.6pt; line-height:1.5; }
+  h1{ font-size:22pt; line-height:1.15; margin:0 0 4mm; color:var(--vert); font-weight:700; letter-spacing:-.3px; break-before:page; }
+  h1 .num{ display:block; font-size:9.5pt; letter-spacing:2px; color:var(--vert2); font-weight:600; margin-bottom:2mm; text-transform:uppercase; }
+  h2{ font-size:12.5pt; margin:7mm 0 2mm; color:var(--vert); break-after:avoid; }
+  h1.suite{ break-before:auto; margin-top:14mm; }
+  p{ margin:0 0 3mm; }
+  .chapo{ font-size:12pt; color:#2B3A34; margin-bottom:5mm; }
+  ul{ margin:0 0 3mm; padding-left:5mm; }
+  li{ margin-bottom:1.4mm; }
+  table{ width:100%; border-collapse:collapse; margin:2mm 0 4mm; font-size:9.6pt; break-inside:avoid; }
+  th{ text-align:left; background:var(--vert); color:#fff; padding:2.2mm 2.6mm; font-weight:600; }
+  td{ padding:2.2mm 2.6mm; border-bottom:.3mm solid var(--trait); vertical-align:top; }
+  tr:nth-child(even) td{ background:var(--fond); }
+  td.n, th.n{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.total td{ font-weight:700; background:var(--menthe); border-bottom:none; }
+  .neg{ color:var(--rouge); } .pos{ color:var(--vert2); }
+  .grille{ display:grid; gap:4mm; margin:3mm 0 5mm; }
+  .g2{ grid-template-columns:1fr 1fr; } .g3{ grid-template-columns:repeat(3,1fr); } .g4{ grid-template-columns:repeat(4,1fr); }
+  .carte{ background:var(--fond); border-radius:3mm; padding:4mm 4.5mm; break-inside:avoid; }
+  .carte h3{ margin:0 0 1.5mm; font-size:10.8pt; color:var(--vert); }
+  .carte p{ margin:0; font-size:9.6pt; color:#33433D; }
+  .chiffre{ background:var(--vert); color:#fff; border-radius:3mm; padding:4.5mm; break-inside:avoid; }
+  .chiffre b{ display:block; font-size:19pt; line-height:1.1; color:var(--or); font-weight:700; }
+  .chiffre span{ font-size:8.8pt; opacity:.92; }
+  .note{ background:#FFF7DB; border-radius:3mm; padding:3.5mm 4.5mm; font-size:9.4pt; break-inside:avoid; margin:3mm 0 4mm; }
+  .note b{ color:#7A5A00; }
+  .vide{ border:.4mm dashed #9DB0A8; border-radius:3mm; padding:4mm 4.5mm; color:var(--gris); font-size:9.6pt; break-inside:avoid; }
+  .vide b{ color:var(--encre); display:block; margin-bottom:1mm; }
+  .src{ font-size:8.6pt; color:var(--gris); }
+  .src li{ margin-bottom:1mm; word-break:break-word; }
+  /* couverture */
+  .couv{ height:297mm; width:210mm; background:var(--vert); color:#fff; padding:28mm 22mm; position:relative; overflow:hidden; }
+  .couv .logo{ display:flex; align-items:center; gap:4mm; font-size:15pt; font-weight:700; }
+  .pastille{ width:11mm; height:11mm; border-radius:3mm; background:var(--or); display:inline-flex; align-items:center; justify-content:center; color:var(--vert); font-weight:800; font-size:13pt; }
+  .couv h0{ display:block; font-size:44pt; line-height:1.05; font-weight:700; margin-top:62mm; letter-spacing:-1px; }
+  .couv h0 em{ font-style:normal; color:var(--or); }
+  .couv .sous{ font-size:14pt; margin-top:8mm; max-width:135mm; opacity:.93; line-height:1.4; }
+  .couv .bas{ position:absolute; left:22mm; right:22mm; bottom:24mm; display:flex; justify-content:space-between; font-size:10pt; opacity:.9; }
+  .couv .rond{ position:absolute; right:-60mm; top:70mm; width:190mm; height:190mm; border-radius:50%; background:var(--vert2); opacity:.55; }
+  .couv .rond2{ position:absolute; right:-10mm; top:150mm; width:70mm; height:70mm; border-radius:50%; background:var(--or); opacity:.9; }
+  .couv .logo,.couv h0,.couv .sous{ position:relative; z-index:1; }
+  .couv .bas{ z-index:1; }
+  .barres{ display:flex; align-items:flex-end; gap:9mm; height:62mm; padding:0 4mm; border-bottom:.4mm solid var(--trait); margin-top:4mm; }
+  .grp{ flex:1; display:flex; align-items:flex-end; justify-content:center; gap:2.5mm; position:relative; height:100%; }
+  .b{ width:15mm; border-radius:1.5mm 1.5mm 0 0; position:relative; }
+  .b i{ position:absolute; top:-5mm; left:-5mm; right:-5mm; text-align:center; font-style:normal; font-size:8.4pt; font-weight:600; }
+  .b.r{ background:var(--vert2); } .b.c{ background:#B9C7C0; }
+  .axe{ display:flex; gap:9mm; padding:1.5mm 4mm 0; font-size:9pt; color:var(--gris); }
+  .axe span{ flex:1; text-align:center; }
+  .leg{ font-size:8.8pt; color:var(--gris); margin-top:2mm; }
+  .leg i{ display:inline-block; width:3mm; height:3mm; border-radius:.6mm; margin:0 1.5mm 0 4mm; vertical-align:-.3mm; }
+  .frise{ display:grid; grid-template-columns:repeat(4,1fr); gap:3mm; margin:3mm 0 5mm; }
+  .frise div{ background:var(--fond); border-radius:3mm; padding:3.5mm 4mm; font-size:9.3pt; break-inside:avoid; }
+  .frise b{ display:block; color:var(--vert); font-size:10pt; }
+  .frise small{ display:inline-block; background:var(--or); color:var(--vert); font-weight:700; border-radius:2mm; padding:.3mm 2mm; margin-bottom:1.5mm; font-size:8.2pt; }
+  .capture{ margin:3mm 0 5mm; break-inside:avoid; }
+  .capture img{ width:100%; display:block; border-radius:2.5mm; border:.3mm solid var(--trait); box-shadow:0 2mm 6mm rgba(11,61,46,.12); }
+  .capture figcaption{ font-size:8.8pt; color:var(--gris); margin-top:2mm; }
+  .duo{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+</style>
+</head>
+<body>
+
+<section class="couv">
+  <div class="rond"></div><div class="rond2"></div>
+  <div class="logo"><img src="captures/logo.svg" alt="" style="width:11mm;height:11mm;border-radius:3mm"> Smart RH</div>
+  <h0>La paie et les RH<br>des PME congolaises,<br><em>enfin simples.</em></h0>
+  <div class="sous">Business plan — premier module d'une suite de gestion (RH, facturation, CRM) conçue pour le Congo-Brazzaville.</div>
+  <div class="bas"><span>Document investisseurs · Octobre 2026</span><span>Confidentiel</span></div>
+</section>
+
+<h1><span class="num">01 · Résumé</span>Résumé exécutif</h1>
+<p class="chapo">Smart RH est un logiciel de gestion des ressources humaines et de la paie, entièrement paramétrable, pensé pour le droit du travail et les réalités des PME du Congo-Brazzaville. La version 1.0 est construite et prête à être installée. Nous recherchons 90 millions de FCFA pour la commercialiser et atteindre la rentabilité en troisième année.</p>
+<div class="grille g4">
+  <div class="chiffre"><b>90 M</b><span>FCFA recherchés (environ 137 000 €)</span></div>
+  <div class="chiffre"><b>400</b><span>sociétés clientes visées fin de l'année 3</span></div>
+  <div class="chiffre"><b>243 M</b><span>FCFA de chiffre d'affaires prévu en année 3</span></div>
+  <div class="chiffre"><b>Année 3</b><span>premier exercice bénéficiaire prévu</span></div>
+</div>
+<div class="grille g2">
+  <div class="carte"><h3>Le problème</h3><p>La paie congolaise est complexe et vient de changer (nouvel impôt sur les salaires en 2026, SMIG relevé en 2025). Les PME la font sur Excel, avec des erreurs et des risques de redressement.</p></div>
+  <div class="carte"><h3>La solution</h3><p>Un logiciel où chaque règle (taux, plafond, barème, convention collective) se paramètre à l'écran avec une date d'effet. Un changement de loi se règle sans développeur. La version 1.0 fonctionne déjà.</p></div>
+  <div class="carte"><h3>Le marché</h3><p>Environ 6 400 entreprises formelles au Congo et 5 827 créations en 2025. Les cabinets comptables, qui gèrent la paie de plusieurs clients, sont notre premier canal.</p></div>
+  <div class="carte"><h3>Le modèle</h3><p>Abonnement mensuel par palier d'effectif, aux prix du marché (15 000 à 65 000 FCFA), plus un forfait de mise en service. La facturation puis le CRM augmentent ensuite le revenu par client.</p></div>
+</div>
+<div class="note"><b>À lire avant tout :</b> les prévisions de ce document reposent sur des hypothèses listées au chapitre 13. Les taux légaux cités sont indicatifs et seront validés par un expert-comptable congolais avant toute mise en production.</div>
+
+<h1><span class="num">02 · Problème</span>Une paie complexe, traitée à la main</h1>
+<p class="chapo">Produire un bulletin de paie conforme au Congo demande de maîtriser un empilement de règles qui bougent, et la plupart des PME n'ont ni l'outil ni le spécialiste pour le faire.</p>
+<div class="grille g3">
+  <div class="carte"><h3>Des règles nombreuses</h3><p>Retraite, prestations familiales, accidents du travail, assurance maladie, taxe unique sur les salaires, impôt sur les salaires : chacune a son taux, son assiette et son plafond.</p></div>
+  <div class="carte"><h3>Des règles qui changent</h3><p>SMIG passé de 50 400 à 70 400 FCFA en 2025. IRPP remplacé par l'ITS dans la loi de finances 2026. Nouveau Code du travail en préparation.</p></div>
+  <div class="carte"><h3>Des outils inadaptés</h3><p>Excel ne trace rien et ne s'adapte pas seul. Les logiciels importés sont chers, pensés pour d'autres pays et dépendants d'une connexion stable.</p></div>
+</div>
+<h2>Ce que cela coûte à une PME</h2>
+<ul>
+  <li><b>Du temps</b> : plusieurs jours par mois pour calculer, vérifier et déclarer.</li>
+  <li><b>Des risques</b> : pénalités et redressements en cas d'erreur de cotisation ou de déclaration tardive.</li>
+  <li><b>Des conflits</b> : bulletins contestés, soldes de congés incertains, matériel remis sans trace.</li>
+  <li><b>Une dépendance</b> : la paie repose souvent sur une seule personne et un seul fichier.</li>
+</ul>
+<h2>Les charges à calculer sur un seul salaire</h2>
+<table>
+  <tr><th>Prélèvement</th><th class="n">Part salarié</th><th class="n">Part employeur</th><th class="n">Plafond mensuel</th></tr>
+  <tr><td>Retraite (CNSS)</td><td class="n">4 %</td><td class="n">8 %</td><td class="n">1 200 000 FCFA</td></tr>
+  <tr><td>Prestations familiales (CNSS)</td><td class="n">—</td><td class="n">10,03 %</td><td class="n">600 000 FCFA</td></tr>
+  <tr><td>Accidents du travail (CNSS)</td><td class="n">—</td><td class="n">2,25 %</td><td class="n">600 000 FCFA</td></tr>
+  <tr><td>Assurance maladie (CAMU)</td><td class="n">2,27 %</td><td class="n">4,55 %</td><td class="n">600 000 FCFA</td></tr>
+  <tr><td>Taxe unique sur les salaires</td><td class="n">—</td><td class="n">7,5 %</td><td class="n">sans plafond</td></tr>
+  <tr><td>Taxe d'occupation des locaux (TOL)</td><td class="n">1 000 FCFA</td><td class="n">—</td><td class="n">montant fixe</td></tr>
+  <tr><td>Impôt sur les salaires (ITS)</td><td class="n">barème à 5 tranches</td><td class="n">—</td><td class="n">—</td></tr>
+</table>
+<p class="src">Taux indicatifs issus du barème CLEISS 2023 et de publications professionnelles 2026 ; à valider par l'expert-comptable du projet.</p>
+
+<h1><span class="num">03 · Solution</span>Smart RH : tout se paramètre, rien n'est figé</h1>
+<p class="chapo">Smart RH couvre tout le cycle de vie du salarié, de l'embauche à la sortie, pour une ou plusieurs sociétés. Sa différence : aucune règle n'est écrite en dur dans le logiciel.</p>
+<div class="grille g2">
+  <div class="carte"><h3>Règles datées</h3><p>Chaque taux, plafond ou barème a une date d'effet. On ajoute une nouvelle version, on n'écrase jamais : les anciens bulletins restent recalculables à l'identique.</p></div>
+  <div class="carte"><h3>Trois niveaux de réglage</h3><p>Un modèle « Congo » prérempli, puis la convention collective (catégories, grilles, primes), puis les particularités de chaque société.</p></div>
+  <div class="carte"><h3>Plusieurs sociétés</h3><p>Un cabinet gère tous ses clients dans une seule installation, chacun cloisonné. Une PME autonome utilise la même application pour elle seule.</p></div>
+  <div class="carte"><h3>Fonctionne sans internet</h3><p>Le logiciel tourne en local chez le client, sur un poste ou un petit serveur du réseau. La synchronisation en ligne entre sites est prévue en version 2.</p></div>
+</div>
+<h2>Les modules</h2>
+<table>
+  <tr><th style="width:32%">Module</th><th>Ce qu'il fait</th></tr>
+  <tr><td>Sociétés et structure</td><td>Établissements, départements, postes, catégories professionnelles.</td></tr>
+  <tr><td>Dossier salarié</td><td>État civil, famille, contrat, numéro CNSS, pièces jointes, historique complet.</td></tr>
+  <tr><td>Contrats et cycle de vie</td><td>Embauche, essai, renouvellement, avenant, promotion, sanction, sortie, avec alertes d'échéance.</td></tr>
+  <tr><td>Temps et absences</td><td>Congés, soldes, absences, heures supplémentaires.</td></tr>
+  <tr><td>Paie</td><td>Rubriques configurables, bulletin, livre de paie, états pour la CNSS et les impôts.</td></tr>
+  <tr><td>Dotations matérielles</td><td>Catalogue, attribution, fiche de remise signée, restitution à la sortie.</td></tr>
+  <tr><td>Documents</td><td>Contrat, attestation, certificat de travail, solde de tout compte, générés depuis des modèles.</td></tr>
+  <tr><td>Droits et traçabilité</td><td>Rôles par société et journal de toutes les modifications.</td></tr>
+</table>
+
+<h1><span class="num">03 · Produit</span>Le produit aujourd'hui : une version 1.0 prête à installer</h1>
+<p class="chapo">Smart RH n'est plus un projet sur le papier. La version 1.0 tourne, avec des données de démonstration, et s'installe chez un client en suivant un guide pas à pas.</p>
+<figure class="capture"><img src="captures/tableau-de-bord.png" alt="Tableau de bord de Smart RH : paie du mois, échéances des contrats colorées selon l'urgence, absences et masse salariale par département"><figcaption>Tableau de bord : la paie du mois en un coup d'œil, les fins de contrat classées par urgence, les absences du jour.</figcaption></figure>
+<div class="duo">
+<figure class="capture"><img src="captures/planning-conges.png" alt="Planning des congés de l'équipe"><figcaption>Planning des congés, soldes et demandes à valider.</figcaption></figure>
+<figure class="capture"><img src="captures/bulletin.png" alt="Bulletin de paie généré par Smart RH"><figcaption>Bulletin de paie détaillé, imprimable en PDF.</figcaption></figure>
+</div>
+<h2>Ce que fait la version 1.0</h2>
+<table>
+  <tr><th style="width:30%">Domaine</th><th>Fonctions disponibles</th></tr>
+  <tr><td>Paie</td><td>Calcul ITS 2026, CNSS, CAMU, TUS, TOL ; heures supplémentaires et primes ; absences non payées ; bulletins et livre de paie.</td></tr>
+  <tr><td>Règles</td><td>Taux, plafonds et barèmes datés ; cinq conventions collectives (Commerce, BTP, Banques, Hôtellerie, Industrie) avec préavis, essai, ancienneté, indemnités.</td></tr>
+  <tr><td>Salariés</td><td>Embauche guidée, fiche complète, avenants tracés, alertes de fin d'essai et de CDD, dotations de matériel.</td></tr>
+  <tr><td>Congés</td><td>Planning d'équipe, demandes et validation, soldes de 26 jours ouvrables plus l'ancienneté, jours fériés congolais.</td></tr>
+  <tr><td>Sorties</td><td>Solde de tout compte calculé, certificat de travail et reçu imprimables.</td></tr>
+  <tr><td>Déclarations</td><td>Bordereau CNSS, état ITS et taxes pour la DGI, déclaration annuelle des salaires, export Excel.</td></tr>
+  <tr><td>Exploitation</td><td>Plusieurs sociétés par installation, comptes et rôles, journal des modifications, sauvegardes quotidiennes, tests automatiques, guide d'installation.</td></tr>
+</table>
+<h2>Une suite, pas un produit isolé</h2>
+<p>Smart RH est le premier de trois logiciels partageant la même base clients : la <b>facturation</b> (devis, factures, relances, encaissements) puis le <b>CRM</b> (prospects, suivi commercial). Chaque client RH devient un client potentiel des deux suivants, sans coût d'acquisition supplémentaire.</p>
+
+<h1><span class="num">04 · Marché</span>Un marché formel étroit mais mal équipé</h1>
+<p class="chapo">Le Congo compte peu d'entreprises formelles, mais elles ont toutes l'obligation de produire une paie conforme, et le rythme des créations s'accélère.</p>
+<div class="grille g4">
+  <div class="chiffre"><b>91 000</b><span>unités économiques recensées (INS, 2021)</span></div>
+  <div class="chiffre"><b>≈ 6 400</b><span>entreprises formelles (7 % du total)</span></div>
+  <div class="chiffre"><b>5 827</b><span>entreprises créées en 2025 (ACPCE)</span></div>
+  <div class="chiffre"><b>80 %</b><span>des entreprises formelles sont des PME</span></div>
+</div>
+<h2>Nos cibles, par ordre de priorité</h2>
+<table>
+  <tr><th style="width:28%">Cible</th><th>Pourquoi</th><th style="width:26%">Comment on l'atteint</th></tr>
+  <tr><td>Cabinets comptables et de gestion</td><td>Ils gèrent déjà la paie de plusieurs PME : un cabinet convaincu apporte plusieurs sociétés d'un coup.</td><td>Démarchage direct, offre dédiée</td></tr>
+  <tr><td>PME de 10 à 100 salariés</td><td>Assez de salariés pour que la paie soit lourde, pas assez pour un service RH équipé.</td><td>Prescription par les cabinets, démonstrations</td></tr>
+  <tr><td>Jeunes entreprises formelles</td><td>Elles doivent se mettre en règle dès la première embauche.</td><td>Partenariats, contenus pratiques en ligne</td></tr>
+</table>
+<h2>Où sont les clients</h2>
+<p>Brazzaville et Pointe-Noire concentrent environ deux tiers des petites entreprises recensées. Le déploiement commercial commence par ces deux villes.</p>
+<h2>Au-delà du Congo</h2>
+<p>Les six pays de la zone CEMAC partagent la monnaie, le cadre comptable OHADA et des régimes sociaux de même structure. Parce que les règles sont paramétrables, ouvrir un pays revient à créer un nouveau modèle de règles, pas à réécrire le logiciel. Cette extension n'est pas comptée dans les prévisions de ce plan.</p>
+
+<h1><span class="num">05 · Concurrence</span>Concurrence et positionnement</h1>
+<table>
+  <tr><th style="width:24%">Alternative</th><th>Forces</th><th>Limites pour une PME congolaise</th></tr>
+  <tr><td>Excel et calcul manuel</td><td>Gratuit, connu de tous.</td><td>Erreurs, aucune traçabilité, mise à jour manuelle à chaque changement de loi.</td></tr>
+  <tr><td>Logiciels internationaux (Sage et équivalents)</td><td>Complets, réputés.</td><td>Prix élevés, paramétrage local à faire par un intégrateur, pensés pour d'autres législations.</td></tr>
+  <tr><td>Congo Paie (en ligne, lancé en avril 2026)</td><td>Règles ITS 2026 intégrées ; prix bas (12 500 à 65 000 FCFA par mois selon l'effectif) ; formation gratuite qui attire les comptables.</td><td>Uniquement en ligne ; selon son propre comparatif, pas de plusieurs sociétés dans un même compte ni de tableau de bord pour cabinet ; fonctions RH réservées à l'offre supérieure.</td></tr>
+  <tr><td>Externalisation à un cabinet</td><td>Aucune compétence interne requise.</td><td>Coût récurrent, peu de visibilité ; ces cabinets sont eux-mêmes nos clients potentiels.</td></tr>
+</table>
+<h2>Ce qui nous distingue</h2>
+<div class="grille g2">
+  <div class="carte"><h3>Paramétrable par le client</h3><p>Une loi change : on ajoute une ligne datée dans un écran. Pas de mise à jour à attendre de l'éditeur.</p></div>
+  <div class="carte"><h3>Local d'abord</h3><p>Installé chez le client, le logiciel fonctionne pendant les coupures d'internet, là où un outil en ligne s'arrête.</p></div>
+  <div class="carte"><h3>Les conventions collectives intégrées</h3><p>Préavis, essai, prime d'ancienneté et indemnités suivent la convention de chaque société : c'est ce que les outils concurrents laissent à la main.</p></div>
+  <div class="carte"><h3>Pensé pour les cabinets</h3><p>Gestion de plusieurs sociétés clientes dans une seule installation, avec cloisonnement des données.</p></div>
+</div>
+
+<h1><span class="num">06 · Modèle économique</span>Un abonnement par palier d'effectif</h1>
+<p class="chapo">Le client paie chaque mois un forfait selon son nombre de salariés. Les prix sont alignés sur ceux du concurrent local ; la différence se fait sur les fonctions (conventions collectives, plusieurs sociétés, fonctionnement local).</p>
+<table>
+  <tr><th style="width:22%">Offre</th><th>Contenu</th><th class="n">Prix indicatif</th></tr>
+  <tr><td>Essentiel</td><td>Jusqu'à 15 salariés : paie complète, bulletins, congés, déclarations.</td><td class="n">15 000 FCFA / mois</td></tr>
+  <tr><td>Pro</td><td>Jusqu'à 50 salariés : Essentiel + conventions collectives, éléments variables, sorties, dotations, analyses.</td><td class="n">35 000 FCFA / mois</td></tr>
+  <tr><td>Entreprise</td><td>Jusqu'à 100 salariés, au-delà sur devis ; plusieurs utilisateurs et accompagnement prioritaire.</td><td class="n">65 000 FCFA / mois</td></tr>
+  <tr><td>Cabinet</td><td>Toutes les sociétés clientes dans une seule installation, tarif dégressif selon le nombre de dossiers.</td><td class="n">dès 12 500 FCFA / société / mois</td></tr>
+  <tr><td>Mise en service</td><td>Installation, paramétrage, reprise des données, formation (une seule fois).</td><td class="n">150 000 FCFA / société</td></tr>
+</table>
+<h2>Revenu par société cliente</h2>
+<div class="grille g3">
+  <div class="carte"><h3>Année 1 : 35 000 FCFA / mois</h3><p>Smart RH seul : panier moyen proche de l'offre Pro.</p></div>
+  <div class="carte"><h3>Année 2 : 45 000 FCFA / mois</h3><p>Arrivée du module de facturation chez une partie des clients.</p></div>
+  <div class="carte"><h3>Année 3 : 60 000 FCFA / mois</h3><p>Facturation généralisée et premiers clients CRM.</p></div>
+</div>
+
+<h1><span class="num">07 · Commercialisation</span>Stratégie commerciale</h1>
+<div class="grille g3">
+  <div class="carte"><h3>1. Les cabinets d'abord</h3><p>Dix cabinets pilotes à Brazzaville et Pointe-Noire, accompagnés de près. Chacun apporte plusieurs sociétés.</p></div>
+  <div class="carte"><h3>2. La preuve par le bulletin</h3><p>Démonstration sur les données réelles du prospect : son bulletin calculé en quelques minutes.</p></div>
+  <div class="carte"><h3>3. Le contenu utile</h3><p>Guides pratiques sur la paie congolaise et les changements de loi, pour être trouvé par les dirigeants.</p></div>
+</div>
+<h2>Objectifs commerciaux</h2>
+<table>
+  <tr><th>Indicateur</th><th class="n">Fin année 1</th><th class="n">Fin année 2</th><th class="n">Fin année 3</th></tr>
+  <tr><td>Sociétés clientes actives</td><td class="n">40</td><td class="n">150</td><td class="n">400</td></tr>
+  <tr><td>Part du marché formel estimé</td><td class="n">0,6 %</td><td class="n">2,3 %</td><td class="n">6,3 %</td></tr>
+  <tr><td>Villes couvertes</td><td class="n">2</td><td class="n">2</td><td class="n">4</td></tr>
+</table>
+
+<h1 class="suite"><span class="num">08 · Feuille de route</span>Feuille de route sur 36 mois</h1>
+<div class="frise">
+  <div><small>Mois 1 à 4</small><b>Valider</b>Taux validés par l'expert-comptable, deux cabinets pilotes, premières paies réelles en parallèle de l'existant.</div>
+  <div><small>Mois 5 à 12</small><b>Lancer</b>Version commerciale, dix cabinets pilotes, 40 sociétés clientes.</div>
+  <div><small>Année 2</small><b>Étendre</b>Synchronisation en ligne, module de facturation, 150 sociétés.</div>
+  <div><small>Année 3</small><b>Rentabiliser</b>Module CRM, nouvelles villes, 400 sociétés, exercice bénéficiaire.</div>
+</div>
+<h2>État d'avancement à ce jour</h2>
+<ul>
+  <li><b>Fait</b> : étude du cadre légal congolais ; version 1.0 complète (paie, conventions, congés, déclarations, sorties, comptes, sauvegardes), testée automatiquement et prête à installer avec son guide.</li>
+  <li><b>En cours</b> : validation des taux et barèmes par un expert-comptable congolais.</li>
+  <li><b>À venir</b> : cabinets pilotes à Brazzaville et Pointe-Noire, synchronisation en ligne (version 2), module de facturation.</li>
+</ul>
+
+<h1><span class="num">09 · Équipe</span>Organisation et équipe</h1>
+<p class="chapo">Cette partie est à compléter par le porteur du projet : les investisseurs y cherchent d'abord qui exécute.</p>
+<div class="grille g2">
+  <div class="vide"><b>Fondateur — à compléter</b>Nom, parcours, lien avec le Congo, rôle dans le projet.</div>
+  <div class="vide"><b>Associés et conseillers — à compléter</b>Expert-comptable référent, conseil juridique, autres appuis.</div>
+</div>
+<h2>Plan de recrutement prévu</h2>
+<table>
+  <tr><th>Poste</th><th class="n">Année 1</th><th class="n">Année 2</th><th class="n">Année 3</th></tr>
+  <tr><td>Direction et produit</td><td class="n">1</td><td class="n">1</td><td class="n">2</td></tr>
+  <tr><td>Développement</td><td class="n">2</td><td class="n">3</td><td class="n">4</td></tr>
+  <tr><td>Commercial</td><td class="n">1</td><td class="n">2</td><td class="n">3</td></tr>
+  <tr><td>Support et formation</td><td class="n">—</td><td class="n">1</td><td class="n">2</td></tr>
+  <tr class="total"><td>Effectif total</td><td class="n">4</td><td class="n">7</td><td class="n">11</td></tr>
+</table>
+
+<h1><span class="num">10 · Finances</span>Prévisions financières sur trois ans</h1>
+<p class="chapo">Le projet perd de l'argent pendant deux ans, le temps de construire le produit et la base de clients, puis devient bénéficiaire en année 3.</p>
+<div class="barres">
+  <div class="grp"><div class="b r" style="height:5%"><i>12,3</i></div><div class="b c" style="height:23.9%"><i>58</i></div></div>
+  <div class="grp"><div class="b r" style="height:28.9%"><i>70,3</i></div><div class="b c" style="height:41.2%"><i>100</i></div></div>
+  <div class="grp"><div class="b r" style="height:90%"><i>243</i></div><div class="b c" style="height:59.3%"><i>160</i></div></div>
+</div>
+<div class="axe"><span>Année 1</span><span>Année 2</span><span>Année 3</span></div>
+<p class="leg">En millions de FCFA <i style="background:var(--vert2)"></i>Chiffre d'affaires <i style="background:#B9C7C0"></i>Charges</p>
+<table>
+  <tr><th>En millions de FCFA</th><th class="n">Année 1</th><th class="n">Année 2</th><th class="n">Année 3</th></tr>
+  <tr><td>Abonnements</td><td class="n">6,3</td><td class="n">53,8</td><td class="n">205,5</td></tr>
+  <tr><td>Mises en service</td><td class="n">6,0</td><td class="n">16,5</td><td class="n">37,5</td></tr>
+  <tr class="total"><td>Chiffre d'affaires</td><td class="n">12,3</td><td class="n">70,3</td><td class="n">243,0</td></tr>
+  <tr><td>Personnel</td><td class="n">36,0</td><td class="n">70,0</td><td class="n">110,0</td></tr>
+  <tr><td>Bureau, énergie, hébergement</td><td class="n">8,0</td><td class="n">12,0</td><td class="n">20,0</td></tr>
+  <tr><td>Marketing et déplacements</td><td class="n">6,0</td><td class="n">10,0</td><td class="n">18,0</td></tr>
+  <tr><td>Conseil juridique et comptable</td><td class="n">4,0</td><td class="n">4,0</td><td class="n">6,0</td></tr>
+  <tr><td>Divers</td><td class="n">4,0</td><td class="n">4,0</td><td class="n">6,0</td></tr>
+  <tr class="total"><td>Charges</td><td class="n">58,0</td><td class="n">100,0</td><td class="n">160,0</td></tr>
+  <tr class="total"><td>Résultat avant impôt</td><td class="n neg">−45,7</td><td class="n neg">−29,7</td><td class="n pos">+83,0</td></tr>
+  <tr><td>Résultat cumulé</td><td class="n neg">−45,7</td><td class="n neg">−75,4</td><td class="n pos">+7,6</td></tr>
+</table>
+<p class="src">Prévisions hors impôt sur les sociétés et hors extension régionale. Détail des hypothèses au chapitre 13.</p>
+
+<h1><span class="num">11 · Financement</span>Besoin de financement : 90 millions de FCFA</h1>
+<p class="chapo">Le point bas de trésorerie cumulé est de 75,4 millions de FCFA à la fin de l'année 2. Nous recherchons 90 millions, soit ce besoin plus une marge de sécurité de 19 %.</p>
+<table>
+  <tr><th>Usage des fonds</th><th class="n">Part</th><th class="n">Montant (M FCFA)</th></tr>
+  <tr><td>Produit et technique (équipe de développement, synchronisation, modules suivants)</td><td class="n">45 %</td><td class="n">40,5</td></tr>
+  <tr><td>Commercial et marketing (cabinets pilotes, démonstrations, contenus)</td><td class="n">25 %</td><td class="n">22,5</td></tr>
+  <tr><td>Exploitation (bureau, énergie, hébergement)</td><td class="n">12 %</td><td class="n">10,8</td></tr>
+  <tr><td>Conformité (expert-comptable, juriste, veille légale)</td><td class="n">10 %</td><td class="n">9,0</td></tr>
+  <tr><td>Réserve</td><td class="n">8 %</td><td class="n">7,2</td></tr>
+  <tr class="total"><td>Total</td><td class="n">100 %</td><td class="n">90,0</td></tr>
+</table>
+<h2>Ce que les fonds permettent d'atteindre</h2>
+<ul>
+  <li><b>À 12 mois</b> : produit commercialisé, 40 sociétés clientes, taux validés par l'expert.</li>
+  <li><b>À 24 mois</b> : 150 sociétés, module de facturation en service.</li>
+  <li><b>À 36 mois</b> : 400 sociétés, exercice bénéficiaire, suite complète.</li>
+</ul>
+<div class="vide"><b>Conditions de l'opération — à définir</b>Forme (capital, prêt, obligations convertibles), valorisation et part cédée : à arrêter avec un conseil juridique avant diffusion.</div>
+
+<h1><span class="num">12 · Risques</span>Risques et réponses</h1>
+<table>
+  <tr><th style="width:30%">Risque</th><th>Réponse prévue</th></tr>
+  <tr><td>Règles légales instables ou mal documentées</td><td>C'est le cœur du produit : règles datées et paramétrables, validées par un expert-comptable local, veille légale financée.</td></tr>
+  <tr><td>Un concurrent local déjà installé (Congo Paie)</td><td>Prix alignés ; avantage sur les cabinets (plusieurs sociétés), les conventions collectives et le fonctionnement sans internet ; formation gratuite à proposer nous aussi.</td></tr>
+  <tr><td>Marché formel étroit</td><td>Revenu par client augmenté par la facturation et le CRM ; extension possible à la zone CEMAC.</td></tr>
+  <tr><td>Faible habitude de payer un logiciel</td><td>Prix mensuel bas, démonstration sur les données du prospect, prescription par les cabinets.</td></tr>
+  <tr><td>Connexion et électricité instables</td><td>Fonctionnement en local, synchronisation différée.</td></tr>
+  <tr><td>Retards de paiement des clients</td><td>Paiement par mobile money, facturation d'avance, mise en service payée à la commande.</td></tr>
+  <tr><td>Erreur de calcul engageant notre responsabilité</td><td>Jeux de tests sur des bulletins réels, journal des modifications, mention claire de la responsabilité du paramétrage.</td></tr>
+  <tr><td>Dépendance à une petite équipe</td><td>Documentation, technologies courantes, recrutement progressif.</td></tr>
+</table>
+
+<h1><span class="num">13 · Annexe</span>Hypothèses et sources</h1>
+<h2>Hypothèses du plan financier</h2>
+<ul>
+  <li>Commercialisation à partir du 5<sup>e</sup> mois ; clients actifs : 40, 150 puis 400 en fin d'année, avec une progression régulière dans l'année.</li>
+  <li>Revenu mensuel moyen par société : 35 000, 45 000 puis 60 000 FCFA.</li>
+  <li>Mise en service : 150 000 FCFA par nouvelle société.</li>
+  <li>Aucune perte de client n'est modélisée ; à affiner après les premiers mois de commercialisation.</li>
+  <li>Marché formel estimé à 7 % des 91 000 unités économiques recensées, soit environ 6 400 entreprises.</li>
+  <li>Conversion : 1 € = 655,957 FCFA.</li>
+</ul>
+<div class="note"><b>Limites :</b> ces chiffres sont des estimations de travail, pas des engagements. Les effectifs, salaires et prix devront être confrontés à des devis et à des entretiens avec des cabinets congolais.</div>
+<h2>Sources</h2>
+<ul class="src">
+  <li>Code du travail de la République du Congo (loi 45-75), base Natlex de l'Organisation internationale du travail.</li>
+  <li>Ministère de la Fonction publique, du Travail et de la Sécurité sociale : « Les obligations sociales des entreprises ».</li>
+  <li>CLEISS : « Les cotisations au Congo », taux au 1er janvier 2023.</li>
+  <li>PaySpace : projet de loi de finances 2026 de la République du Congo (barème de l'ITS).</li>
+  <li>Financial Afrik, 6 octobre 2025 : remplacement de l'IRPP par quatre impôts.</li>
+  <li>Africa24 : SMIG porté à 70 400 FCFA au 1er janvier 2025 ; PME et PIB, recensement INS 2021, créations ACPCE 2025.</li>
+  <li>ADIAC-Congo : recensement INS des très petites entreprises (2017).</li>
+  <li>AllAfrica, 13 décembre 2025 : avant-projet de nouveau Code du travail.</li>
+  <li>Kolonell : fourchettes de prix des logiciels de paie en Afrique francophone (estimation d'un acteur du secteur).</li>
+  <li>Congo Paie (congopaie.com) : offres, tarifs et comparatif publiés par l'éditeur, consultés en octobre 2026.</li>
+</ul>
+
+</body>
+</html>
