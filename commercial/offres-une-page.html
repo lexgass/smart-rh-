@@ -7,7 +7,7 @@
 @font-face{font-family:'Sora';font-weight:400 800;src:url('../app/public/fonts/sora-latin.woff2') format('woff2');}
 @font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin.woff2') format('woff2');}
 @font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin-ext.woff2') format('woff2');unicode-range:U+0100-024F,U+20A0-20CF;}
-:root{ --foret:#123F33; --action:#17694F; --action-cl:#E5F1EB; --raphia:#D9A441; --raphia-cl:#FBF1DC; --raphia-f:#7C5A12; --encre:#17211D; --n700:#3E4A45; --n500:#5E6A64; --n200:#E2E7E3; --n100:#EEF1EE; --fond:#F3F5F2; }
+:root{ --indigo:#2D3E73; --indigo-cl:#E9ECF6; --indigo-f:#1F2C55; --foret:#123F33; --action:#17694F; --action-cl:#E5F1EB; --raphia:#D9A441; --raphia-cl:#FBF1DC; --raphia-f:#7C5A12; --encre:#17211D; --n700:#3E4A45; --n500:#5E6A64; --n200:#E2E7E3; --n100:#EEF1EE; --fond:#F3F5F2; }
 @page{ size:A4; margin:0; }
 *{ box-sizing:border-box; } html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 body{ margin:0; font-family:'Manrope','Segoe UI',sans-serif; color:var(--encre); font-size:10pt; line-height:1.45; }
@@ -17,31 +17,40 @@ h1,h2,h3{ font-family:'Sora','Segoe UI',sans-serif; margin:0; color:var(--foret)
 .entete{ display:flex; justify-content:space-between; align-items:center; padding-bottom:3.5mm; margin-bottom:5mm; border-bottom:1px solid var(--n200); }
 .marque{ display:flex; align-items:center; gap:8px; font-family:'Sora'; font-weight:700; font-size:12pt; color:var(--foret); } .marque img{ width:24px; height:24px; border-radius:6px; } .marque b{ color:var(--raphia); }
 .entete span{ font-size:8pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--n500); }
-h1{ font-size:21pt; margin-bottom:1.5mm; }
+h1{ font-size:20pt; margin-bottom:1.5mm; }
 .intro{ margin:0 0 5mm; color:var(--n700); }
 h2{ font-size:12pt; margin:0 0 3mm; display:flex; align-items:center; gap:7px; }
 h2::before{ content:""; width:8px; height:8px; background:var(--raphia); transform:rotate(45deg); border-radius:1px; }
-.formules{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-bottom:6mm; }
-.formule{ border:1px solid var(--n200); border-radius:14px; padding:4.5mm 5mm; }
-.formule.b{ border:2px solid var(--foret); }
-.lettre{ display:inline-flex; width:24px; height:24px; border-radius:50%; background:var(--n100); color:var(--foret); font-family:'Sora'; font-weight:800; align-items:center; justify-content:center; margin-right:6px; }
+.formules{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-bottom:5mm; }
+.formule{ border-radius:14px; padding:4mm 4.5mm; }
+.formule.a{ border:2px solid var(--indigo); background:var(--indigo-cl); }
+.formule.b{ border:2px solid var(--foret); background:var(--action-cl); }
+.formule.a h3{ color:var(--indigo-f); }
+.lettre{ display:inline-flex; width:24px; height:24px; border-radius:50%; background:var(--indigo); color:#fff; font-family:'Sora'; font-weight:800; align-items:center; justify-content:center; margin-right:6px; }
 .formule.b .lettre{ background:var(--foret); color:var(--raphia); }
 .formule h3{ font-size:12.5pt; display:flex; align-items:center; margin-bottom:2.5mm; }
-.formule dl{ margin:0; display:grid; grid-template-columns:24mm 1fr; gap:1.6mm 3mm; font-size:9.2pt; }
-.formule dt{ font-weight:700; color:var(--n500); font-size:8pt; text-transform:uppercase; letter-spacing:.04em; padding-top:.5mm; }
+.formule dl{ margin:0; display:grid; grid-template-columns:23mm 1fr; gap:1.2mm 3mm; font-size:9pt; line-height:1.38; }
+.formule dt{ font-weight:700; color:var(--n700); font-size:8pt; text-transform:uppercase; letter-spacing:.04em; padding-top:.5mm; }
 .formule dd{ margin:0; }
-.inclus{ font-size:8.8pt; color:var(--n700); margin:-2mm 0 6mm; }
+.inclus{ font-size:8.8pt; color:var(--n700); margin:-2mm 0 4.5mm; }
 table{ width:100%; border-collapse:collapse; font-size:9.8pt; }
 th{ font-size:7.8pt; text-transform:uppercase; letter-spacing:.04em; color:var(--n500); font-weight:700; padding:2mm 3mm; background:var(--fond); text-align:right; vertical-align:bottom; line-height:1.3; }
 th:first-child{ text-align:left; }
 th.b{ color:var(--foret); }
-td{ padding:2.4mm 3mm; border-bottom:1px solid var(--n100); text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+td{ padding:1.7mm 3mm; border-bottom:1px solid var(--n100); text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
 td:first-child{ text-align:left; white-space:normal; }
 td small{ display:block; color:var(--n500); font-size:8pt; }
 td.fort{ font-family:'Sora'; font-weight:800; color:var(--foret); }
-td.mat{ font-family:'Sora'; font-weight:700; color:var(--raphia-f); background:var(--raphia-cl); }
-.deux{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-top:5mm; }
-.bloc{ border-radius:12px; padding:4mm 5mm; background:var(--fond); font-size:9.3pt; }
+td.mat{ font-family:'Sora'; font-weight:800; color:var(--foret); background:var(--action-cl); }
+td.a{ font-family:'Sora'; font-weight:800; color:var(--indigo-f); background:var(--indigo-cl); }
+td.bb{ font-family:'Sora'; font-weight:800; color:var(--foret); background:var(--action-cl); }
+td.a small, td.bb small{ font-family:'Manrope'; font-weight:500; }
+tr.groupes th{ text-align:center; font-size:8.6pt; letter-spacing:.02em; text-transform:none; padding:2.2mm 3mm; }
+th.ga{ background:var(--indigo); color:#fff; } th.gb{ background:var(--foret); color:#fff; }
+tr.groupes th:first-child{ background:transparent; }
+.paiement{ font-size:9.3pt; color:var(--n700); margin:2.5mm 0 0; }
+.deux{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-top:4mm; }
+.bloc{ border-radius:12px; padding:3.5mm 4.5mm; background:var(--fond); font-size:9.3pt; }
 .bloc.vert{ background:var(--action-cl); }
 .bloc b.t{ display:block; font-family:'Sora'; color:var(--foret); font-size:10.5pt; margin-bottom:1.5mm; }
 .bloc ul{ margin:0; padding-left:4.5mm; display:flex; flex-direction:column; gap:1mm; }
@@ -53,33 +62,35 @@ td.mat{ font-family:'Sora'; font-weight:700; color:var(--raphia-f); background:v
 <section class="page">
   <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span>Nos offres 2026</span></div>
   <h1>Nos offres en une page</h1>
-  <p class="intro">Prix en FCFA, hors taxes. Deux façons d'installer Smart RH : vous choisissez selon votre équipement.</p>
+  <p class="intro">Prix en FCFA, hors taxes. Smart RH fonctionne sur un serveur installé chez vous : soit le vôtre, soit celui que nous fournissons.</p>
 
   <h2>Les deux formules</h2>
   <div class="formules">
-    <div class="formule"><h3><span class="lettre">A</span>Sur votre ordinateur</h3>
-      <dl><dt>Pour qui</dt><dd>Vous avez déjà un ordinateur récent et en bon état.</dd>
-      <dt>Nous faisons</dt><dd>Nous installons Smart RH sur cet ordinateur et formons vos équipes.</dd>
+    <div class="formule a"><h3><span class="lettre">A</span>Sur votre serveur</h3>
+      <dl><dt>Pour qui</dt><dd>Vous avez déjà un serveur, ou un ordinateur récent qui peut servir de serveur.</dd>
+      <dt>Nous faisons</dt><dd>Nous installons Smart RH sur votre serveur et formons vos équipes.</dd>
       <dt>Vous payez</dt><dd><b>Seulement l'abonnement annuel.</b></dd></dl></div>
-    <div class="formule b"><h3><span class="lettre">B</span>Avec notre matériel</h3>
-      <dl><dt>Pour qui</dt><dd>Vous n'avez pas d'ordinateur adapté, ou vous voulez zéro souci.</dd>
-      <dt>Nous faisons</dt><dd>Nous apportons un ordinateur dédié à Smart RH, un disque de sauvegarde et une batterie contre les coupures de courant, et nous installons tout chez vous. Le matériel vous appartient.</dd>
-      <dt>Vous payez</dt><dd><b>Le matériel une seule fois, puis l'abonnement annuel.</b></dd></dl></div>
+    <div class="formule b"><h3><span class="lettre">B</span>Avec notre serveur</h3>
+      <dl><dt>Pour qui</dt><dd>Vous n'avez pas de serveur, ou vous voulez zéro souci technique.</dd>
+      <dt>Nous faisons</dt><dd>Nous fournissons et installons chez vous un serveur dédié à Smart RH, avec son disque de sauvegarde et sa batterie contre les coupures de courant. Le serveur vous appartient.</dd>
+      <dt>Vous payez</dt><dd><b>Le serveur une seule fois, puis l'abonnement annuel.</b></dd></dl></div>
   </div>
   <p class="inclus">Dans les deux formules, l'abonnement comprend : les mises à jour quand la loi change, l'assistance, la maintenance et la formation.</p>
 
   <h2>Les prix</h2>
   <table>
-    <tr><th>Votre structure</th><th>Abonnement annuel<br>payé en 1 fois</th><th>ou en 4 fois<br>chaque trimestre</th><th class="b">Formule B : matériel<br>payé une seule fois</th></tr>
-    <tr><td><b>TPE</b><small>1 à 15 salariés</small></td><td class="fort">180 000</td><td>4 × 45 000</td><td class="mat">755 000</td></tr>
-    <tr><td><b>PME</b><small>16 à 50 salariés</small></td><td class="fort">420 000</td><td>4 × 105 000</td><td class="mat">755 000</td></tr>
-    <tr><td><b>PME</b><small>51 à 100 salariés</small></td><td class="fort">780 000</td><td>4 × 195 000</td><td class="mat">1 325 000</td></tr>
-    <tr><td><b>Structure de l'État</b><small>par structure, jusqu'à 100 agents</small></td><td class="fort">780 000</td><td>4 × 195 000</td><td class="mat">1 325 000</td></tr>
+    <tr class="groupes"><th></th><th class="ga">Formule A · sur votre serveur</th><th class="gb" colspan="2">Formule B · avec notre serveur</th></tr>
+    <tr><th>Votre structure</th><th class="ga">Abonnement par an</th><th class="gb">Serveur, une fois</th><th class="gb">Abonnement par an</th></tr>
+    <tr><td><b>TPE</b><small>1 à 15 salariés</small></td><td class="a">180 000<small>ou 4 × 45 000</small></td><td class="mat">755 000</td><td class="bb">180 000<small>ou 4 × 45 000</small></td></tr>
+    <tr><td><b>PME</b><small>16 à 50 salariés</small></td><td class="a">420 000<small>ou 4 × 105 000</small></td><td class="mat">755 000</td><td class="bb">420 000<small>ou 4 × 105 000</small></td></tr>
+    <tr><td><b>PME</b><small>51 à 100 salariés</small></td><td class="a">780 000<small>ou 4 × 195 000</small></td><td class="mat">1 325 000</td><td class="bb">780 000<small>ou 4 × 195 000</small></td></tr>
+    <tr><td><b>Structure de l'État</b><small>par structure, jusqu'à 100 agents</small></td><td class="a">780 000<small>ou 4 × 195 000</small></td><td class="mat">1 325 000</td><td class="bb">780 000<small>ou 4 × 195 000</small></td></tr>
   </table>
+  <p class="paiement">L'abonnement se paie <b>en 1 fois</b> par an, <b>ou en 4 fois</b>, un versement chaque trimestre.</p>
 
   <div class="deux">
     <div class="bloc vert"><b class="t">Exemple : une PME de 30 salariés, formule B</b>
-      <p>1re année : matériel 755 000 + abonnement 420 000 = <b>1 175 000 FCFA</b>.</p>
+      <p>1re année : serveur 755 000 + abonnement 420 000 = <b>1 175 000 FCFA</b>.</p>
       <p>Années suivantes : <b>420 000 FCFA par an</b>, en 1 fois, ou 105 000 chaque trimestre.</p></div>
     <div class="bloc"><b class="t">Bon à savoir</b><ul>
       <li><b>État</b> : possibilité de payer 4 ans d'avance, 2 808 000 au lieu de 3 120 000 (−10 %).</li>
@@ -87,7 +98,7 @@ td.mat{ font-family:'Sora'; font-weight:700; color:var(--raphia-f); background:v
       <li>Plus de 100 salariés ou agents : prix sur devis.</li></ul></div>
   </div>
 
-  <div class="pied"><span>Matériel : ordinateur dédié, disque de sauvegarde, batterie (onduleur) et installation ; transport et douane en sus.</span><span>Smart RH, 2026</span></div>
+  <div class="pied"><span>Serveur fourni en formule B : serveur dédié, disque de sauvegarde, batterie (onduleur) et installation ; transport et douane en sus.</span><span>Smart RH, 2026</span></div>
 </section>
 </body>
 </html>
