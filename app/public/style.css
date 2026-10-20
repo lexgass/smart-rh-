@@ -670,3 +670,13 @@ main:focus{ outline:none; }
 @media (max-width:860px){ .form-ligne.quatre, .form-ligne.trois{ grid-template-columns:1fr; } }
 .responsable-soc{ display:flex; align-items:center; gap:8px; margin:0 0 14px; font-size:calc(13px*var(--echelle)); color:var(--n700); }
 .responsable-soc .ic{ width:16px; height:16px; color:var(--lien); }
+
+/* logo de la société : en-tête des documents, aperçu dans Informations légales, cartes des sociétés */
+.entete .logo-societe{ display:block; max-height:18mm; max-width:48mm; object-fit:contain; margin-bottom:3mm; }
+.bloc-logo{ display:flex; flex-direction:column; gap:14px; }
+.apercu-logo{ display:flex; align-items:center; justify-content:center; min-height:120px; padding:16px; border:1px dashed var(--n300); border-radius:12px; background:#fff; }
+.apercu-logo .logo-societe{ max-height:96px; max-width:100%; object-fit:contain; }
+.pile-mini{ display:flex; flex-direction:column; gap:10px; align-items:flex-start; }
+.pile-mini .form-mini input[type=file]{ min-height:0; padding:7px; font-size:calc(13px*var(--echelle)); }
+.logo-carte{ width:48px; height:48px; object-fit:contain; border-radius:13px; background:#fff; border:1px solid var(--n200); padding:3px; flex-shrink:0; }
+.champ-logo input[type=file]{ min-height:0; padding:8px; }

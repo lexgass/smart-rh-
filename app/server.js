@@ -6,6 +6,7 @@ const auth = require('./auth');
 const acces = require('./acces');
 const journal = require('./journal');
 const sauvegarde = require('./sauvegarde');
+const logo = require('./logo');
 const paie = require('./paie');
 const droits = require('./droits');
 
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h' }));
 app.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
 app.use(express.urlencoded({ extended: false, limit: '200kb', parameterLimit: 5000 }));
+app.use(logo.lireMultipart); // formulaires avec fichier (logo de la société)
 
 /* ---------- utilitaires d'affichage ---------- */
 const e = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -161,7 +163,7 @@ app.get('/societes', (req, res) => {
   const voitResponsables = acces.peut(req, 'societes.creer');
   const cartes = socs.map((s) => `
     <form method="post" action="/societes/choisir" class="carte carte-soc"><input type="hidden" name="id" value="${s.id}">
-      <div class="soc-tete"><span class="pastille-soc grande">${initiales(...s.nom.split(' '))}</span><div><h3>${e(s.nom)}</h3><small>${e(s.ville)}, convention ${e(s.convention)}</small></div></div>
+      <div class="soc-tete">${logo.balise(s.id, 'logo-carte') || `<span class="pastille-soc grande">${initiales(...s.nom.split(' '))}</span>`}<div><h3>${e(s.nom)}</h3><small>${e(s.ville)}, convention ${e(s.convention)}</small></div></div>
       <dl class="mini-stats"><div><dt>Salariés</dt><dd>${s.effectif}</dd></div><div><dt>Masse brute ${aide('Masse salariale brute mensuelle prévue aux contrats, en millions de FCFA.')}</dt><dd>${s.masse ? millions(s.masse) : '—'} <small>FCFA</small></dd></div><div><dt>Dernière paie</dt><dd>${s.derniere ? periodeCourte(s.derniere) : '—'}</dd></div></dl>
       ${voitResponsables ? `<p class="responsable-soc">${s.responsables ? `${ic('bouclier')}<span>Administrateur : <b>${e(s.responsables)}</b></span>` : `<span class="et jaune" data-bulle="Personne n'administre encore cette société : créez son administrateur dans Utilisateurs, mode « Administrateur de société »." tabindex="0">Aucun administrateur</span>`}</p>` : ''}
       <button class="bouton secondaire">Ouvrir le dossier</button></form>`).join('');
@@ -171,11 +173,12 @@ app.get('/societes', (req, res) => {
   <div class="grille-auto">${cartes}</div>
   ${!creer ? '' : carte(`Ajouter une société${aide('La nouvelle société reçoit une copie des règles du modèle « Congo 2026 ». Vous pourrez ensuite les adapter à sa convention collective.')}`, `
     ${MSG_SOCIETE[req.query.m] ? `<p class="${req.query.m === 'creee' ? 'succes-ligne' : 'alerte-ligne'}" role="status">${MSG_SOCIETE[req.query.m]}</p>` : ''}
-    <form method="post" action="/societes" class="form-pile">
+    <form method="post" action="/societes" class="form-pile" enctype="multipart/form-data">
       <div class="form-ligne quatre">
       <label>Raison sociale<input name="nom" required maxlength="120" placeholder="Ex. : Boulangerie du Plateau"></label><label>Ville<input name="ville" required maxlength="80" value="Brazzaville"></label>
       <label>Convention collective ${aide('Texte signé pour un secteur d\'activité. Il fixe les catégories, les primes, le préavis et les indemnités.')}<select name="convention"><option>Commerce</option><option>BTP</option><option>Banques et assurances</option><option>Hôtellerie</option><option>Industrie</option></select></label>
       <label>NIU ${aide('Numéro d\'identification unique attribué par l\'administration fiscale.')}<input name="niu" maxlength="40"></label></div>
+      <label class="champ-logo">Logo de la société ${aide(`Il apparaîtra en tête des bulletins de paie et des documents imprimés. ${logo.FORMATS}. Facultatif : il peut être ajouté plus tard dans « Informations légales ».`)}<input type="file" name="logo" accept="image/png,image/jpeg,image/webp"></label>
       <fieldset class="choix-affichage"><legend>Administrateur de la société ${aide('Recommandé : la personne qui créera et gérera les comptes de cette société. Elle reçoit un mot de passe provisoire, à changer à sa première connexion. Laissez vide si le cabinet gère lui-même la société.')}</legend>
       <div class="form-ligne trois"><label>Nom<input name="resp_nom" maxlength="120" autocomplete="off"></label><label>Adresse e-mail<input type="email" name="resp_email" maxlength="200" autocomplete="off"></label>
       <label>Mot de passe provisoire<input type="password" name="resp_mdp" minlength="12" maxlength="128" autocomplete="new-password"></label></div></fieldset>
@@ -188,6 +191,7 @@ const MSG_SOCIETE = {
   resp: 'Administrateur : renseignez son nom, une adresse e-mail valide et un mot de passe provisoire, ou laissez les trois champs vides.',
   existe: 'Administrateur : cette adresse e-mail est déjà utilisée par un autre compte.',
   mdp: 'Administrateur : mot de passe provisoire refusé (12 caractères au moins, pas un mot de passe courant, sans l\'adresse e-mail).',
+  ...logo.MESSAGES,
 };
 app.post('/societes', (req, res) => {
   const b = req.body, echec = (m) => res.redirect(`/societes?m=${m}#nouvelle`);
@@ -199,11 +203,14 @@ app.post('/societes', (req, res) => {
     if (get('SELECT id FROM utilisateurs WHERE email=?', resp.email)) return echec('existe');
     if (auth.motDePasseRefuse(resp.mdp, resp.email)) return echec('mdp');
   }
+  const refusLogo = logo.refusLogo(req.fichiers?.logo);
+  if (refusLogo) return echec(refusLogo);
   const conv = get('SELECT code, nom FROM conventions WHERE nom=?', b.convention) || { code: 'COMMERCE', nom: 'Commerce' };
   const id = transaction(() => {
     const sid = creerSociete({ nom: texte(b.nom), ville: texte(b.ville, 80), convention: conv.nom, niu: texte(b.niu, 40) });
     run('UPDATE societes SET convention_code=? WHERE id=?', conv.code, sid);
     if (avecResp) auth.creerUtilisateur({ email: resp.email, nom: resp.nom, mdp: resp.mdp, role: 'societe', societeId: sid, changerMdp: 1 });
+    if (req.fichiers?.logo) logo.enregistrer(sid, req.fichiers.logo);
     return sid;
   });
   if (avecResp) return res.redirect('/societes?m=creee#nouvelle');
@@ -598,7 +605,7 @@ app.get('/dotations/:id/fiche', (req, res) => {
   const d = dotation(req); if (!d) return res.redirect('/dotations');
   const s = req.societe;
   res.send(imprimable('Fiche de remise de matériel', '/dotations', `
-  <div class="entete"><div><b>${e(s.nom)}</b><br>${e(s.ville)}<br>NIU ${e(s.niu)}</div><div class="droite"><h1>Fiche de remise de matériel</h1>N° ${String(d.id).padStart(5, '0')} du ${dateFr(d.date_remise)}</div></div>
+  <div class="entete"><div>${logo.balise(s.id)}<b>${e(s.nom)}</b><br>${e(s.ville)}<br>NIU ${e(s.niu)}</div><div class="droite"><h1>Fiche de remise de matériel</h1>N° ${String(d.id).padStart(5, '0')} du ${dateFr(d.date_remise)}</div></div>
   <table class="simple"><tr><th>Salarié</th><td>${e(d.prenom)} ${e(d.nom)} (${e(d.matricule)})</td></tr><tr><th>Poste</th><td>${e(d.poste)}</td></tr></table>
   <table class="simple"><tr><th>Matériel</th><th>Référence</th><th class="n">Quantité</th><th>État</th><th class="n">Valeur unitaire</th></tr>
   <tr><td>${e(d.designation)}</td><td>${e(d.reference)}</td><td class="n">${d.quantite}</td><td>${e(d.etat)}</td><td class="n">${fcfa(d.valeur)} FCFA</td></tr></table>
@@ -636,7 +643,7 @@ app.get('/paie/bulletin/:id', (req, res) => {
   const s = req.societe, L = all('SELECT * FROM bulletin_lignes WHERE bulletin_id=? ORDER BY ordre', b.id);
   const bloc = (sens) => L.filter((l) => l.sens === sens).map((l) => `<tr><td>${e(l.libelle)}</td><td class="n">${l.base != null ? fcfa(l.base) : ''}</td><td class="n">${l.taux != null ? `${nb(l.taux)} %` : ''}</td><td class="n">${sens === 'gain' ? fcfa(l.montant) : ''}</td><td class="n">${sens === 'retenue' ? fcfa(l.montant) : ''}</td><td class="n">${sens === 'patronale' ? fcfa(l.montant) : ''}</td></tr>`).join('');
   res.send(imprimable(`Bulletin de paie — ${b.prenom} ${b.nom} — ${periodeFr(b.periode)}`, `/paie?periode=${b.periode}`, `
-  <div class="entete"><div><b>${e(s.nom)}</b><br>${e(s.ville)}<br>NIU ${e(s.niu)}, RCCM ${e(s.rccm)}<br>CNSS employeur ${e(s.cnss_employeur)}</div><div class="droite"><h1>Bulletin de paie</h1>${periodeFr(b.periode)}</div></div>
+  <div class="entete"><div>${logo.balise(s.id)}<b>${e(s.nom)}</b><br>${e(s.ville)}<br>NIU ${e(s.niu)}, RCCM ${e(s.rccm)}<br>CNSS employeur ${e(s.cnss_employeur)}</div><div class="droite"><h1>Bulletin de paie</h1>${periodeFr(b.periode)}</div></div>
   <table class="simple"><tr><th>Salarié</th><td>${e(b.prenom)} ${e(b.nom)}</td><th>Matricule</th><td>${e(b.matricule)}</td></tr>
   <tr><th>Poste</th><td>${e(b.poste)}</td><th>Catégorie</th><td>${e(b.cat)}</td></tr>
   <tr><th>Numéro CNSS</th><td>${e(b.num_cnss)}</td><th>Date d'entrée</th><td>${dateFr(b.date_embauche)}</td></tr>
@@ -662,6 +669,7 @@ require('./routes-declarations')(app, h);
 require('./routes-variables')(app, h);
 require('./routes-sortie')(app, h);
 require('./routes-outils')(app, h);
+logo.routes(app);
 
 // page introuvable et erreur inattendue
 app.use((req, res) => {

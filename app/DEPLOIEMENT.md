@@ -78,7 +78,7 @@ Leurs adresses et mots de passe sont écrits dans `demo\comptes-demo.txt`. Ce fi
 Le parcours est toujours le même : **création du compte, puis accès par mot de passe**. Aucun écran ne s'ouvre sans authentification.
 
 1. Ouvrez https://localhost:4322 : l'écran « Bienvenue dans Smart RH » demande de créer le compte d'**administrateur global** (nom, e-mail, mot de passe de 12 caractères au moins ; une phrase de plusieurs mots est idéale). C'est le compte de l'installateur : il crée les sociétés et leur administrateur, et gère les sauvegardes. Il ne sert pas au travail courant.
-2. **Sociétés clientes** : créez chaque société avec sa convention collective et, dans le même formulaire, **son administrateur** (nom, e-mail, mot de passe provisoire). Transmettez-lui ses identifiants.
+2. **Sociétés clientes** : créez chaque société avec sa convention collective, **son logo** (PNG, JPG ou WebP, 1 Mo au plus, repris en tête des bulletins de paie et des documents) et, dans le même formulaire, **son administrateur** (nom, e-mail, mot de passe provisoire). Transmettez-lui ses identifiants. Le logo se change ensuite dans **Informations légales**.
 3. L'**administrateur de la société** se connecte, choisit son propre mot de passe (obligatoire), puis renseigne :
    - les **informations légales** : NIU, RCCM, numéro d'employeur CNSS (ils figurent sur les bulletins) ;
    - la **structure** : départements, catégories, postes ; dans **Convention collective**, il vérifie le niveau de chaque catégorie ;

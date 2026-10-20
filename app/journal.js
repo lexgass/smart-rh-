@@ -10,7 +10,7 @@ const ACTIONS = [
   [/^\/connexion$/, null], [/^\/installation$/, 'Création du compte principal'], [/^\/compte$/, 'Changement de mot de passe'], [/^\/compte\/affichage$/, null],
   [/^\/utilisateurs\/\d+\/societes$/, 'Modification des sociétés d\'un utilisateur'], [/^\/societes\/ouvrir$/, null],
   [/^\/utilisateurs$/, 'Création d\'un utilisateur'], [/^\/utilisateurs\/\d+\/desactiver$/, 'Désactivation d\'un utilisateur'], [/^\/utilisateurs\/\d+\/activer$/, 'Réactivation d\'un utilisateur'], [/^\/utilisateurs\/\d+\/mdp$/, 'Réinitialisation d\'un mot de passe'],
-  [/^\/societes$/, 'Création d\'une société'], [/^\/societes\/choisir$/, null], [/^\/societe\/parametres$/, 'Modification des informations de la société'],
+  [/^\/societes$/, 'Création d\'une société'], [/^\/societes\/choisir$/, null], [/^\/societe\/parametres$/, 'Modification des informations de la société'], [/^\/societe\/logo$/, 'Modification du logo de la société'], [/^\/societe\/logo\/retirer$/, 'Suppression du logo de la société'],
   [/^\/structure\/departement$/, 'Ajout d\'un département'], [/^\/structure\/categorie$/, 'Ajout d\'une catégorie'], [/^\/structure\/poste$/, 'Ajout d\'un poste'],
   [/^\/regles\/parametre$/, 'Nouvelle version d\'une règle de paie'], [/^\/regles\/rubrique\/\d+\/bascule$/, 'Activation ou désactivation d\'une rubrique'],
   [/^\/embauche$/, 'Embauche'], [/^\/salaries\/\d+\/modifier$/, 'Modification d\'une fiche salarié'], [/^\/salaries\/\d+\/sortie$/, 'Sortie d\'un salarié'],

@@ -34,6 +34,17 @@ async function req(methode, chemin, corps, entetes = {}) {
 }
 // après une connexion, le jeton change : on le reprend sur « Mon compte »
 async function jetonFrais() { const r = await fetch(`${base}/compte`, { headers: { cookie: cookies() }, redirect: 'manual' }); const m = (await r.text()).match(/name="_csrf" value="([0-9a-f]{64})"/); jeton = m ? m[1] : ''; }
+// formulaire avec fichier (multipart), comme un navigateur qui envoie un logo
+const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
+async function envoyer(chemin, champs, fichiers = {}) {
+  const f = new FormData();
+  f.append('_csrf', jeton);
+  for (const [k, v] of Object.entries(champs)) f.append(k, v);
+  for (const [k, [nom, donnees, type]] of Object.entries(fichiers)) f.append(k, new Blob([donnees], { type }), nom);
+  const r = await fetch(base + chemin, { method: 'POST', redirect: 'manual', headers: { cookie: cookies(), origin: base }, body: f });
+  return { statut: r.status, lieu: r.headers.get('location'), texte: await r.text() };
+}
+
 // connexion par l'écran de connexion, avec le mot de passe du compte (aucune entrée sans mot de passe)
 let ipTest = 0;
 const connecter = async (email, mdp) => { const r = await req('POST', '/connexion', { email, mdp, suite: '/' }, { 'x-forwarded-for': `10.1.0.${++ipTest}` }); await jetonFrais(); return r; };
@@ -67,6 +78,26 @@ async function testsDemo() {
   const b = get("SELECT b.id, b.brut FROM bulletins b WHERE salarie_id=5 AND periode='2026-10'");
   ok(b && get("SELECT montant FROM bulletin_lignes WHERE bulletin_id=? AND code='HS1'", b.id)?.montant === 5712, 'heures supplémentaires : 5 h à +10 % = 5 712 FCFA');
   await page200(`/paie/bulletin/${b.id}`);
+
+  // logo de la société : envoi, refus des fichiers non conformes, affichage sur le bulletin
+  ok(!(await req('GET', `/paie/bulletin/${b.id}`)).texte.includes('/societe/logo/'), 'sans logo : rien sur le bulletin');
+  ok((await envoyer('/societe/logo', {}, { logo: ['logo.png', PNG, 'image/png'] })).lieu === '/societe/parametres?m=logo', 'logo PNG accepté');
+  const img = await fetch(`${base}/societe/logo/1`, { headers: { cookie: cookies() } });
+  ok(img.status === 200 && img.headers.get('content-type') === 'image/png' && Buffer.from(await img.arrayBuffer()).equals(PNG), 'logo servi tel qu\'enregistré');
+  ok((await req('GET', `/paie/bulletin/${b.id}`)).texte.includes('src="/societe/logo/1?v='), 'logo en tête du bulletin de paie');
+  ok((await req('GET', '/salaries/1')).statut === 200 && (await req('GET', '/declarations/imprimer?type=cnss&periode=2026-10')).texte.includes('/societe/logo/1'), 'logo en tête des déclarations imprimables');
+  ok((await envoyer('/societe/logo', {}, { logo: ['logo.png', Buffer.from('<svg onload=alert(1)>pas une image</svg>'), 'image/png'] })).lieu === '/societe/parametres?m=logo_format', 'faux logo refusé (contenu vérifié, pas le nom)');
+  ok((await envoyer('/societe/logo', {}, { logo: ['gros.png', Buffer.concat([PNG, Buffer.alloc(1100 * 1024)]), 'image/png'] })).lieu === '/societe/parametres?m=logo_taille', 'logo de plus de 1 Mo refusé');
+  ok((await envoyer('/societe/logo', { _csrf: '' }, { logo: ['logo.png', PNG, 'image/png'] })).statut === 403, 'envoi de fichier soumis au jeton anti-falsification');
+  await page200('/societe/parametres');
+  ok((await envoyer('/societes', { nom: 'Société avec logo', ville: 'Dolisie', convention: 'Commerce' }, { logo: ['logo.png', PNG, 'image/png'] })).statut === 302 && get("SELECT COUNT(*) n FROM societe_logos l JOIN societes s ON s.id=l.societe_id WHERE s.nom='Société avec logo'").n === 1, 'logo enregistré dès la création de la société');
+  ok((await page200('/societes')).texte.includes('class="logo-carte"'), 'logo affiché sur la carte de la société');
+  await req('POST', '/societes/choisir', { id: '2' });
+  await envoyer('/societe/logo', {}, { logo: ['logo2.png', PNG, 'image/png'] });
+  await req('POST', '/societe/logo/retirer');
+  ok(!get('SELECT societe_id FROM societe_logos WHERE societe_id=2'), 'logo retiré');
+  await envoyer('/societe/logo', {}, { logo: ['logo2.png', PNG, 'image/png'] });
+  await req('POST', '/societes/choisir', { id: '1' });
   ok((await req('GET', '/declarations/export?type=cnss&periode=2026-10&annee=2026')).texte.includes('Retraite salarié'), 'export du bordereau CNSS');
 
   // avenant tracé
@@ -126,6 +157,7 @@ async function testsDemo() {
   const bulAutre = get('SELECT b.id FROM bulletins b JOIN salaries e ON e.id=b.salarie_id WHERE e.societe_id=2 LIMIT 1');
   if (bulAutre) ok((await req('GET', `/paie/bulletin/${bulAutre.id}`)).lieu === '/paie', 'Société : bulletin d\'une autre société inaccessible');
   ok((await req('GET', '/salaries/7')).lieu === '/salaries', 'Société : fiche d\'un salarié d\'une autre société inaccessible');
+  ok((await fetch(`${base}/societe/logo/2`, { headers: { cookie: cookies() } })).status === 404 && (await fetch(`${base}/societe/logo/1`, { headers: { cookie: cookies() } })).status === 200, 'Société : logo d\'une autre société inaccessible, le sien visible');
   await req('GET', '/deconnexion');
 
   // mode Utilisateur : saisie courante dans ses sociétés ; ni règles, ni comptes, ni sorties

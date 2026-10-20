@@ -1,5 +1,6 @@
-// Gestion courante : modifier une fiche salarié (avenant tracé), informations légales de la société, annulation d'une absence.
+// Gestion courante : modifier une fiche salarié (avenant tracé), informations légales et logo de la société, annulation d'une absence.
 const { run, all, get } = require('./db');
+const logo = require('./logo');
 
 module.exports = (app, h) => {
   const { e, fcfa, dateFr, aujourdhui, page, carte, options, aide, interdit } = h;
@@ -60,15 +61,27 @@ module.exports = (app, h) => {
   // informations légales de la société (reprises sur les bulletins et documents)
   app.get('/societe/parametres', (req, res) => {
     const s = req.societe;
-    res.send(page(req, { titre: 'Informations de la société', sous: 'Elles figurent sur les bulletins de paie, les déclarations, les certificats de travail et les fiches de remise.' }, carte('', `
+    res.send(page(req, { titre: 'Informations de la société', sous: 'Elles figurent sur les bulletins de paie, les déclarations, les certificats de travail et les fiches de remise.' }, `<div class="disposition d-2-1">${carte('', `
       ${req.query.ok ? '<p class="succes-ligne">Informations enregistrées.</p>' : ''}
       <form method="post" action="/societe/parametres" class="champs">
         <label>Raison sociale<input name="nom" required value="${e(s.nom)}"></label><label>Ville<input name="ville" required value="${e(s.ville)}"></label>
         <label>NIU ${aide('Numéro d\'identification unique délivré par l\'administration fiscale.')}<input name="niu" value="${e(s.niu)}"></label>
         <label>RCCM ${aide('Numéro d\'immatriculation au registre du commerce et du crédit mobilier.')}<input name="rccm" value="${e(s.rccm)}"></label>
         <label>Numéro d'employeur CNSS<input name="cnss_employeur" value="${e(s.cnss_employeur)}"></label>
-        <div class="actions large"><button class="bouton">Enregistrer</button></div></form>`)));
+        <div class="actions large"><button class="bouton">Enregistrer</button></div></form>`)}
+      ${carte(`Logo de la société${aide(`Il apparaît en tête des bulletins de paie, des certificats de travail, des reçus pour solde de tout compte, des fiches de remise de matériel et des déclarations. ${logo.FORMATS}.`)}`, `
+      ${{ logo: ['succes-ligne', 'Logo enregistré : il figure désormais sur les bulletins et les documents.'], retire: ['succes-ligne', 'Logo retiré des documents.'], ...Object.fromEntries(Object.entries(logo.MESSAGES).map(([k, v]) => [k, ['alerte-ligne', v]])) }[req.query.m]?.reduce((c, t) => `<p class="${c}" role="status">${t}</p>`) || ''}
+      <div class="bloc-logo"><div class="apercu-logo">${logo.balise(s.id) || '<span class="discret">Aucun logo pour le moment</span>'}</div>
+      <div class="pile-mini"><form method="post" action="/societe/logo" enctype="multipart/form-data" class="form-mini large"><input type="file" name="logo" accept="image/png,image/jpeg,image/webp" required aria-label="Fichier du logo"><button class="bouton secondaire">${logo.balise(s.id) ? 'Remplacer le logo' : 'Ajouter le logo'}</button></form>
+      ${logo.balise(s.id) ? '<form method="post" action="/societe/logo/retirer" data-confirmer="Retirer le logo des bulletins et des documents ?"><button class="bouton fantome petit">Retirer le logo</button></form>' : ''}</div></div>`)}</div>`));
   });
+  app.post('/societe/logo', (req, res) => {
+    const f = req.fichiers?.logo, refus = f ? logo.refusLogo(f) : 'logo_format';
+    if (refus) return res.redirect(`/societe/parametres?m=${refus}`);
+    logo.enregistrer(req.societe.id, f);
+    res.redirect('/societe/parametres?m=logo');
+  });
+  app.post('/societe/logo/retirer', (req, res) => { logo.retirer(req.societe.id); res.redirect('/societe/parametres?m=retire'); });
   app.post('/societe/parametres', (req, res) => {
     const b = req.body, t = (v, n) => String(v ?? '').trim().slice(0, n);
     if (t(b.nom, 120) && t(b.ville, 80)) run('UPDATE societes SET nom=?, ville=?, niu=?, rccm=?, cnss_employeur=? WHERE id=?', t(b.nom, 120), t(b.ville, 80), t(b.niu, 40), t(b.rccm, 60), t(b.cnss_employeur, 40), req.societe.id);

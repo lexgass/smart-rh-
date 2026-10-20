@@ -1,6 +1,7 @@
 // Déclarations : bordereau CNSS, état mensuel ITS / TUS / TOL / CAMU, déclaration annuelle des salaires (DAS). Export Excel (CSV).
 const { all, get } = require('./db');
 const paie = require('./paie');
+const logo = require('./logo');
 
 module.exports = (app, h) => {
   const { e, fcfa, nb, dateFr, aujourdhui, MOIS, page, carte, tableau, kpi, aide, ic, imprimable } = h;
@@ -131,7 +132,7 @@ module.exports = (app, h) => {
     const num = (v, k) => (typeof v === 'number' && k > 1 ? `<td class="n">${fcfa(v)}</td>` : `<td>${e(v)}</td>`);
     res.send(imprimable(t.titre, `/declarations?onglet=${q.type}&periode=${q.periode}`, `
 
-      <div class="entete"><div><b>${e(s.nom)}</b><br>${e(s.ville)}<br>NIU ${e(s.niu)}<br>CNSS employeur ${e(s.cnss_employeur)}</div><div class="droite"><h1>${e(t.titre)}</h1>Édité le ${dateFr(aujourdhui())}</div></div>
+      <div class="entete"><div>${logo.balise(s.id)}<b>${e(s.nom)}</b><br>${e(s.ville)}<br>NIU ${e(s.niu)}<br>CNSS employeur ${e(s.cnss_employeur)}</div><div class="droite"><h1>${e(t.titre)}</h1>Édité le ${dateFr(aujourdhui())}</div></div>
       <table class="simple"><tr>${t.entetes.map((x, k) => `<th${k > 1 ? ' class="n"' : ''}>${e(x)}</th>`).join('')}</tr>${t.lignes.map((l) => `<tr>${l.map(num).join('')}</tr>`).join('')}</table>
       <p class="petit">Document préparé avec Smart RH à partir des bulletins calculés. Taux indicatifs, à vérifier avant dépôt.</p>
       <div class="signatures"><div>Établi par</div><div>Visa de l'employeur</div></div>`));

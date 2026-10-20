@@ -36,6 +36,7 @@ const REGLES = [
   ['*', /^\/journal(\/|$)/, 'journal'],
   ['*', /^\/regles(\/|$)/, 'regles'],
   ['*', /^\/societe\/parametres$/, 'societe.infos'],
+  ['POST', /^\/societe\/logo(\/|$)/, 'societe.infos'],
   ['POST', /^\/convention\/bareme\//, 'modele.modifier'],
   ['POST', /^\/convention\//, 'convention'],
   ['POST', /^\/structure\//, 'structure'],

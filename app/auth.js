@@ -109,7 +109,7 @@ for (const ancien of all('SELECT id FROM utilisateurs WHERE demo=1')) { fermerSe
 
 const CHEMINS_PUBLICS = ['/connexion', '/installation'];
 // pages accessibles sans société ouverte
-const SANS_SOCIETE = ['/societes', '/compte', '/deconnexion', '/utilisateurs', '/journal', '/sauvegardes', '/recherche'];
+const SANS_SOCIETE = ['/societes', '/compte', '/deconnexion', '/utilisateurs', '/journal', '/sauvegardes', '/recherche', '/societe/logo/'];
 const memeOrigine = (req) => { const o = req.headers.origin || req.headers.referer; if (!o) return false; try { return new URL(o).host === req.headers.host; } catch { return false; } };
 const egal = (a, b) => typeof a === 'string' && typeof b === 'string' && a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
 

@@ -47,6 +47,7 @@ Sous PM2 : `pm2 start ecosystem.config.js` (démonstration) ou `pm2 start ecosys
 | `auth.js` | Comptes, mots de passe, sessions, jeton anti-falsification, verrouillage, préférences d'affichage, utilisateurs |
 | `journal.js` | Journal des modifications, connexions et consultations |
 | `sauvegarde.js` | Sauvegardes chiffrées, quotidiennes et à la demande |
+| `logo.js` | Logo de chaque société : envoi (formulaire avec fichier), contrôle du format, affichage sur le bulletin et les documents |
 | `paie.js` | Moteur de paie (règles : société, puis convention, puis modèle national) |
 | `droits.js` | Droits selon la convention : essai, préavis, congés, indemnités, soldes |
 | `calendrier.js` | Jours fériés du Congo, jours ouvrables |

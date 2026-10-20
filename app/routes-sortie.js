@@ -2,6 +2,7 @@
 const { run, all, get } = require('./db');
 const paie = require('./paie');
 const droits = require('./droits');
+const logo = require('./logo');
 const { iso, jour, decale, joursOuvrables } = require('./calendrier');
 
 const MOTIFS = {
@@ -126,7 +127,7 @@ module.exports = (app, h) => {
     const so = s && get('SELECT * FROM sorties WHERE salarie_id=? ORDER BY id DESC LIMIT 1', s.id);
     return so ? { s, so } : null;
   };
-  const enteteSociete = (soc, titre, sous) => `<div class="entete"><div><b>${e(soc.nom)}</b><br>${e(soc.ville)}<br>NIU ${e(soc.niu)}, RCCM ${e(soc.rccm)}<br>CNSS employeur ${e(soc.cnss_employeur)}</div><div class="droite"><h1>${titre}</h1>${sous}</div></div>`;
+  const enteteSociete = (soc, titre, sous) => `<div class="entete"><div>${logo.balise(soc.id)}<b>${e(soc.nom)}</b><br>${e(soc.ville)}<br>NIU ${e(soc.niu)}, RCCM ${e(soc.rccm)}<br>CNSS employeur ${e(soc.cnss_employeur)}</div><div class="droite"><h1>${titre}</h1>${sous}</div></div>`;
 
   app.get('/salaries/:id/certificat', (req, res) => {
     const x = sortieDe(req); if (!x) return res.redirect('/salaries');
