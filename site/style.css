@@ -65,7 +65,7 @@ h1,h2,h3{ font-family:var(--titre); margin:0; letter-spacing:-.015em; line-heigh
 /* atouts : quatre points, sans cadre */
 .atouts{ list-style:none; margin:0; padding:0; display:grid; gap:24px 32px; }
 @media (min-width:640px){ .atouts{ grid-template-columns:1fr 1fr; } }
-@media (min-width:1000px){ .atouts{ grid-template-columns:repeat(4,1fr); } }
+@media (min-width:1000px){ .atouts{ grid-template-columns:repeat(3,1fr); } }
 .atouts li{ color:var(--n700); padding-top:14px; border-top:3px solid var(--raphia); }
 .atouts b{ display:block; font-family:var(--titre); font-size:18px; color:var(--foret); margin-bottom:4px; }
 
@@ -104,7 +104,8 @@ td.a{ color:var(--indigo-f); background:var(--indigo-cl); } td.b{ color:var(--fo
 .pied{ background:#0E2E26; color:#A9C2B8; padding:22px 0 88px; font-size:14px; }
 @media (min-width:860px){ .pied{ padding-bottom:22px; } }
 .pied a{ color:#E7EFEB; }
-.pied-int{ display:flex; flex-wrap:wrap; gap:10px 24px; align-items:center; justify-content:space-between; padding-right:76px; }
+.pied-int{ display:grid; gap:20px; }
+@media (min-width:760px){ .pied-int{ grid-template-columns:1.4fr 1fr 1fr; padding-right:76px; } }
 
 /* bouton WhatsApp flottant */
 .flottant{ position:fixed; right:16px; bottom:16px; z-index:60; width:56px; height:56px; border-radius:50%; background:var(--whatsapp); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px -6px rgba(0,0,0,.4); }
@@ -115,3 +116,29 @@ td.a{ color:var(--indigo-f); background:var(--indigo-cl); } td.b{ color:var(--fo
 .legal h1{ font-size:clamp(28px,5vw,40px); margin-bottom:24px; }
 .legal h2{ font-size:20px; margin:32px 0 8px; }
 .legal p, .legal li{ color:var(--n700); }
+
+/* version intermédiaire : blocs rétablis, sans surcharge */
+.surtitre{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7C5A12; margin:0 0 10px; }
+.hero .surtitre, .rdv .surtitre{ color:var(--raphia); }
+.pastilles{ list-style:none; padding:0; margin:26px 0 0; display:flex; flex-wrap:wrap; gap:10px 20px; font-size:15px; font-weight:600; color:#E7EFEB; }
+.pastilles li::before{ content:""; display:inline-block; width:8px; height:8px; background:var(--raphia); transform:rotate(45deg); border-radius:1.5px; margin-right:9px; vertical-align:2px; }
+.bande{ background:#FBF1DC; }
+.bande p{ margin:0; padding:24px 0; font-size:16.5px; max-width:82ch; }
+.section h2 + .atouts, .section h2 + .publics{ margin-top:0; }
+.apercus{ display:grid; gap:16px; margin-top:40px; }
+@media (min-width:760px){ .apercus{ grid-template-columns:1fr 1fr; } }
+.apercus figure{ margin:0; border-radius:14px; overflow:hidden; background:var(--fond); border:1px solid var(--n200); }
+.apercus figcaption{ padding:10px 14px; font-size:14px; font-weight:600; color:var(--n700); }
+.formule{ align-items:flex-start; padding:20px; }
+.formule .paie{ margin-top:8px; color:var(--encre); font-weight:700; font-size:15px; }
+.notes{ margin:16px 0 0; padding-left:18px; color:var(--n500); font-size:14.5px; display:flex; flex-direction:column; gap:4px; }
+.publics{ display:grid; gap:24px 32px; }
+@media (min-width:760px){ .publics{ grid-template-columns:repeat(3,1fr); } }
+.publics div{ padding-left:16px; border-left:3px solid var(--action); }
+.publics h3{ font-size:18px; margin-bottom:4px; }
+.publics p{ margin:0; color:var(--n700); }
+.etapes{ margin:16px 0 0; padding-left:22px; display:flex; flex-direction:column; gap:4px; color:#E7EFEB; font-weight:600; }
+.rdv-actions .discret{ font-size:13.5px; color:#A9C2B8; margin:4px 0 0; }
+.pied p{ margin:6px 0 0; }
+.coord{ display:flex; flex-direction:column; gap:4px; }
+.coord b{ color:#fff; font-size:13px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:2px; }

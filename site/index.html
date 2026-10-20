@@ -18,7 +18,7 @@
 <header class="barre">
   <div class="conteneur barre-int">
     <a href="#" class="marque" aria-label="Smart RH, accueil"><img src="img/logo.svg" alt="" width="32" height="32">Smart <b>RH</b></a>
-    <nav aria-label="Navigation principale" id="menu"><a href="#atouts">Atouts</a><a href="#offres">Offres</a><a href="#rendez-vous">Démonstration</a></nav>
+    <nav aria-label="Navigation principale" id="menu"><a href="#atouts">Fonctionnalités</a><a href="#offres">Offres</a><a href="#pour-qui">Pour qui</a><a href="#rendez-vous">Démonstration</a></nav>
     <a class="bouton or petit" href="#rendez-vous">Réserver une démo</a>
     <button class="burger" type="button" aria-controls="menu" aria-expanded="false" aria-label="Ouvrir le menu"><span></span></button>
   </div>
@@ -28,32 +28,46 @@
   <section class="hero">
     <div class="conteneur hero-int">
       <div>
+        <p class="surtitre">Logiciel de paie et RH · Congo-Brazzaville</p>
         <h1>La paie et les RH des PME congolaises, <em>enfin simples.</em></h1>
-        <p class="chapeau">Bulletins conformes à l'ITS, à la CNSS et à la CAMU, congés et déclarations. Installé chez vous, même sans internet.</p>
+        <p class="chapeau">Bulletins conformes à l'ITS, à la CNSS et à la CAMU, congés et déclarations. Smart RH fait les calculs, vous gardez la main. Installé chez vous, il fonctionne même sans internet.</p>
         <div class="actions"><a class="bouton or" href="#rendez-vous">Réserver une démonstration</a><a class="lien-clair" href="#offres">Voir les prix →</a></div>
+        <ul class="pastilles"><li>Toujours à jour des lois</li><li>Sans internet</li><li>Accompagnement inclus</li></ul>
       </div>
-      <figure class="cadre"><img src="img/tableau-de-bord.webp" alt="Tableau de bord de Smart RH" width="1280" height="720"></figure>
+      <figure class="cadre"><img src="img/tableau-de-bord.webp" alt="Tableau de bord de Smart RH : paie du mois, échéances, absences" width="1280" height="720"></figure>
     </div>
+  </section>
+
+  <section class="bande">
+    <div class="conteneur"><p><b>Sept prélèvements par bulletin</b> (CNSS, prestations familiales, accidents du travail, CAMU, TUS, TOL, ITS) et des règles qui changent chaque année : sur Excel, une erreur passe vite. Smart RH intègre chaque changement de loi pour vous.</p></div>
   </section>
 
   <section id="atouts" class="section">
     <div class="conteneur">
-      <h2>Ce que Smart RH fait pour vous</h2>
+      <p class="surtitre">Fonctionnalités</p>
+      <h2>Tout ce qu'il faut pour gérer le personnel</h2>
       <ul class="atouts">
-        <li><b>Une paie juste</b>ITS 2026, CNSS, CAMU, conventions collectives : tout est calculé.</li>
-        <li><b>Toujours à jour</b>Chaque changement de loi est intégré pour vous.</li>
-        <li><b>Sans internet</b>Installé sur votre serveur, sauvegardé chaque jour.</li>
-        <li><b>Pour tous</b>TPE, PME, cabinets comptables et structures de l'État.</li>
+        <li><b>Paie conforme</b>ITS 2026, CNSS, CAMU, TUS, heures supplémentaires et primes ; bulletins en PDF.</li>
+        <li><b>Conventions collectives</b>Commerce, BTP, Banques, Hôtellerie, Industrie : essai, préavis, ancienneté appliqués.</li>
+        <li><b>Congés et absences</b>Planning de l'équipe, jours fériés congolais, soldes calculés.</li>
+        <li><b>Déclarations</b>Bordereau CNSS, ITS et taxes DGI, déclaration annuelle, export Excel.</li>
+        <li><b>Plusieurs sociétés</b>Un cabinet gère tous ses clients, chacun avec ses règles et son logo.</li>
+        <li><b>Sûr, sans internet</b>Installé chez vous, sauvegardes chiffrées chaque jour, journal des actions.</li>
       </ul>
+      <div class="apercus">
+        <figure><img src="img/conges.webp" alt="Planning des congés de l'équipe" loading="lazy" width="1280" height="720"><figcaption>Le planning des congés</figcaption></figure>
+        <figure><img src="img/bulletin.webp" alt="Bulletin de paie détaillé" loading="lazy" width="1280" height="720"><figcaption>Le bulletin de paie</figcaption></figure>
+      </div>
     </div>
   </section>
 
   <section id="offres" class="section fond">
     <div class="conteneur">
+      <p class="surtitre">Offres 2026</p>
       <h2>Deux formules, des prix clairs</h2>
       <div class="formules">
-        <div class="formule a"><span class="lettre">A</span><div><h3>Sur votre serveur</h3><p>Vous payez l'abonnement annuel.</p></div></div>
-        <div class="formule b"><span class="lettre">B</span><div><h3>Avec notre serveur</h3><p>Le serveur une fois, puis l'abonnement annuel.</p></div></div>
+        <div class="formule a"><span class="lettre">A</span><div><h3>Sur votre serveur</h3><p>Vous avez déjà un serveur ou un ordinateur récent : nous y installons Smart RH et formons vos équipes.</p><p class="paie">Vous payez l'abonnement annuel.</p></div></div>
+        <div class="formule b"><span class="lettre">B</span><div><h3>Avec notre serveur</h3><p>Nous fournissons et installons un serveur dédié, avec sauvegarde et batterie contre les coupures. Il vous appartient.</p><p class="paie">Le serveur une fois, puis l'abonnement annuel.</p></div></div>
       </div>
       <p class="glisser" aria-hidden="true">Faites glisser le tableau →</p>
       <div class="tableau-defile" role="region" aria-label="Grille des prix en FCFA" tabindex="0">
@@ -62,27 +76,45 @@
             <tr><th>FCFA, hors taxes</th><th class="ga">A · abonnement par an</th><th class="gb">B · serveur, une fois</th><th class="gb">B · abonnement par an</th></tr>
           </thead>
           <tbody>
-            <tr><td><b>TPE</b><small>1 à 15 salariés</small></td><td class="a">180 000</td><td class="b">755 000</td><td class="b">180 000</td></tr>
-            <tr><td><b>PME</b><small>16 à 50 salariés</small></td><td class="a">420 000</td><td class="b">755 000</td><td class="b">420 000</td></tr>
-            <tr><td><b>PME</b><small>51 à 100 salariés</small></td><td class="a">780 000</td><td class="b">1 325 000</td><td class="b">780 000</td></tr>
-            <tr><td><b>État</b><small>par structure</small></td><td class="a">780 000</td><td class="b">1 325 000</td><td class="b">780 000</td></tr>
+            <tr><td><b>TPE</b><small>1 à 15 salariés</small></td><td class="a">180 000<small>ou 4 × 45 000</small></td><td class="b">755 000</td><td class="b">180 000<small>ou 4 × 45 000</small></td></tr>
+            <tr><td><b>PME</b><small>16 à 50 salariés</small></td><td class="a">420 000<small>ou 4 × 105 000</small></td><td class="b">755 000</td><td class="b">420 000<small>ou 4 × 105 000</small></td></tr>
+            <tr><td><b>PME</b><small>51 à 100 salariés</small></td><td class="a">780 000<small>ou 4 × 195 000</small></td><td class="b">1 325 000</td><td class="b">780 000<small>ou 4 × 195 000</small></td></tr>
+            <tr><td><b>Structure de l'État</b><small>par structure, jusqu'à 100 agents</small></td><td class="a">780 000<small>ou 4 × 195 000</small></td><td class="b">1 325 000</td><td class="b">780 000<small>ou 4 × 195 000</small></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note">Mises à jour, assistance et formation comprises. Abonnement payable en 1 ou 4 fois. État : 4 ans d'avance à −10 %.</p>
+      <ul class="notes">
+        <li>L'abonnement comprend les mises à jour quand la loi change, l'assistance, la maintenance et la formation. Il se paie en 1 fois ou en 4 fois.</li>
+        <li>Structures de l'État : 4 ans payés d'avance, 2 808 000 au lieu de 3 120 000 (−10 %). Plus de 100 salariés : sur devis.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="pour-qui" class="section">
+    <div class="conteneur">
+      <p class="surtitre">Pour qui</p>
+      <h2>Pensé pour les organisations congolaises</h2>
+      <div class="publics">
+        <div><h3>TPE et PME</h3><p>Commerces, services, BTP, hôtellerie : une paie juste chaque mois.</p></div>
+        <div><h3>Cabinets comptables</h3><p>Toutes vos sociétés clientes dans une seule installation, chacune cloisonnée.</p></div>
+        <div><h3>Structures de l'État</h3><p>Ministères et établissements publics : un engagement sur 4 ans, une seule dépense.</p></div>
+      </div>
     </div>
   </section>
 
   <section id="rendez-vous" class="section rdv">
     <div class="conteneur rdv-int">
       <div>
+        <p class="surtitre">Démonstration</p>
         <h2>Réservez votre démonstration</h2>
-        <p>30 minutes, en visio ou chez vous, sur vos propres cas de paie. Sans engagement.</p>
+        <p>30 minutes, en visio ou dans vos locaux à Brazzaville ou Pointe-Noire, sur vos propres cas de paie. Sans engagement.</p>
+        <ol class="etapes"><li>Choisissez un créneau libre</li><li>Recevez la confirmation par e-mail</li><li>Nous vous présentons Smart RH</li></ol>
         <p class="video">Pas encore prêt ? <a data-lien="video_fr" href="#" target="_blank" rel="noopener">Regardez la vidéo de 4 minutes</a> (<a data-lien="video_ln" href="#" target="_blank" rel="noopener">en lingala</a>).</p>
       </div>
       <div class="rdv-actions">
         <a class="bouton or grand" data-lien="cal" href="#" target="_blank" rel="noopener">Choisir un créneau</a>
         <a class="bouton whatsapp grand" data-lien="whatsapp" href="#" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+        <p class="discret">Les créneaux sont gérés par Cal.com. Vos coordonnées servent uniquement à organiser la démonstration.</p>
       </div>
     </div>
   </section>
@@ -90,9 +122,9 @@
 
 <footer class="pied">
   <div class="conteneur pied-int">
-    <span class="marque petite"><img src="img/logo.svg" alt="" width="24" height="24">Smart <b>RH</b></span>
-    <span class="coord"><a data-lien="email" data-texte="email" href="#">[E-mail]</a> · <span data-texte="telephone">[Téléphone]</span> · <span data-texte="adresse">Brazzaville</span></span>
-    <a href="mentions-legales.html">Mentions légales</a>
+    <div><span class="marque petite"><img src="img/logo.svg" alt="" width="24" height="24">Smart <b>RH</b></span><p>La paie et les RH des PME congolaises.</p></div>
+    <div class="coord"><b>Contact</b><a data-lien="email" data-texte="email" href="#">[E-mail]</a><span data-texte="telephone">[Téléphone]</span><span data-texte="adresse">[Adresse à Brazzaville]</span></div>
+    <div class="coord"><b>Informations</b><a href="mentions-legales.html">Mentions légales et confidentialité</a><span>© 2026 Smart RH</span></div>
   </div>
 </footer>
 

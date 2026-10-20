@@ -1,0 +1,47 @@
+# Smart RH, site vitrine : configuration Apache (hébergement mutualisé ou serveur dédié).
+# À déposer à la racine du site, avec index.html. Chaque bloc est ignoré si le module Apache correspondant manque.
+
+# HTTPS obligatoire (activer d'abord le certificat gratuit Let's Encrypt chez l'hébergeur)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# en-têtes de sécurité : aucun script ou style externe, pas d'intégration dans un autre site
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+</IfModule>
+
+# pages plus légères : compression du texte
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+</IfModule>
+
+# cache du navigateur : images et polices longtemps, pages toujours fraîches
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+AddType font/woff2 .woff2
+AddType image/webp .webp
+AddDefaultCharset utf-8
+Options -Indexes
+ErrorDocument 404 /index.html
+
+# fichiers internes jamais servis
+<FilesMatch "\.(md|bak|log)$">
+  Require all denied
+</FilesMatch>
