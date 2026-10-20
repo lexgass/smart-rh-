@@ -8,90 +8,86 @@
 @font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin.woff2') format('woff2');}
 @font-face{font-family:'Manrope';font-weight:400 800;src:url('../app/public/fonts/manrope-latin-ext.woff2') format('woff2');unicode-range:U+0100-024F,U+20A0-20CF;}
 :root{ --foret:#123F33; --action:#17694F; --action-cl:#E5F1EB; --raphia:#D9A441; --raphia-cl:#FBF1DC; --raphia-f:#7C5A12; --encre:#17211D; --n700:#3E4A45; --n500:#5E6A64; --n200:#E2E7E3; --n100:#EEF1EE; --fond:#F3F5F2; --rouge:#A12222; --rouge-cl:#FBE4E2; }
-@page{ size:A4; margin:12mm 14mm 12mm; }
+@page{ size:A4; margin:0; }
 *{ box-sizing:border-box; } html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-body{ margin:0; font-family:'Manrope','Segoe UI',sans-serif; color:var(--encre); font-size:8.8pt; line-height:1.4; }
+body{ margin:0; font-family:'Manrope','Segoe UI',sans-serif; color:var(--encre); font-size:10pt; line-height:1.45; }
 h1,h2{ font-family:'Sora','Segoe UI',sans-serif; margin:0; color:var(--foret); }
-.page{ display:block; }
+.page{ width:210mm; height:296mm; padding:14mm 16mm 11mm; display:flex; flex-direction:column; overflow:hidden; }
 .page > *{ flex-shrink:0; }
-.entete{ display:flex; justify-content:space-between; align-items:center; padding-bottom:3.5mm; margin-bottom:4.5mm; border-bottom:1px solid var(--n200); }
-.marque{ display:flex; align-items:center; gap:8px; font-family:'Sora'; font-weight:700; font-size:11pt; color:var(--foret); } .marque img{ width:22px; height:22px; border-radius:6px; } .marque b{ color:var(--raphia); }
+.entete{ display:flex; justify-content:space-between; align-items:center; padding-bottom:4mm; margin-bottom:6mm; border-bottom:1px solid var(--n200); }
+.marque{ display:flex; align-items:center; gap:8px; font-family:'Sora'; font-weight:700; font-size:12pt; color:var(--foret); } .marque img{ width:24px; height:24px; border-radius:6px; } .marque b{ color:var(--raphia); }
 .interne{ font-size:7.8pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--rouge); background:var(--rouge-cl); padding:1mm 3mm; border-radius:20px; }
-h1{ font-size:17pt; margin-bottom:1mm; } .sous{ color:var(--n700); margin:0 0 4mm; }
-h2{ font-size:10pt; margin:3.2mm 0 1.6mm; display:flex; align-items:center; gap:6px; }
-h2::before{ content:""; width:7px; height:7px; background:var(--raphia); transform:rotate(45deg); border-radius:1px; }
-table{ width:100%; border-collapse:collapse; font-size:8.3pt; }
-th{ text-align:left; font-size:7.1pt; text-transform:uppercase; letter-spacing:.05em; color:var(--n500); padding:1.2mm 2.5mm; background:var(--fond); }
-td{ padding:1.1mm 2.5mm; border-bottom:1px solid var(--n100); vertical-align:top; }
-td.n, th.n{ text-align:right; white-space:nowrap; } td small{ color:var(--n500); }
-.deux{ display:grid; grid-template-columns:1fr 1fr; gap:5mm; }
-.bloc{ break-inside:avoid; border-radius:10px; padding:3mm 4mm; background:var(--fond); }
-.bloc.or{ background:var(--raphia-cl); } .bloc.vert{ background:var(--action-cl); }
-.bloc ul, .bloc ol{ margin:0; padding-left:4.5mm; display:flex; flex-direction:column; gap:.8mm; }
-.bloc b.t{ display:block; font-family:'Sora'; color:var(--foret); margin-bottom:1.5mm; }
-.pied{ margin-top:6mm; padding-top:3mm; border-top:1px solid var(--n200); display:flex; justify-content:space-between; font-size:7.3pt; color:var(--n500); }
+h1{ font-size:20pt; margin-bottom:2mm; }
+.principe{ display:grid; grid-template-columns:repeat(3,1fr); gap:4mm; margin:4mm 0 5mm; }
+.principe div{ background:var(--fond); border-radius:10px; padding:3mm 4mm; }
+.principe b{ display:block; font-family:'Sora'; font-size:10pt; color:var(--foret); margin-bottom:.8mm; }
+.principe span{ font-size:9pt; color:var(--n700); }
+h2{ font-size:11.5pt; margin:0 0 2.5mm; display:flex; align-items:center; gap:7px; }
+h2::before{ content:""; width:8px; height:8px; background:var(--raphia); transform:rotate(45deg); border-radius:1px; }
+table{ width:100%; border-collapse:collapse; font-size:9.6pt; }
+th{ text-align:right; font-size:7.6pt; text-transform:uppercase; letter-spacing:.05em; color:var(--n500); padding:2mm 3mm; background:var(--fond); font-weight:700; }
+th:first-child{ text-align:left; }
+td{ padding:1.5mm 3mm; border-bottom:1px solid var(--n100); text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+td:first-child{ text-align:left; white-space:normal; }
+td small{ display:block; color:var(--n500); font-size:8pt; }
+tr.segment td{ background:var(--foret); color:#fff; font-family:'Sora'; font-weight:700; font-size:9.6pt; padding:1.4mm 3mm; text-align:left; }
+tr.segment td span{ font-family:'Manrope'; font-weight:500; color:#C9DAD2; font-size:8.5pt; margin-left:6px; }
+td.total{ font-family:'Sora'; font-weight:800; color:var(--foret); background:var(--action-cl); }
+.vide{ color:var(--n500); }
+.option{ margin-top:3mm; background:var(--raphia-cl); border-radius:10px; padding:3mm 4mm; font-size:9.3pt; }
+.option b{ color:var(--raphia-f); }
+.deux{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-top:4.5mm; }
+.bloc{ border-radius:10px; padding:3.5mm 4.5mm; background:var(--fond); }
+.bloc.or{ background:var(--raphia-cl); }
+.bloc b.t{ display:block; font-family:'Sora'; color:var(--foret); margin-bottom:1.5mm; font-size:10pt; }
+.bloc ul{ margin:0; padding-left:4.5mm; display:flex; flex-direction:column; gap:1mm; font-size:9.2pt; }
+.pied{ margin-top:auto; padding-top:3mm; border-top:1px solid var(--n200); display:flex; justify-content:space-between; font-size:7.5pt; color:var(--n500); }
 </style>
 </head>
 <body>
 <section class="page">
-  <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span class="interne">Document interne, ne pas diffuser</span></div>
+  <div class="entete"><div class="marque"><img src="../app/public/logo.svg" alt="">Smart <b>RH</b></div><span class="interne">Document interne</span></div>
   <h1>Synthèse des offres 2026</h1>
-  <p class="sous">Structure commerciale issue du message vocal du 18 octobre 2026, adaptée au Congo-Brazzaville, sans coûts fixes lourds. Prix hors taxes, en FCFA (1 € = 655,957 FCFA).</p>
+  <p style="margin:0;color:var(--n700)">Coûts pour le client, hors taxes, en FCFA. Tous les montants récurrents sont annuels.</p>
 
-  <h2>Le principe</h2>
-  <div class="deux">
-    <div class="bloc"><b class="t">Deux niveaux pour tous les segments</b><ul>
-      <li><b>Niveau 1, Logiciel</b> : Smart RH sur un poste existant du client.</li>
-      <li><b>Niveau 2, Clé en main</b> : niveau 1 + serveur, sauvegarde de secours, onduleur, installation sur site.</li>
-      <li><b>Option</b> : sauvegarde à distance chaque nuit, pour le niveau 2.</li>
-      <li>Maintenance, mises à jour légales, assistance et formation : <b>toujours comprises</b>.</li></ul></div>
-    <div class="bloc"><b class="t">Trois segments</b><ul>
-      <li><b>PME</b> : jusqu'à 50 salariés.</li>
-      <li><b>Grandes entreprises</b> : plus de 50 salariés, un ou plusieurs sites.</li>
-      <li><b>Administrations</b> : en plus, un engagement de 4 ans payé à la commande, contre le risque d'impayés.</li>
-      <li>Un seul logiciel à maintenir : seules les conditions commerciales changent.</li></ul></div>
+  <div class="principe">
+    <div><b>Niveau 1 · Logiciel</b><span>Smart RH sur l'ordinateur du client.</span></div>
+    <div><b>Niveau 2 · Clé en main</b><span>Niveau 1 + serveur, sauvegarde, onduleur, installation sur site.</span></div>
+    <div><b>Toujours inclus</b><span>Maintenance, mises à jour légales, assistance, formation.</span></div>
   </div>
 
-  <h2>Grille de prix</h2>
+  <h2>Ce que paie le client</h2>
   <table>
-    <tr><th>Segment</th><th>Offre</th><th class="n">Prix</th><th class="n">En euros</th></tr>
-    <tr><td rowspan="5"><b>PME</b><br><small>≤ 50 salariés</small></td><td>Essentiel (≤ 15 salariés)</td><td class="n">180 000 / an</td><td class="n">274 €</td></tr>
-    <tr><td>Pro (16 à 50 salariés)</td><td class="n">420 000 / an</td><td class="n">640 €</td></tr>
-    <tr><td>Pack matériel PME <small>(mini-serveur, disque 2 To chiffré, onduleur)</small></td><td class="n">605 000 une fois</td><td class="n">920 €</td></tr>
-    <tr><td>Installation et mise en route</td><td class="n">150 000 une fois</td><td class="n">229 €</td></tr>
-    <tr><td>Sauvegarde à distance</td><td class="n">10 000 / mois</td><td class="n">15 €</td></tr>
-    <tr><td rowspan="4"><b>Grandes entreprises</b><br><small>&gt; 50 salariés</small></td><td>Entreprise (≤ 100 salariés, au-delà sur devis)</td><td class="n">780 000 / an</td><td class="n">1 189 €</td></tr>
-    <tr><td>Pack matériel Entreprise <small>(serveur, NAS 2 × 4 To, onduleur)</small></td><td class="n">1 025 000 une fois</td><td class="n">1 560 €</td></tr>
-    <tr><td>Installation, mise en route et formation</td><td class="n">300 000 une fois</td><td class="n">457 €</td></tr>
-    <tr><td>Sauvegarde à distance</td><td class="n">20 000 / mois</td><td class="n">30 €</td></tr>
-    <tr><td rowspan="4"><b>Administrations</b><br><small>≤ 100 agents</small></td><td>Abonnement annuel</td><td class="n">780 000 / an</td><td class="n">1 189 €</td></tr>
-    <tr><td>Engagement 4 ans payé à la commande (−10 %)</td><td class="n">2 808 000 pour 4 ans</td><td class="n">4 281 €</td></tr>
-    <tr><td>Niveau 2 : matériel et installation</td><td class="n">1 325 000 une fois</td><td class="n">2 020 €</td></tr>
-    <tr><td>Sauvegarde à distance</td><td class="n">240 000 / an</td><td class="n">366 €</td></tr>
+    <tr><th>Offre</th><th>Chaque année</th><th>Une seule fois</th><th>Total 1re année</th></tr>
+    <tr class="segment"><td colspan="4">PME<span>jusqu'à 50 salariés</span></td></tr>
+    <tr><td>Essentiel, logiciel<small>jusqu'à 15 salariés</small></td><td>180 000</td><td class="vide">—</td><td class="total">180 000</td></tr>
+    <tr><td>Essentiel, clé en main</td><td>180 000</td><td>755 000</td><td class="total">935 000</td></tr>
+    <tr><td>Pro, logiciel<small>16 à 50 salariés</small></td><td>420 000</td><td class="vide">—</td><td class="total">420 000</td></tr>
+    <tr><td>Pro, clé en main</td><td>420 000</td><td>755 000</td><td class="total">1 175 000</td></tr>
+    <tr class="segment"><td colspan="4">Grandes entreprises<span>plus de 50 salariés ; au-delà de 100, sur devis</span></td></tr>
+    <tr><td>Entreprise, logiciel</td><td>780 000</td><td class="vide">—</td><td class="total">780 000</td></tr>
+    <tr><td>Entreprise, clé en main</td><td>780 000</td><td>1 325 000</td><td class="total">2 105 000</td></tr>
+    <tr class="segment"><td colspan="4">Administrations<span>jusqu'à 100 agents ; au-delà, sur devis</span></td></tr>
+    <tr><td>Abonnement annuel, logiciel</td><td>780 000</td><td class="vide">—</td><td class="total">780 000</td></tr>
+    <tr><td>Engagement 4 ans payé à la commande<small>−10 %, soit 702 000 par an</small></td><td class="vide">—</td><td>2 808 000</td><td class="total">2 808 000<small>couvre 4 ans</small></td></tr>
+    <tr><td>Clé en main<small>en plus de l'abonnement ou de l'engagement</small></td><td class="vide">—</td><td>1 325 000</td><td class="total">+ 1 325 000</td></tr>
   </table>
+  <div class="option"><b>Option sauvegarde à distance</b> (pour le niveau 2) : <b>120 000 par an</b> pour une PME, <b>240 000 par an</b> pour une grande entreprise ou une administration.</div>
 
-  <div class="deux" style="margin-top:3mm">
-    <div class="bloc"><b class="t">Origine des prix du matériel (prix publics en France)</b><ul>
-      <li>Onduleur APC Back-UPS 1 200 VA : <b>190 €</b> (relevé 169 à 230 €).</li>
-      <li>NAS Synology DS224+ avec 2 disques de 4 To : <b>720 €</b> (relevé 650 à 800 €).</li>
-      <li>Mini-serveur neuf i5, 16 Go, SSD 512 Go : <b>650 €</b>, estimation (seuls des prix d'occasion relevés, 190 à 505 €).</li>
-      <li>Disque externe 2 To : <b>80 €</b>, estimation.</li>
-      <li>Sauvegarde à distance : stockage Hetzner 1 To, environ 3,20 € par mois en 2025, en hausse en avril 2026 ; revendu 15 à 30 € par mois avec le suivi.</li></ul></div>
-    <div class="bloc vert"><b class="t">Rester léger (pas de gros coûts)</b><ul>
-      <li>Aucun stock : le matériel est acheté à la commande, avec l'acompte du client.</li>
-      <li>Pas de salariés au départ : techniciens partenaires payés à l'intervention.</li>
-      <li>Formation en petits groupes ; assistance à distance par WhatsApp.</li>
-      <li>Aucun serveur hébergé par nous : tout tourne chez le client.</li>
-      <li>Engagement 4 ans de l'État : 50 % à la commande, 50 % à la mise en service.</li></ul></div>
+  <div class="deux">
+    <div class="bloc"><b class="t">Pourquoi c'est rentable et léger</b><ul>
+      <li>Matériel acheté seulement à la commande, avec l'acompte du client.</li>
+      <li>Pas de salariés au départ : techniciens payés à l'intervention.</li>
+      <li>Tout tourne chez le client : aucun serveur à notre charge.</li>
+      <li>L'État paie 4 ans d'avance : 50 % à la commande, 50 % à la mise en service.</li></ul></div>
+    <div class="bloc or"><b class="t">À régler avant de diffuser</b><ul>
+      <li>Transport et douane du matériel : devis d'un fournisseur à Brazzaville.</li>
+      <li>Sauvegarde à distance : hébergement au Congo ou à l'étranger (loi n° 29-2019).</li>
+      <li>Taux de paie validés par l'expert-comptable.</li>
+      <li>Coordonnées à compléter sur la plaquette.</li></ul></div>
   </div>
 
-  <div class="bloc or" style="margin-top:3mm"><b class="t">À régler avant de diffuser la plaquette</b><ol>
-    <li><b>Transport et dédouanement</b> du matériel vers le Congo : non compris, devis d'un fournisseur à Brazzaville nécessaire.</li>
-    <li><b>Sauvegarde à distance</b> : serveur en Allemagne ; vérifier le transfert de données hors du Congo au regard de la loi n° 29-2019, ou choisir un hébergeur congolais.</li>
-    <li><b>Validation des taux de paie</b> par l'expert-comptable, avant d'annoncer une paie « conforme au droit congolais ».</li>
-    <li><b>Coordonnées</b> (téléphone, e-mail, adresse) à compléter en page 4 de la plaquette.</li></ol></div>
-
-  <div class="pied"><span>Smart RH — synthèse des offres, 18 octobre 2026</span><span>Document interne</span></div>
+  <div class="pied"><span>« Une seule fois » = matériel + installation, au prix public européen, hors transport et douane. 1 € = 655,957 FCFA.</span><span>Smart RH, 2026</span></div>
 </section>
 </body>
 </html>
