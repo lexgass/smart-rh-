@@ -1,0 +1,15 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+/* 1128 × 191 : sur ordinateur, le logo de la page recouvre le bas gauche ; le texte commence donc à 330 px */
+.motif{ --m:64px; -webkit-mask:linear-gradient(90deg,transparent 0 55%,#000 100%); mask:linear-gradient(90deg,transparent 0 55%,#000 100%); }
+.texte{ position:absolute; left:330px; top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; gap:10px; }
+h1{ font-size:31px; font-weight:800; }
+p{ font-size:15px; color:var(--clair); font-weight:600; display:flex; gap:14px; align-items:center; }
+p .losange{ width:7px; height:7px; }
+.bandeau{ position:absolute; left:0; right:0; bottom:0; height:6px; background:var(--raphia); }
+</style></head><body>
+<div class="toile"><div class="motif"></div>
+  <div class="texte"><h1>La paie et les RH des PME congolaises, <em>enfin simples.</em></h1>
+  <p>Paie conforme ITS · CNSS · CAMU <span class="losange"></span> Congés et déclarations <span class="losange"></span> Fonctionne sans internet</p></div>
+  <div class="bandeau"></div></div>
+</body></html>

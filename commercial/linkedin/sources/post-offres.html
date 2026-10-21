@@ -1,0 +1,33 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+/* 1080 × 1350 : publication portrait (la plus visible dans le fil sur téléphone) */
+.motif{ --m:90px; opacity:.22; -webkit-mask:radial-gradient(circle at 100% 0,#000,transparent 60%); mask:radial-gradient(circle at 100% 0,#000,transparent 60%); }
+.contenu{ position:absolute; inset:0; padding:90px 80px; display:flex; flex-direction:column; }
+.marque{ font-size:32px; }
+.sur{ margin-top:70px; font-size:21px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--raphia); }
+h1{ margin-top:16px; font-size:76px; font-weight:800; }
+.formules{ margin-top:56px; display:flex; flex-direction:column; gap:24px; }
+.formule{ border-radius:22px; padding:34px 36px; display:flex; gap:26px; align-items:flex-start; }
+.formule.a{ background:var(--indigo-cl); color:var(--indigo); }
+.formule.b{ background:var(--vert-cl); color:var(--foret); }
+.lettre{ flex-shrink:0; width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Sora'; font-weight:800; font-size:32px; background:var(--indigo); color:#fff; }
+.b .lettre{ background:var(--foret); color:var(--raphia); }
+.formule h2{ font-size:38px; font-weight:800; }
+.formule p{ margin-top:8px; font-size:24px; color:#3E4A45; line-height:1.4; }
+.prix{ margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; }
+.prix p{ font-size:28px; color:var(--clair); }
+.prix b{ display:block; font-family:'Sora'; font-size:60px; color:#fff; font-weight:800; }
+.bouton{ background:var(--raphia); color:var(--foret); font-weight:800; font-size:26px; padding:20px 30px; border-radius:16px; }
+</style></head><body>
+<div class="toile"><div class="motif"></div>
+  <div class="contenu">
+    <span class="marque"><img src="../../../app/public/logo.svg" alt="">Smart <b>RH</b></span>
+    <p class="sur">Nos offres 2026</p>
+    <h1>Deux formules,<br><em>des prix clairs.</em></h1>
+    <div class="formules">
+      <div class="formule a"><span class="lettre">A</span><div><h2>Sur votre serveur</h2><p>Nous installons Smart RH chez vous. Vous payez l'abonnement annuel.</p></div></div>
+      <div class="formule b"><span class="lettre">B</span><div><h2>Avec notre serveur</h2><p>Serveur, sauvegarde et batterie fournis et installés. Clé en main.</p></div></div>
+    </div>
+    <div class="prix"><p>À partir de<b>180 000 FCFA</b>par an, mises à jour comprises</p><span class="bouton">Demandez une démo</span></div>
+  </div></div>
+</body></html>
