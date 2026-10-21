@@ -25,6 +25,8 @@ npm run paquet
 - `npm run certificat` : crée le certificat HTTPS du serveur.
 - `npm run restaurer -- <copie> <nouvelle base>` : restaure une sauvegarde chiffrée.
 - `npm run paquet` : prépare `paquet/smart-rh` à livrer.
+- `npm run portable` : fabrique la version portable (lanceurs VBS, surveillance, Node inclus) et son zip.
+- `npm run surveillance` : lance Smart RH sous surveillance (relance automatique, journal `logs/surveillance-*.log`).
 
 Sous PM2 : `pm2 start ecosystem.config.js` (démonstration) ou `pm2 start ecosystem.config.js --env production`, puis `pm2 restart smart-rh` après une modification du code. Réglages : `config.js` et section 11 du guide de déploiement.
 
@@ -46,6 +48,7 @@ Sous PM2 : `pm2 start ecosystem.config.js` (démonstration) ou `pm2 start ecosys
 | `acces.js` | Les trois modes d'accès : table des droits, sociétés ouvertes à chaque compte |
 | `auth.js` | Comptes, mots de passe, sessions, jeton anti-falsification, verrouillage, préférences d'affichage, utilisateurs |
 | `journal.js` | Journal des modifications, connexions et consultations |
+| `journalisation.js` | Fichiers de log du jour : application, requêtes, erreurs, santé |
 | `sauvegarde.js` | Sauvegardes chiffrées, quotidiennes et à la demande |
 | `logo.js` | Logo de chaque société : envoi (formulaire avec fichier), contrôle du format, affichage sur le bulletin et les documents |
 | `paie.js` | Moteur de paie (règles : société, puis convention, puis modèle national) |

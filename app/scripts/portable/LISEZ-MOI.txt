@@ -1,0 +1,32 @@
+SMART RH — VERSION PORTABLE DE DÉMONSTRATION
+Gestion RH et paie pour les PME du Congo-Brazzaville
+
+DÉMARRER
+1. Décompressez le dossier (clic droit sur le zip, « Extraire tout »). Ne le lancez pas depuis l'intérieur du zip.
+2. Double-cliquez sur « Smart RH.vbs ». Aucune fenêtre noire ne s'ouvre : Smart RH tourne en arrière-plan.
+3. Le navigateur s'ouvre sur l'écran de connexion. Choisissez un mode de démonstration :
+   - Administrateur global : toutes les sociétés, les comptes, les sauvegardes ;
+   - Administrateur de société : une société, ses règles et ses comptes ;
+   - Utilisateur : la saisie courante (salariés, congés, paie).
+4. Pour arrêter : double-cliquez sur « Arrêter Smart RH.vbs ».
+
+Relancer « Smart RH.vbs » alors que Smart RH tourne déjà rouvre simplement le navigateur.
+Si Windows affiche « Windows a protégé votre ordinateur » : « Informations complémentaires », puis « Exécuter quand même ».
+Si le navigateur ne s'ouvre pas tout seul : http://localhost:4322
+
+SURVEILLANCE ET JOURNAUX
+- Smart RH est surveillé en permanence : s'il s'arrête ou ne répond plus pendant 45 secondes, il est relancé automatiquement.
+- Tout est enregistré dans le dossier donnees\logs, un fichier par jour, conservé 30 jours :
+  smart-rh-AAAA-MM-JJ.log      démarrage, arrêt, erreurs, connexions, sauvegardes, état de la mémoire
+  acces-AAAA-MM-JJ.log         chaque page ouverte, son temps de réponse et le compte connecté
+  surveillance-AAAA-MM-JJ.log  lancements, contrôles, relances et messages du serveur
+  preparation.log              préparation de la base de démonstration
+- En cas de problème, envoyez ces fichiers au support. Ils ne contiennent ni mot de passe ni contenu de formulaire.
+
+BON À SAVOIR
+- Rien n'est installé sur l'ordinateur et rien n'est envoyé sur internet : tout reste dans ce dossier.
+- Les sociétés et les salariés sont fictifs. Les taux de paie sont indicatifs, en attente de validation par un expert-comptable.
+- Les saisies sont conservées dans le dossier « donnees ». Pour repartir de la démonstration d'origine : arrêtez Smart RH, supprimez le dossier « donnees », relancez.
+- Configuration : Windows 10 ou 11, 64 bits.
+
+Node.js (fourni dans le dossier node) est distribué sous licence MIT : https://github.com/nodejs/node/blob/main/LICENSE

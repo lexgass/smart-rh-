@@ -199,6 +199,29 @@ Les évolutions de la base sont appliquées automatiquement au démarrage, sans 
 | Les autres postes n'accèdent pas | Vérifiez l'adresse IP, la règle de pare-feu (section 5) et que le poste serveur est allumé. |
 | Un compte est « Verrouillé » | Trop d'erreurs de mot de passe : il se débloque seul après 15 minutes, ou un administrateur le réactive dans Utilisateurs. |
 
+## 10 bis. Fichiers de log et surveillance
+
+Smart RH écrit un fichier de log par jour dans le dossier `logs`, à côté de la base, et le conserve 30 jours :
+
+| Fichier | Contenu |
+|---|---|
+| `smart-rh-AAAA-MM-JJ.log` | Démarrage (version, configuration), arrêts, erreurs avec leur origine, connexions et refus, sauvegardes, état de la mémoire toutes les 10 minutes, requêtes lentes |
+| `acces-AAAA-MM-JJ.log` | Chaque page : méthode, adresse (sans paramètres), statut, durée, compte, société, adresse IP |
+| `surveillance-AAAA-MM-JJ.log` | Version portable : lancements, contrôles, relances, messages du serveur |
+
+Les logs ne contiennent jamais de mot de passe, de jeton ni de contenu de formulaire.
+
+**Surveillance.**
+- Avec PM2 (installation chez un client), c'est PM2 qui relance Smart RH en cas d'arrêt.
+- Sans PM2, `npm run surveillance` lance Smart RH sous surveillance :
+  - une vérification toutes les 15 secondes ;
+  - une relance s'il s'arrête, ou s'il ne répond plus pendant 45 secondes ;
+  - un abandon après 10 relances en 10 minutes, pour éviter de tourner en boucle sur une panne permanente.
+
+  La version portable l'utilise automatiquement.
+
+**Version portable** : `npm run portable` fabrique `livraison/SmartRH-portable` et son zip. On démarre Smart RH avec « Smart RH.vbs », sans fenêtre noire, et on l'arrête avec « Arrêter Smart RH.vbs ».
+
 ## 11. Réglages (variables d'environnement)
 
 | Variable | Rôle | Valeur par défaut |
@@ -208,6 +231,8 @@ Les évolutions de la base sont appliquées automatiquement au démarrage, sans 
 | `SMART_RH_DB` | Fichier de la base | `smart-rh.db` dans le dossier |
 | `SMART_RH_SAUVEGARDES` | Dossier des sauvegardes | `sauvegardes` dans le dossier |
 | `SMART_RH_CONSERVATION` | Jours de conservation des sauvegardes | 14 |
+| `SMART_RH_LOGS` | Dossier des fichiers de log | `logs` à côté de la base |
+| `SMART_RH_LOGS_JOURS` | Jours de conservation des fichiers de log | 30 |
 | `SMART_RH_CLE_SAUVEGARDE` | Fichier de la clé de chiffrement des sauvegardes | `cle-sauvegarde.txt` à côté de la base |
 | `SMART_RH_INACTIVITE_MINUTES` | Fermeture d'une session sans activité | 30 |
 | `SMART_RH_SESSION_HEURES` | Durée maximale d'une session | 12 |

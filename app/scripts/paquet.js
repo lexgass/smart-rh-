@@ -5,7 +5,7 @@ const path = require('node:path');
 
 const racine = path.join(__dirname, '..');
 const cible = path.join(racine, 'paquet', 'smart-rh');
-const exclus = new Set(['node_modules', 'paquet', 'sauvegardes', '.git', 'certificat', 'cle-sauvegarde.txt', 'demo']);
+const exclus = new Set(['node_modules', 'paquet', 'sauvegardes', '.git', 'certificat', 'cle-sauvegarde.txt', 'demo', 'logs']);
 const exclu = (nom) => exclus.has(nom) || /\.db(-journal|-wal|-shm)?$/.test(nom);
 
 fs.rmSync(cible, { recursive: true, force: true });

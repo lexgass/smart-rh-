@@ -31,6 +31,8 @@ function noter(req, action, o = {}) {
   try {
     run('INSERT INTO journal(date,utilisateur_id,utilisateur,societe_id,action,chemin,ip) VALUES(?,?,?,?,?,?,?)', new Date().toISOString(), u?.id || null, u ? `${u.nom} (${u.email})` : String(o.qui || '').slice(0, 120), o.societeId !== undefined ? o.societeId : req.societe?.id || null, action, req.originalUrl.slice(0, 200), ipDe(req));
   } catch { /* le journal ne doit jamais bloquer l'action elle-même */ }
+  // copie dans le fichier de log (sécurité et traçabilité, lisible même si la base est inaccessible)
+  require('./journalisation').log.securite(action, { u: u?.id || null, compte: u?.email || (o.qui ? String(o.qui).slice(0, 120) : null), soc: o.societeId !== undefined ? o.societeId : req.societe?.id || null, p: req.path, ip: ipDe(req) });
 }
 
 // consultations tracées : données personnelles, bulletins, déclarations et documents de sortie

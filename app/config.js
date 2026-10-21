@@ -12,6 +12,9 @@ module.exports = {
   base: process.env.SMART_RH_DB || path.join(__dirname, 'smart-rh.db'),
   // sauvegardes automatiques, chiffrées avec la clé du fichier « cle-sauvegarde.txt » (créée au premier lancement)
   dossierSauvegardes: process.env.SMART_RH_SAUVEGARDES || path.join(__dirname, 'sauvegardes'),
+  // fichiers de log (un par jour) : application, requêtes, surveillance ; conservés N jours
+  dossierLogs: process.env.SMART_RH_LOGS || path.join(dossier, 'logs'),
+  joursLogs: Number(process.env.SMART_RH_LOGS_JOURS) || 30,
   joursConservation: Number(process.env.SMART_RH_CONSERVATION) || 14,
   cleSauvegarde: process.env.SMART_RH_CLE_SAUVEGARDE || path.join(dossier, 'cle-sauvegarde.txt'),
   // sessions : fermées après une période sans activité, et dans tous les cas après une durée maximale

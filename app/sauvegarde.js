@@ -65,7 +65,9 @@ function planifier() {
   const verifier = () => {
     const jour = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     if (!lister().some((s) => s.nom.startsWith(`smart-rh-${jour}`))) {
-      try { console.log(`Sauvegarde automatique : ${sauvegarder()}`); } catch (err) { console.error('Sauvegarde automatique impossible :', err.message); }
+      const { log } = require('./journalisation');
+      try { const nom = sauvegarder(); console.log(`Sauvegarde automatique : ${nom}`); log.info('Sauvegarde automatique', { fichier: nom }); }
+      catch (err) { console.error('Sauvegarde automatique impossible :', err.message); log.erreur('Sauvegarde automatique impossible', { erreur: err.message }); }
     }
   };
   setTimeout(verifier, 5000).unref();

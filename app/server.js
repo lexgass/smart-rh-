@@ -7,6 +7,7 @@ const acces = require('./acces');
 const journal = require('./journal');
 const sauvegarde = require('./sauvegarde');
 const logo = require('./logo');
+const journalisation = require('./journalisation');
 const paie = require('./paie');
 const droits = require('./droits');
 
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h' }));
+app.use(journalisation.acces); // une ligne par requête (les fichiers statiques ne sont pas tracés)
+
 app.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
 app.use(express.urlencoded({ extended: false, limit: '200kb', parameterLimit: 5000 }));
 app.use(logo.lireMultipart); // formulaires avec fichier (logo de la société)
@@ -678,6 +681,7 @@ app.use((req, res) => {
 });
 app.use((err, req, res, next) => {
   console.error(new Date().toISOString(), req.method, req.originalUrl, err);
+  journalisation.log.erreur('Erreur inattendue dans une page', { m: req.method, p: req.path, u: req.user?.id || null, erreur: err.message, pile: err.stack?.split('\n').slice(0, 6).join(' / ') });
   if (res.headersSent) return next(err);
   const corps = carte('', `<div class="etat-vide">${ic('alerte')}<p>Une erreur inattendue s'est produite. L'action n'a peut-être pas été enregistrée : vérifiez avant de recommencer. Si le problème persiste, transmettez l'heure exacte à votre support.</p><a class="bouton secondaire" href="/">Revenir au tableau de bord</a></div>`);
   try { res.status(500).send(req.user ? page(req, { titre: 'Erreur' }, corps) : 'Erreur inattendue.'); } catch { res.status(500).send('Erreur inattendue.'); }
@@ -694,12 +698,26 @@ function optionsHttps() {
 
 // démarrage (node server.js, ou scripts/demo.js pour la base de démonstration)
 function demarrer() {
-  if (!config.https && config.hote !== '127.0.0.1' && config.hote !== 'localhost' && !config.proxy) console.warn('ATTENTION : Smart RH est ouvert au réseau sans HTTPS. Les mots de passe et les salaires circulent en clair. Lancez « npm run certificat » puis activez SMART_RH_HTTPS=1.');
-  const serveur = config.https ? require('node:https').createServer({ ...optionsHttps(), minVersion: 'TLSv1.2' }, app) : require('node:http').createServer(app);
+  const memoire = journalisation.installer();
+  const version = require('./package.json').version;
+  if (!config.https && config.hote !== '127.0.0.1' && config.hote !== 'localhost' && !config.proxy) {
+    console.warn('ATTENTION : Smart RH est ouvert au réseau sans HTTPS. Les mots de passe et les salaires circulent en clair. Lancez « npm run certificat » puis activez SMART_RH_HTTPS=1.');
+    journalisation.log.alerte('Ouvert au réseau sans HTTPS', { hote: config.hote });
+  }
+  let serveur;
+  try {
+    serveur = config.https ? require('node:https').createServer({ ...optionsHttps(), minVersion: 'TLSv1.2' }, app) : require('node:http').createServer(app);
+  } catch (err) { journalisation.log.erreur('Démarrage impossible', { erreur: err.message }); throw err; }
+  serveur.on('error', (err) => {
+    journalisation.log.erreur(err.code === 'EADDRINUSE' ? `Port ${config.port} déjà utilisé : une autre copie de Smart RH tourne peut-être` : 'Erreur du serveur', { code: err.code, erreur: err.message });
+    console.error(err.message);
+    process.exit(1);
+  });
   // délais : une connexion lente ou abandonnée ne monopolise pas le serveur
   Object.assign(serveur, { requestTimeout: 30e3, headersTimeout: 15e3, keepAliveTimeout: 5e3 });
   serveur.listen(config.port, config.hote, () => {
     console.log(`Smart RH ${acces.donneesFictives() ? '(base de démonstration) ' : ''}: ${config.https ? 'https' : 'http'}://${config.hote === '0.0.0.0' ? 'localhost' : config.hote}:${config.port}`);
+    journalisation.log.info('Démarrage', { version, node: process.version, pid: process.pid, adresse: `${config.https ? 'https' : 'http'}://${config.hote}:${config.port}`, base: config.base, demonstration: acces.donneesFictives(), inactivite_min: config.minutesInactivite, logs: config.dossierLogs, ...memoire() });
     sauvegarde.planifier();
   });
   return serveur;
