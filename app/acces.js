@@ -25,6 +25,8 @@ const DROITS = {
   structure: ['admin', 'societe'],
   sorties: ['admin', 'societe'],
   'donnees.personnelles': ['admin', 'societe'],
+  modeles: ['admin', 'societe'], // modèles de documents (contrats, lettres) : création, modification, suppression
+  'documents.supprimer': ['admin', 'societe'],
 };
 const peut = (req, droit) => Boolean(req.profil && DROITS[droit]?.includes(req.profil));
 
@@ -42,6 +44,9 @@ const REGLES = [
   ['POST', /^\/structure\//, 'structure'],
   ['*', /^\/salaries\/\d+\/sortie$/, 'sorties'],
   ['*', /^\/salaries\/\d+\/donnees$/, 'donnees.personnelles'],
+  ['GET', /^\/documents\/modeles\/(nouveau|\d+\/modifier)$/, 'modeles'],
+  ['POST', /^\/documents\/modeles(\/|$)/, 'modeles'],
+  ['POST', /^\/documents\/\d+\/supprimer$/, 'documents.supprimer'],
 ];
 const droitRequis = (req) => REGLES.find(([m, motif]) => (m === '*' || m === req.method) && motif.test(req.path))?.[2] || null;
 

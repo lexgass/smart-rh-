@@ -51,6 +51,9 @@ Sous PM2 : `pm2 start ecosystem.config.js` (démonstration) ou `pm2 start ecosys
 | `journalisation.js` | Fichiers de log du jour : application, requêtes, erreurs, santé |
 | `sauvegarde.js` | Sauvegardes chiffrées, quotidiennes et à la demande |
 | `logo.js` | Logo de chaque société : envoi (formulaire avec fichier), contrôle du format, affichage sur le bulletin et les documents |
+| `metiers.js` | Référentiel des métiers (147 métiers en 15 familles, plage de niveaux) : on choisit le métier, seules les catégories correspondantes sont proposées |
+| `documents.js` | Gestion documentaire : modèles (rédigés ou collés depuis Word, nettoyés), logo, en-tête et pied de page, rédaction pour un salarié avec champs automatiques, impression, pièces déposées (PDF ou image, 5 Mo), état du document |
+| `documents-modeles.js` | Types de documents de la vie du salarié (42, de l'embauche à la sortie), champs de fusion, 20 modèles fournis (indicatifs, à faire relire par un juriste) |
 | `paie.js` | Moteur de paie (règles : société, puis convention, puis modèle national) |
 | `droits.js` | Droits selon la convention : essai, préavis, congés, indemnités, soldes |
 | `calendrier.js` | Jours fériés du Congo, jours ouvrables |

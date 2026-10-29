@@ -7,6 +7,8 @@ const acces = require('./acces');
 const journal = require('./journal');
 const sauvegarde = require('./sauvegarde');
 const logo = require('./logo');
+const metiers = require('./metiers');
+
 const journalisation = require('./journalisation');
 const paie = require('./paie');
 const droits = require('./droits');
@@ -86,6 +88,7 @@ const MENU = [
   ['Pilotage', [['/', 'Tableau de bord', 'grille'], ['/analyses', 'Vue d\'ensemble', 'tendance']]],
   ['Personnel', [['/salaries', 'Salariés', 'equipe'], ['/embauche', 'Embauche', 'ajout'], ['/conges', 'Congés et absences', 'soleil'], ['/dotations', 'Dotations', 'colis']]],
   ['Paie', [['/variables', 'Éléments variables', 'horloge'], ['/paie', 'Paie du mois', 'paie'], ['/declarations', 'Déclarations', 'document'], ['/regles', 'Règles de paie', 'reglages', 'regles']]],
+  ['Documents', [['/documents', 'Gestion documentaire', 'document']]],
   ['Société', [['/structure', 'Structure', 'grille'], ['/convention', 'Convention collective', 'balance'], ['/societe/parametres', 'Informations légales', 'document', 'societe.infos']]],
   ['Administration', [['/utilisateurs', 'Utilisateurs', 'equipe', 'comptes'], ['/journal', 'Journal', 'horloge', 'journal'], ['/sauvegardes', 'Sauvegardes', 'telecharger', 'sauvegardes']]],
 ];
@@ -360,19 +363,44 @@ app.get('/structure', (req, res) => {
   const sid = req.societe.id;
   const deps = all('SELECT d.*, (SELECT COUNT(*) FROM postes WHERE departement_id=d.id) n FROM departements d WHERE societe_id=? ORDER BY nom', sid);
   const cats = all('SELECT * FROM categories WHERE societe_id=? ORDER BY code', sid);
-  const postes = all('SELECT p.*, d.nom dep, c.code cat, c.libelle catlib, (SELECT COUNT(*) FROM salaries WHERE poste_id=p.id) occ FROM postes p LEFT JOIN departements d ON d.id=p.departement_id LEFT JOIN categories c ON c.id=p.categorie_id WHERE p.societe_id=? ORDER BY d.nom, p.intitule', sid);
+  const postes = all('SELECT p.*, d.nom dep, c.code cat, c.libelle catlib, m.libelle metier, (SELECT COUNT(*) FROM salaries WHERE poste_id=p.id) occ FROM postes p LEFT JOIN departements d ON d.id=p.departement_id LEFT JOIN categories c ON c.id=p.categorie_id LEFT JOIN metiers m ON m.id=p.metier_id WHERE p.societe_id=? ORDER BY d.nom, p.intitule', sid);
   res.send(page(req, { titre: 'Structure de la société', sous: 'Départements, catégories professionnelles et postes. Les postes servent ensuite à l\'embauche.' }, `
   <div class="disposition d-1-1-1">
     ${carte(`Départements <span class="compteur">${deps.length}</span>`, `${tableau(['Nom', '+Postes'], deps.map((d) => `<tr><td>${e(d.nom)}</td><td class="n">${d.n}</td></tr>`))}
       <form method="post" action="/structure/departement" class="form-ajout"><input name="nom" required placeholder="Nouveau département" aria-label="Nom du nouveau département"><button class="bouton secondaire">Ajouter</button></form>`)}
     ${carte(`Catégories <span class="compteur">${cats.length}</span>${aide('Classement prévu par la convention collective. Chaque catégorie a un salaire minimum.')}`, `${tableau(['Code', 'Libellé', '+Minimum'], cats.map((c) => `<tr><td><span class="code">${e(c.code)}</span></td><td>${e(c.libelle)}</td><td class="n">${fcfa(c.salaire_min)}</td></tr>`))}
       <form method="post" action="/structure/categorie" class="form-ajout"><input name="code" required placeholder="Code" aria-label="Code" class="court"><input name="libelle" required placeholder="Libellé" aria-label="Libellé"><input name="salaire_min" type="number" min="0" required placeholder="Minimum" aria-label="Salaire minimum en FCFA" class="moyen"><button class="bouton secondaire">Ajouter</button></form>`)}
-    ${carte(`Ajouter un poste`, `<form method="post" action="/structure/poste" class="form-pile"><label>Intitulé du poste<input name="intitule" required placeholder="Ex. : Caissier"></label>
+    ${carte(`Ajouter un poste${aide('Choisissez le métier : seules les catégories de la convention qui lui correspondent sont proposées. L\'intitulé reprend le métier, vous pouvez le préciser.')}`, `<form method="post" action="/structure/poste" class="form-pile">
+      ${champsMetier(sid)}
       <label>Département<select name="departement_id" required>${options(deps, 'id', 'nom')}</select></label>
-      <label>Catégorie<select name="categorie_id" required>${options(cats, 'id', (c) => `${c.code} — ${c.libelle}`)}</select></label><button class="bouton">${ic('plus')}Ajouter le poste</button></form>`)}
+      <button class="bouton">${ic('plus')}Ajouter le poste</button></form>`)}
   </div>
-  ${carte(`Postes <span class="compteur">${postes.length}</span>`, tableau(['Intitulé', 'Département', 'Catégorie', '+Occupé par'], postes.map((p) => `<tr><td><b>${e(p.intitule)}</b></td><td>${e(p.dep)}</td><td><span class="code">${e(p.cat)}</span> ${e(p.catlib)}</td><td class="n">${p.occ} salarié${p.occ > 1 ? 's' : ''}</td></tr>`)))}`));
+  ${carte(`Postes <span class="compteur">${postes.length}</span>`, tableau(['Intitulé', 'Métier', 'Département', 'Catégorie', '+Occupé par'], postes.map((p) => `<tr><td><b>${e(p.intitule)}</b></td><td class="discret">${e(p.metier || '—')}</td><td>${e(p.dep)}</td><td><span class="code">${e(p.cat)}</span> ${e(p.catlib)}</td><td class="n">${p.occ} salarié${p.occ > 1 ? 's' : ''}</td></tr>`)))}
+  ${acces.peut(req, 'structure') ? carte(`Ajouter un métier absent de la liste${aide('Le référentiel contient une centaine de métiers. Ajoutez ici un métier propre à votre activité, avec les niveaux de catégorie qui lui correspondent.')}`, `<form method="post" action="/structure/metier" class="form-ligne" id="metiers">
+      <label>Métier<input name="libelle" required maxlength="120" placeholder="Ex. : Agent de pesage"></label>
+      <label>Famille<input name="famille" maxlength="80" placeholder="Ex. : Logistique et transport"></label>
+      <label>Niveau minimum<input name="niveau_min" type="number" min="1" max="20" value="1" required></label>
+      <label>Niveau maximum<input name="niveau_max" type="number" min="1" max="20" value="4" required></label>
+      <button class="bouton secondaire">${ic('plus')}Ajouter le métier</button></form>`) : ''}
+  <script src="/metiers.js"></script>`));
 });
+
+// choix du métier puis de la catégorie (catégories filtrées selon le métier, chargées par /metiers.js)
+const champsMetier = (sid, facultatif = false) => `<div class="bloc-metier" data-bloc-metier>
+  <label>Métier<select name="metier_id" data-metier${facultatif ? '' : ' required'}><option value="">Choisir un métier…</option>${metiers.options(sid)}</select></label>
+  <label>Intitulé du poste <small class="discret">(repris du métier, modifiable)</small><input name="intitule" maxlength="120" data-intitule${facultatif ? '' : ' required'} placeholder="Ex. : Caissier principal"></label>
+  <label>Catégorie<select name="categorie_id" data-categories${facultatif ? '' : ' required'}><option value="">Choisissez d'abord le métier</option></select></label>
+  <p class="discret petit-texte" data-plage hidden></p></div>`;
+
+// création d'un poste à partir du métier choisi (structure et embauche) ; renvoie le poste ou null
+function creerPoste(sid, b) {
+  const m = metiers.metier(sid, b.metier_id);
+  const intitule = texte(b.intitule) || m?.libelle || '';
+  const dep = get('SELECT id FROM departements WHERE id=? AND societe_id=?', Number(b.departement_id), sid), cat = get('SELECT id FROM categories WHERE id=? AND societe_id=?', Number(b.categorie_id), sid);
+  if (!intitule || !dep || !cat) return null;
+  const id = Number(run('INSERT INTO postes(societe_id,departement_id,categorie_id,intitule,metier_id) VALUES(?,?,?,?,?)', sid, dep.id, cat.id, intitule, m?.id || null).lastInsertRowid);
+  return get('SELECT * FROM postes WHERE id=?', id);
+}
 app.post('/structure/departement', (req, res) => { const nom = texte(req.body.nom); if (nom) run('INSERT INTO departements(societe_id,nom) VALUES(?,?)', req.societe.id, nom); res.redirect('/structure'); });
 app.post('/structure/categorie', (req, res) => {
   const code = texte(req.body.code, 20), libelle = texte(req.body.libelle);
@@ -380,10 +408,8 @@ app.post('/structure/categorie', (req, res) => {
   res.redirect('/structure');
 });
 app.post('/structure/poste', (req, res) => {
-  const sid = req.societe.id, intitule = texte(req.body.intitule);
-  // le département et la catégorie doivent appartenir à la société ouverte
-  const dep = get('SELECT id FROM departements WHERE id=? AND societe_id=?', Number(req.body.departement_id), sid), cat = get('SELECT id FROM categories WHERE id=? AND societe_id=?', Number(req.body.categorie_id), sid);
-  if (intitule && dep && cat) run('INSERT INTO postes(societe_id,departement_id,categorie_id,intitule) VALUES(?,?,?,?)', sid, dep.id, cat.id, intitule);
+  // le métier, le département et la catégorie doivent appartenir à la société ouverte (ou au référentiel)
+  creerPoste(req.societe.id, req.body);
   res.redirect('/structure');
 });
 
@@ -477,7 +503,7 @@ app.get('/salaries/:id', (req, res) => {
   const absences = all('SELECT * FROM conges WHERE salarie_id=? ORDER BY date_debut DESC LIMIT 5', s.id);
   const TYPES_ABS = require('./routes-conges').TYPES;
   const actions = s.statut === 'Actif'
-    ? `<div class="groupe-actions"><a class="bouton secondaire" href="/salaries/${s.id}/modifier">${ic('reglages')}Modifier</a><a class="bouton secondaire" href="/dotations?salarie=${s.id}#remise">${ic('colis')}Remettre du matériel</a>${acces.peut(req, 'sorties') ? `<a class="bouton fantome" href="/salaries/${s.id}/sortie">${ic('sortie')}Organiser la sortie</a>` : ''}${acces.peut(req, 'donnees.personnelles') ? `<a class="bouton fantome" href="/salaries/${s.id}/donnees" data-bulle="Toutes les données enregistrées sur ce salarié, pour répondre à une demande d'accès (loi n° 29-2019).">${ic('telecharger')}Données personnelles</a>` : ''}</div>`
+    ? `<div class="groupe-actions"><a class="bouton secondaire" href="/salaries/${s.id}/modifier">${ic('reglages')}Modifier</a><a class="bouton secondaire" href="/salaries/${s.id}/documents/nouveau?type=${s.type === 'CDD' ? 'contrat_cdd' : 'contrat_cdi'}">${ic('imprimer')}Imprimer le contrat</a><a class="bouton secondaire" href="/dotations?salarie=${s.id}#remise">${ic('colis')}Remettre du matériel</a>${acces.peut(req, 'sorties') ? `<a class="bouton fantome" href="/salaries/${s.id}/sortie">${ic('sortie')}Organiser la sortie</a>` : ''}${acces.peut(req, 'donnees.personnelles') ? `<a class="bouton fantome" href="/salaries/${s.id}/donnees" data-bulle="Toutes les données enregistrées sur ce salarié, pour répondre à une demande d'accès (loi n° 29-2019).">${ic('telecharger')}Données personnelles</a>` : ''}</div>`
     : `<div class="groupe-actions"><a class="bouton secondaire" href="/salaries/${s.id}/certificat">${ic('document')}Certificat de travail</a><a class="bouton secondaire" href="/salaries/${s.id}/solde">${ic('imprimer')}Solde de tout compte</a></div>`;
   res.send(page(req, { titre: 'Fiche salarié', fil: `Salariés / ${s.prenom} ${s.nom}`, action: actions }, `
   <section class="carte entete-salarie"><span class="avatar grand">${initiales(s.prenom, s.nom)}</span>
@@ -504,6 +530,7 @@ app.get('/salaries/:id', (req, res) => {
     ${carte('Matériel remis', tableau(['Matériel', '+Qté', 'Remis le', 'Situation'], dot.map((d) => `<tr><td>${e(d.designation)}</td><td class="n">${d.quantite}</td><td>${dateFr(d.date_remise)}</td><td>${d.date_retour ? `<span class="discret">Rendu le ${dateFr(d.date_retour)}</span>` : '<span class="et vert">En possession</span>'}</td></tr>`), 'Aucun matériel remis.'))}
     ${carte('Bulletins de paie', tableau(['Période', '+Brut', '+Net à payer', ''], bul.map((b) => `<tr><td>${periodeFr(b.periode)}</td><td class="n">${fcfa(b.brut)}</td><td class="n"><b>${fcfa(b.net)}</b></td><td class="n"><a href="/paie/bulletin/${b.id}">Ouvrir</a></td></tr>`), 'Aucun bulletin calculé.'))}
   </div>
+  ${h.carteDocuments(req, s)}
   ${carte('Historique', `<ol class="frise">${ev.map((x) => `<li><span class="point"></span><div><b>${e(x.type)}</b><span>${e(x.detail)}</span></div><time>${dateFr(x.date)}</time></li>`).join('')}</ol>`)}`));
 });
 
@@ -512,7 +539,8 @@ app.get('/embauche', (req, res) => {
   const sid = req.societe.id, jour = aujourdhui();
   const postes = all('SELECT p.id, p.intitule, d.nom dep, c.code cat, c.salaire_min, c.niveau FROM postes p LEFT JOIN departements d ON d.id=p.departement_id LEFT JOIN categories c ON c.id=p.categorie_id WHERE p.societe_id=? ORDER BY p.intitule', sid);
   const smig = paie.param('SMIG', sid, jour);
-  if (!postes.length) return res.send(page(req, { titre: 'Embauche' }, carte('', '<div class="etat-vide">Créez d\'abord un poste dans <a href="/structure">Structure</a>.</div>')));
+  const deps = all('SELECT id, nom FROM departements WHERE societe_id=? ORDER BY nom', sid);
+  if (!deps.length || !get('SELECT id FROM categories WHERE societe_id=?', sid)) return res.send(page(req, { titre: 'Embauche' }, carte('', '<div class="etat-vide">Créez d\'abord au moins un département et une catégorie dans <a href="/structure">Structure</a>.</div>')));
   res.send(page(req, { titre: 'Embaucher un salarié', sous: 'Trois étapes. Le contrat, la période d\'essai et la fiche salarié sont créés à l\'enregistrement.' }, `
   <div class="disposition d-2-1">
   <form method="post" action="/embauche" class="carte assistant" novalidate>
@@ -525,11 +553,12 @@ app.get('/embauche', (req, res) => {
       <label>Enfants à charge ${aide('Chaque enfant à charge ajoute une demi-part, dans la limite de 6,5 parts.')}<input name="enfants" type="number" min="0" value="0" required></label>
       <label>Numéro CNSS ${aide('Facultatif à l\'embauche : l\'immatriculation peut être faite ensuite.')}<input name="num_cnss"></label><label>Téléphone<input name="telephone" type="tel"></label></div></fieldset>
     <fieldset data-pas="1" hidden><legend>Poste et contrat</legend><div class="champs">
-      <label class="large">Poste<select name="poste_id">${postes.map((p) => `<option value="${p.id}" data-min="${p.salaire_min || 0}" data-essai="${droits.essai(sid, p.niveau || 1).mois}" data-libelle="${e(p.intitule)} — ${e(p.dep)}">${e(p.intitule)} — ${e(p.dep)} (${e(p.cat)})</option>`).join('')}</select></label>
+      <label class="large">Poste ${aide('Choisissez un poste existant, ou « Nouveau poste » pour partir du métier : les catégories correspondantes vous seront proposées.')}<select name="poste_id">${postes.map((p) => `<option value="${p.id}" data-min="${p.salaire_min || 0}" data-essai="${droits.essai(sid, p.niveau || 1).mois}" data-libelle="${e(p.intitule)} — ${e(p.dep)}">${e(p.intitule)} — ${e(p.dep)} (${e(p.cat)})</option>`).join('')}<option value="nouveau" data-min="0" data-essai="${droits.essai(sid, 1).mois}" data-libelle="Nouveau poste"${postes.length ? '' : ' selected'}>+ Nouveau poste, à partir du métier…</option></select></label>
+      <div class="large nouveau-poste" id="nouveau-poste" hidden>${champsMetier(sid, true)}<label>Département<select name="departement_id">${options(deps, 'id', 'nom')}</select></label></div>
       <label>Type de contrat ${aide('CDD : 2 ans au plus, un seul renouvellement, écrit obligatoire. Sinon, il devient un CDI.')}<select name="type"><option>CDI</option><option>CDD</option></select></label>
       <label>Date d'entrée<input name="date_debut" type="date" required value="${jour}"></label>
       <label id="date-fin" hidden>Date de fin du CDD<input name="date_fin" type="date"></label>
-      <label>Période d'essai (mois) ${aide('Proposée selon la convention collective et la catégorie du poste. Elle doit être écrite ; 6 mois au plus, renouvellement compris.')}<input name="essai_mois" type="number" min="0" max="6" value="${droits.essai(sid, postes[0].niveau || 1).mois}" required></label></div></fieldset>
+      <label>Période d'essai (mois) ${aide('Proposée selon la convention collective et la catégorie du poste. Elle doit être écrite ; 6 mois au plus, renouvellement compris.')}<input name="essai_mois" type="number" min="0" max="6" value="${droits.essai(sid, postes[0]?.niveau || 1).mois}" required></label></div></fieldset>
     <fieldset data-pas="2" hidden><legend>Rémunération mensuelle</legend><div class="champs">
       <label>Salaire de base (FCFA) ${aide('Au moins le SMIG et le minimum de la catégorie du poste.')}<input name="salaire_base" type="number" min="0" required></label>
       <label>Sursalaire (FCFA) ${aide('Complément individuel, facultatif.')}<input name="sursalaire" type="number" min="0" value="0" required></label>
@@ -540,11 +569,13 @@ app.get('/embauche', (req, res) => {
     <dl class="fiche une-col"><div><dt>Salarié</dt><dd id="r-nom">—</dd></div><div><dt>Poste</dt><dd id="r-poste">—</dd></div><div><dt>Contrat</dt><dd id="r-contrat">—</dd></div><div><dt>Période d'essai</dt><dd id="r-essai">—</dd></div>
     <div><dt>Brut mensuel prévu</dt><dd id="r-brut" class="fort">—</dd></div><div><dt>Salaire de base minimum ${aide('Le plus élevé entre le SMIG et le minimum de la catégorie du poste.')}</dt><dd id="r-min">—</dd></div></dl>
     <p class="alerte-ligne" id="r-alerte" hidden>Le salaire de base est inférieur au minimum applicable.</p></aside>
-  </div><script src="/embauche.js"></script>`));
+  </div><script src="/metiers.js"></script><script src="/embauche.js"></script>`));
 });
 app.post('/embauche', (req, res) => {
   const b = req.body, sid = req.societe.id;
-  const poste = get('SELECT * FROM postes WHERE id=? AND societe_id=?', Number(b.poste_id), sid);
+  // poste existant, ou nouveau poste créé à partir du métier et de la catégorie choisis
+  const poste = b.poste_id === 'nouveau' ? (b.nom && b.prenom && /^\d{4}-\d{2}-\d{2}$/.test(b.date_debut || '') ? creerPoste(sid, b) : null) : get('SELECT * FROM postes WHERE id=? AND societe_id=?', Number(b.poste_id), sid);
+
   if (!poste || !b.nom || !b.prenom || !/^\d{4}-\d{2}-\d{2}$/.test(b.date_debut || '')) return res.redirect('/embauche');
   const n = get('SELECT COUNT(*) n FROM salaries WHERE societe_id=?', sid).n + 1;
   const mat = `${req.societe.nom.slice(0, 2).toUpperCase()}-${String(n).padStart(3, '0')}`;
@@ -672,7 +703,9 @@ require('./routes-declarations')(app, h);
 require('./routes-variables')(app, h);
 require('./routes-sortie')(app, h);
 require('./routes-outils')(app, h);
+require('./documents')(app, h);
 logo.routes(app);
+metiers.routes(app);
 
 // page introuvable et erreur inattendue
 app.use((req, res) => {

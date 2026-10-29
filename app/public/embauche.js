@@ -8,8 +8,25 @@
   const v = (nom) => form.elements[nom].value;
   let i = 0;
 
-  const recap = () => {
+  // « Nouveau poste » : on choisit le métier puis la catégorie ; le minimum et l'essai viennent alors de la catégorie choisie
+  const blocNouveau = document.getElementById('nouveau-poste');
+  const nouveau = () => form.elements.poste_id.value === 'nouveau';
+  const posteChoisi = () => {
     const opt = form.elements.poste_id.selectedOptions[0];
+    if (!nouveau()) return opt.dataset;
+    const cat = form.elements.categorie_id.selectedOptions[0];
+    const intitule = form.elements.intitule.value || 'Nouveau poste';
+    return { min: cat?.dataset.min || 0, essai: cat?.dataset.essai || opt.dataset.essai, libelle: `${intitule} — ${form.elements.departement_id.selectedOptions[0]?.textContent || ''}` };
+  };
+  const basculer = () => {
+    blocNouveau.hidden = !nouveau();
+    for (const n of ['metier_id', 'intitule', 'categorie_id']) form.elements[n].required = nouveau();
+  };
+  form.elements.poste_id.addEventListener('change', basculer);
+  basculer();
+
+  const recap = () => {
+    const opt = { dataset: posteChoisi() };
     const brut = Number(v('salaire_base')) + Number(v('sursalaire')) + Number(v('prime_transport'));
     const smig = Number(document.getElementById('recap').dataset.smig);
     const min = Number(opt.dataset.min);
@@ -39,7 +56,9 @@
   // la période d'essai suit la convention du poste choisi, tant qu'elle n'a pas été modifiée à la main
   let essaiManuel = false;
   form.elements.essai_mois.addEventListener('input', () => { essaiManuel = true; });
-  form.elements.poste_id.addEventListener('change', () => { if (!essaiManuel) form.elements.essai_mois.value = form.elements.poste_id.selectedOptions[0].dataset.essai; });
+  const essaiAuto = () => { if (!essaiManuel) form.elements.essai_mois.value = posteChoisi().essai; };
+  form.elements.poste_id.addEventListener('change', essaiAuto);
+  form.elements.categorie_id.addEventListener('change', essaiAuto);
   form.addEventListener('input', recap);
   form.addEventListener('change', recap);
   recap();

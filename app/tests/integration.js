@@ -98,6 +98,53 @@ async function testsDemo() {
   ok(!get('SELECT societe_id FROM societe_logos WHERE societe_id=2'), 'logo retiré');
   await envoyer('/societe/logo', {}, { logo: ['logo2.png', PNG, 'image/png'] });
   await req('POST', '/societes/choisir', { id: '1' });
+
+  // gestion documentaire : modèles fournis, rédaction pour un salarié, modèle collé (nettoyé), logo propre, pièces déposées
+  await page200('/documents');
+  await page200('/documents?onglet=modeles');
+  const { BIBLIOTHEQUE } = require('../documents-modeles');
+  ok(get('SELECT COUNT(*) n FROM modeles_documents WHERE societe_id=1').n === BIBLIOTHEQUE.length, 'modèles de la bibliothèque copiés une fois dans la société');
+  const fiche = await page200('/salaries/1');
+  ok(fiche.texte.includes('Dossier documentaire') && fiche.texte.includes('Imprimer le contrat'), 'fiche salarié : dossier documentaire et impression du contrat');
+  await page200('/salaries/1/documents/nouveau?type=contrat_cdi');
+  const cdi = get("SELECT id FROM modeles_documents WHERE societe_id=1 AND type='contrat_cdi'");
+  const redige = await req('POST', '/salaries/1/documents', { modele: String(cdi.id), date_document: '2026-10-29' });
+  const idDoc = Number(redige.lieu?.split('/').pop());
+  const doc = get('SELECT * FROM documents WHERE id=?', idDoc);
+  ok(doc && doc.salarie_id === 1 && doc.corps.includes('Mabiala') && !/\{\{\s*(salarie|societe|contrat|poste)\./.test(doc.corps), 'contrat rédigé : champs du salarié remplis');
+  const vue = await page200(`/documents/${idDoc}`);
+  ok(vue.texte.includes('class="lettre-pied"') && vue.texte.includes('/societe/logo/1') && vue.texte.includes('data-imprimer'), 'document imprimable avec logo, en-tête et pied de page');
+  await page200(`/documents/${idDoc}/modifier`);
+  await req('POST', `/documents/${idDoc}`, { corps: '<p>Texte revu <b>à la main</b></p><script>alert(1)</script>' });
+  ok(get('SELECT corps FROM documents WHERE id=?', idDoc).corps === '<p>Texte revu <b>à la main</b></p>', 'document modifié, script retiré');
+  await req('POST', `/documents/${idDoc}/statut`, { statut: 'signe' });
+  ok(get('SELECT statut FROM documents WHERE id=?', idDoc).statut === 'signe', 'état du document : signé');
+  const colle = await envoyer('/documents/modeles', { titre: 'Avertissement maison', type: 'avertissement', logo_mode: 'perso', entete: '<p>Entête</p>', pied: '<p>Pied</p>',
+    corps: '<p class="MsoNormal" style="text-align:center;mso-line-height:1;background:url(x)" onclick="x()">Bonjour {{salarie.nom_complet}}, motif : {{saisie.motif}}</p><script>alert(1)</script><img src=x onerror=alert(1)><a href="javascript:x">lien</a>' },
+  { logo: ['filiale.png', PNG, 'image/png'] });
+  const idModele = Number(/modeles\/(\d+)\/modifier/.exec(colle.lieu || '')?.[1]);
+  const mo = get('SELECT * FROM modeles_documents WHERE id=?', idModele);
+  ok(mo && mo.corps === '<p style="text-align: center">Bonjour {{salarie.nom_complet}}, motif : {{saisie.motif}}</p>lien', 'modèle collé : mise en forme gardée, scripts, images, liens et styles Word retirés');
+  const logoModele = await fetch(`${base}/documents/modeles/${idModele}/logo`, { headers: { cookie: cookies() } });
+  ok(logoModele.status === 200 && logoModele.headers.get('content-type') === 'image/png', 'logo propre au modèle');
+  ok((await page200(`/salaries/1/documents/nouveau?modele=${idModele}`)).texte.includes('name="saisie_motif"'), 'case à remplir proposée à la rédaction');
+  const idAv = Number((await req('POST', '/salaries/1/documents', { modele: String(idModele), date_document: '2026-10-29', saisie_motif: '<b>retards répétés</b>' })).lieu.split('/').pop());
+  ok(get('SELECT corps FROM documents WHERE id=?', idAv).corps.includes('&lt;b&gt;retards répétés&lt;/b&gt;'), 'case remplie : texte saisi échappé');
+  ok((await req('GET', `/documents/${idAv}`)).texte.includes(`/documents/modeles/${idModele}/logo`), 'document rédigé avec le logo propre du modèle');
+  await page200(`/documents/modeles/${idModele}/apercu`);
+  await req('POST', `/documents/modeles/${idModele}/dupliquer`);
+  ok(get("SELECT id FROM modeles_documents WHERE titre='Avertissement maison (copie)' AND societe_id=1"), 'modèle dupliqué');
+  const PDF = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF');
+  ok((await envoyer('/salaries/1/pieces', { type: 'diplome' }, { fichier: ['diplôme.pdf', PDF, 'application/pdf'] })).lieu === '/salaries/1#documents', 'pièce PDF déposée');
+  const piece = get("SELECT id FROM documents WHERE salarie_id=1 AND type='diplome'");
+  const fic = await fetch(`${base}/documents/${piece.id}/fichier`, { headers: { cookie: cookies() } });
+  ok(fic.status === 200 && fic.headers.get('content-type') === 'application/pdf' && fic.headers.get('content-security-policy') === 'sandbox', 'pièce servie isolée, avec son type réel');
+  ok((await envoyer('/salaries/1/pieces', { type: 'diplome' }, { fichier: ['faux.pdf', Buffer.from('<html><script>alert(1)</script></html>'), 'application/pdf'] })).lieu.includes('piece_refusee'), 'faux PDF refusé (contenu vérifié)');
+  await req('POST', '/societes/choisir', { id: '2' });
+  ok((await req('GET', `/documents/${idDoc}`)).lieu === '/documents' && (await fetch(`${base}/documents/${piece.id}/fichier`, { headers: { cookie: cookies() } })).status === 404, 'document d\'une autre société inaccessible');
+  await req('POST', '/societes/choisir', { id: '1' });
+  await req('POST', `/documents/modeles/${idModele}/supprimer`);
+  ok(!get('SELECT id FROM modeles_documents WHERE id=?', idModele) && get('SELECT id FROM documents WHERE id=?', idAv), 'modèle supprimé, documents déjà rédigés conservés');
   ok((await req('GET', '/declarations/export?type=cnss&periode=2026-10&annee=2026')).texte.includes('Retraite salarié'), 'export du bordereau CNSS');
 
   // avenant tracé
@@ -165,6 +212,11 @@ async function testsDemo() {
   await req('POST', '/societes/choisir', { id: '1' });
   for (const [p, l] of [['/regles', 'règles'], ['/utilisateurs', 'comptes'], ['/journal', 'journal'], ['/sauvegardes', 'sauvegardes'], ['/salaries/2/sortie', 'sorties'], ['/salaries/1/donnees', 'export des données'], ['/societe/parametres', 'informations légales']]) ok((await req('GET', p)).statut === 403, `Utilisateur : pas d'accès (${l})`);
   ok((await req('POST', '/structure/departement', { nom: 'Interdit' })).statut === 403 && !get("SELECT id FROM departements WHERE nom='Interdit'"), 'Utilisateur : la structure est en lecture seule');
+  const modeleU = get("SELECT id FROM modeles_documents WHERE societe_id=1 AND type='attestation_travail'");
+  ok((await req('GET', '/documents/modeles/nouveau')).statut === 403 && (await req('POST', `/documents/modeles/${modeleU.id}/supprimer`)).statut === 403 && get('SELECT id FROM modeles_documents WHERE id=?', modeleU.id), 'Utilisateur : modèles de documents en lecture seule');
+  ok(!(await page200('/documents?onglet=modeles')).texte.includes('/modifier"'), 'Utilisateur : pas de bouton Modifier sur les modèles');
+  const docU = await req('POST', '/salaries/1/documents', { modele: String(modeleU.id), date_document: '2026-10-29' });
+  ok(docU.lieu?.startsWith('/documents/') && (await req('POST', `${docU.lieu}/supprimer`)).statut === 403, 'Utilisateur : rédige un document, sans pouvoir le supprimer');
   await page200('/salaries');
   await page200('/conges');
   await page200('/structure');

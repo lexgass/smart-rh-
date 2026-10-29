@@ -44,7 +44,8 @@ function decouper(corps, frontiere) {
   return { champs, fichiers };
 }
 
-const corpsBrut = express.raw({ type: 'multipart/form-data', limit: '2mb' });
+// 6 Mo : pièces scannées du dossier salarié (5 Mo au plus, contrôlé dans documents.js) ; le logo reste limité à 1 Mo
+const corpsBrut = express.raw({ type: 'multipart/form-data', limit: '6mb' });
 function lireMultipart(req, res, next) {
   if (req.method !== 'POST' || !/^multipart\/form-data/i.test(req.headers['content-type'] || '')) return next();
   corpsBrut(req, res, (err) => {
