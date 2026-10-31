@@ -24,7 +24,7 @@ app.use((req, res, next) => {
     'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'",
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
     'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Resource-Policy': 'same-origin',
-    ...(config.https ? { 'Strict-Transport-Security': 'max-age=31536000' } : {}),
+    ...(config.securise ? { 'Strict-Transport-Security': 'max-age=31536000' } : {}),
   });
   next();
 });

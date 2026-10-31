@@ -1,0 +1,4 @@
+# fichiers lus par Linux sur le serveur : fins de ligne Unix obligatoires
+serveur/*.sh text eol=lf
+serveur/*.service text eol=lf
+serveur/Caddyfile text eol=lf

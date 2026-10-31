@@ -1,0 +1,21 @@
+# Serveur web placé devant Smart RH : HTTPS automatique (Let's Encrypt), compression, journal des accès.
+# installer.sh remplace « rh.exemple.cg » par votre nom de domaine et copie ce fichier dans /etc/caddy/Caddyfile.
+rh.exemple.cg {
+	encode zstd gzip
+
+	# pièces scannées : 5 Mo au plus côté Smart RH ; marge pour l'enveloppe du formulaire
+	request_body {
+		max_size 7MB
+	}
+
+	reverse_proxy 127.0.0.1:4322
+
+	header -Server
+
+	log {
+		output file /var/log/caddy/smart-rh.log {
+			roll_size 10MiB
+			roll_keep 10
+		}
+	}
+}

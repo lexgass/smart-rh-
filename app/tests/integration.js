@@ -234,6 +234,13 @@ async function testsProduction() {
   ok((await req('GET', '/')).lieu === '/installation', 'premier lancement : création du compte Admin');
   ok((await req('GET', '/demo/entrer/admin')).lieu === '/installation', 'aucune entrée de démonstration');
   ok(!(await req('GET', '/connexion')).texte.includes('/demo/entrer'), 'production : pas de boutons d\'entrée directe');
+  // serveur en ligne : premier compte créé seulement avec le code d'installation
+  const config = require('../config');
+  config.jetonInstallation = 'code-installation-test';
+  ok((await req('GET', '/installation')).statut === 403, 'serveur en ligne : installation verrouillée sans le code');
+  ok((await req('POST', '/installation', { nom: 'Intrus', email: 'intrus@test.cg', mdp: 'phrase de passe solide', mdp2: 'phrase de passe solide' })).statut === 403 && !get("SELECT id FROM utilisateurs WHERE email='intrus@test.cg'"), 'serveur en ligne : création du premier compte refusée sans le code');
+  ok((await req('GET', '/installation?jeton=code-installation-test')).texte.includes('name="jeton" value="code-installation-test"'), 'serveur en ligne : écran de premier lancement ouvert avec le code');
+  config.jetonInstallation = '';
   ok((await req('POST', '/installation', { nom: 'Test', email: 'admin@test.cg', mdp: 'court', mdp2: 'court' })).lieu.includes('erreur=court'), 'mot de passe trop court refusé');
   ok((await req('POST', '/installation', { nom: 'Test', email: 'admin@test.cg', mdp: 'motdepasse123', mdp2: 'motdepasse123' })).lieu.includes('erreur=courant'), 'mot de passe courant refusé');
   ok((await req('POST', '/installation', { nom: 'Test', email: 'admin@test.cg', mdp: 'phrase de passe solide', mdp2: 'phrase de passe solide' }, { origin: 'http://site-malveillant.example' })).statut === 403, 'installation depuis un autre site refusée');

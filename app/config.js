@@ -26,4 +26,10 @@ module.exports = {
   clePrivee: process.env.SMART_RH_CLE || path.join(dossier, 'certificat', 'smart-rh.key'),
   // derrière un serveur web (IIS, Nginx) : adresse du client lue dans X-Forwarded-For
   proxy: oui(process.env.SMART_RH_PROXY),
+  // serveur en ligne : le HTTPS est assuré par le serveur web placé devant (Caddy) ; cookies « Secure » et HSTS quand même
+  httpsProxy: oui(process.env.SMART_RH_HTTPS_PROXY),
+  // serveur en ligne : l'écran de premier lancement n'est ouvert qu'avec ce code (créé par le script d'installation)
+  jetonInstallation: process.env.SMART_RH_INSTALLATION_JETON || '',
 };
+// adresses vues par le navigateur en HTTPS : intégré ou assuré par le serveur web placé devant
+module.exports.securise = module.exports.https || module.exports.httpsProxy;

@@ -1,0 +1,44 @@
+# Service Smart RH : démarré avec le serveur, relancé tout seul en cas d'arrêt.
+# Installé par installer.sh dans /etc/systemd/system/. Logs : journalctl -u smart-rh, et /var/lib/smart-rh/logs
+[Unit]
+Description=Smart RH (paie et RH)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=smartrh
+Group=smartrh
+WorkingDirectory=/opt/smart-rh/app
+EnvironmentFile=/etc/smart-rh/smart-rh.env
+ExecStart=/usr/bin/node --no-warnings server.js
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+# cloisonnement : le service ne peut écrire que dans ses données, rien d'autre sur le serveur
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/smart-rh
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

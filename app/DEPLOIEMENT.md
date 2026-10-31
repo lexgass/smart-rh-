@@ -108,7 +108,7 @@ La configuration de production écoute tout le réseau local (`HOST: '0.0.0.0'` 
 
 **Sécurité.** Les échanges sont chiffrés (HTTPS, TLS 1.2 au minimum). Réservez malgré tout l'accès au réseau interne de l'entreprise. **N'ouvrez jamais le port 4322 sur internet.** Si le poste serveur change de nom ou d'adresse IP, relancez `npm run certificat` puis `pm2 restart smart-rh`.
 
-Smart RH peut aussi être placé derrière un serveur web (IIS, Nginx, Caddy) qui gère le HTTPS : dans ce cas, `SMART_RH_HTTPS: '1'`, `SMART_RH_PROXY: '1'` et `HOST: '127.0.0.1'`.
+Smart RH peut aussi être placé derrière un serveur web (IIS, Nginx, Caddy) qui gère le HTTPS : dans ce cas, `SMART_RH_HTTPS_PROXY: '1'`, `SMART_RH_PROXY: '1'` et `HOST: '127.0.0.1'`. Pour un serveur en ligne, suivez plutôt `DEPLOIEMENT-SERVEUR.md` (à la racine du projet) : tout y est automatisé.
 
 ## 6. Sauvegardes et restauration
 
@@ -239,6 +239,8 @@ Les logs ne contiennent jamais de mot de passe, de jeton ni de contenu de formul
 | `SMART_RH_HTTPS` | `1` : HTTPS (certificat de `npm run certificat`, ou serveur web devant) | 0 (1 en production) |
 | `SMART_RH_CERTIFICAT`, `SMART_RH_CLE` | Certificat et clé HTTPS | `certificat\smart-rh.crt` et `.key` à côté de la base |
 | `SMART_RH_PROXY` | `1` derrière un serveur web : adresse du client lue dans X-Forwarded-For | 0 |
+| `SMART_RH_HTTPS_PROXY` | `1` quand le HTTPS est assuré par le serveur web placé devant (Caddy, Nginx) : cookies réservés au HTTPS et HSTS, Smart RH écoutant en HTTP sur 127.0.0.1 | 0 |
+| `SMART_RH_INSTALLATION_JETON` | Serveur en ligne : code exigé par l'écran de premier lancement (`/installation?jeton=…`), pour que personne ne crée le premier compte avant vous | vide (écran ouvert) |
 
 ## Capacité mesurée
 

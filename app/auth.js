@@ -101,7 +101,7 @@ const bloque = (ip) => { const x = echecs.get(ip); if (!x || Date.now() - x.debu
 const noterEchec = (ip) => { const x = echecs.get(ip); if (!x || Date.now() - x.debut > 15 * 60e3) echecs.set(ip, { n: 1, debut: Date.now() }); else x.n++; if (echecs.size > 10000) echecs.clear(); };
 
 const lireCookies = (req) => Object.fromEntries((req.headers.cookie || '').split(';').map((x) => x.trim().split('=')).filter((x) => x[0]).map(([k, ...v]) => { try { return [k, decodeURIComponent(v.join('='))]; } catch { return [k, '']; } }));
-const cookie = (res, k, v, maxAgeSecondes) => res.append('Set-Cookie', `${k}=${encodeURIComponent(v)}; Path=/; HttpOnly; SameSite=Lax${config.https ? '; Secure' : ''}${maxAgeSecondes != null ? `; Max-Age=${Math.round(maxAgeSecondes)}` : ''}`);
+const cookie = (res, k, v, maxAgeSecondes) => res.append('Set-Cookie', `${k}=${encodeURIComponent(v)}; Path=/; HttpOnly; SameSite=Lax${config.securise ? '; Secure' : ''}${maxAgeSecondes != null ? `; Max-Age=${Math.round(maxAgeSecondes)}` : ''}`);
 
 // la démonstration fonctionne comme la production : aucun compte sans mot de passe, aucune entrée en un clic.
 // Les anciens comptes de démonstration (versions 1.0 et 1.1, sans mot de passe utilisable) sont retirés.
@@ -235,10 +235,14 @@ module.exports = (app, h) => {
   });
 
   // premier lancement : création du compte Admin
+  // serveur en ligne : sans le code d'installation, personne d'autre ne peut créer le premier compte avant vous
+  const installationFermee = (jeton) => Boolean(config.jetonInstallation) && !egal(String(jeton || ''), config.jetonInstallation);
+  const verrou = (res) => res.status(403).send(ecranMarque('<div class="formulaire-connexion"><h2>Installation verrouillée</h2><p>Ouvrez l\'adresse complète donnée à la fin du script d\'installation du serveur (elle contient le code d\'installation).</p></div>'));
   app.get('/installation', (req, res) => {
     if (get('SELECT COUNT(*) n FROM utilisateurs').n > 0) return res.redirect('/connexion');
+    if (installationFermee(req.query.jeton)) return verrou(res);
     const err = REFUS[req.query.erreur] ? `<p class="alerte-ligne" role="alert">${REFUS[req.query.erreur]}</p>` : '';
-    res.send(ecranMarque(`<form method="post" action="/installation" class="formulaire-connexion"><h2>Bienvenue dans Smart RH</h2>
+    res.send(ecranMarque(`<form method="post" action="/installation" class="formulaire-connexion"><h2>Bienvenue dans Smart RH</h2>${config.jetonInstallation ? `<input type="hidden" name="jeton" value="${String(req.query.jeton).replace(/[^\w-]/g, '')}">` : ''}
       <p>Créez le compte d'<b>administrateur global</b>. Il crée les sociétés et leur administrateur, et gère les sauvegardes. Gardez-le pour l'administration : le travail courant se fait avec les comptes des sociétés.</p>${err}
       <label>Votre nom<input name="nom" required autocomplete="name" maxlength="120"></label>
       <label>Adresse e-mail<input type="email" name="email" required autocomplete="username" maxlength="200"></label>
@@ -248,9 +252,11 @@ module.exports = (app, h) => {
   });
   app.post('/installation', (req, res) => {
     if (get('SELECT COUNT(*) n FROM utilisateurs').n > 0) return res.redirect('/connexion');
+    if (installationFermee(req.body.jeton)) return verrou(res);
     const b = req.body;
+    const suite = config.jetonInstallation ? `&jeton=${encodeURIComponent(b.jeton)}` : '';
     const erreur = !b.nom || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(b.email || '') ? 'identite' : motDePasseRefuse(b.mdp, b.email) || (b.mdp !== b.mdp2 ? 'different' : null);
-    if (erreur) return res.redirect(`/installation?erreur=${erreur}`);
+    if (erreur) return res.redirect(`/installation?erreur=${erreur}${suite}`);
     const id = creerUtilisateur({ email: b.email, nom: String(b.nom).trim().slice(0, 120), mdp: b.mdp, role: 'admin' });
     entrer(req, res, get('SELECT * FROM utilisateurs WHERE id=?', id), '/');
   });
