@@ -62,8 +62,8 @@ Puis, une fois connecté au serveur :
 
 ```bash
 apt-get update && apt-get install -y unzip
-unzip /root/smart-rh-deploiement-1.3.0.zip -d /root/smart-rh-paquet
-bash /root/smart-rh-paquet/serveur/installer.sh rh.votre-domaine.cg
+unzip /root/smart-rh-deploiement-1.3.0.zip -d /root
+bash /root/smart-rh-deploiement/serveur/installer.sh rh.votre-domaine.cg
 ```
 
 **B. Depuis GitHub** (les mises à jour se font ensuite par un simple `git push`). Sur votre PC, depuis le dossier du projet `smart-rh` :
