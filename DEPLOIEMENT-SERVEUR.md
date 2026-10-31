@@ -47,16 +47,33 @@ nslookup rh.votre-domaine.cg
 
 Le résultat doit afficher l'adresse IP du serveur.
 
-## 3. Envoyer le script et l'exécuter (≈ 15 minutes)
+## 3. Envoyer Smart RH et l'installer (≈ 15 minutes)
 
-Dans PowerShell, sur votre PC, depuis le dossier du projet `smart-rh` :
+Deux façons, au choix. **La première est la plus simple.**
+
+**A. Avec le paquet zip** (rien à régler dans GitHub). Dans PowerShell, sur votre PC, dans le dossier où se trouve le zip :
+
+```powershell
+scp smart-rh-deploiement-1.3.0.zip root@203.0.113.10:/root/
+ssh root@203.0.113.10
+```
+
+Puis, une fois connecté au serveur :
+
+```bash
+apt-get update && apt-get install -y unzip
+unzip /root/smart-rh-deploiement-1.3.0.zip -d /root/smart-rh-paquet
+bash /root/smart-rh-paquet/serveur/installer.sh rh.votre-domaine.cg
+```
+
+**B. Depuis GitHub** (les mises à jour se font ensuite par un simple `git push`). Sur votre PC, depuis le dossier du projet `smart-rh` :
 
 ```powershell
 scp serveur\installer.sh root@203.0.113.10:/root/
 ssh root@203.0.113.10
 ```
 
-Puis, une fois connecté au serveur :
+Puis sur le serveur :
 
 ```bash
 bash /root/installer.sh rh.votre-domaine.cg
@@ -68,7 +85,7 @@ Le script, en 8 étapes :
 3. installe **Caddy**, qui obtient et renouvelle seul le certificat HTTPS ;
 4. ferme le **pare-feu** sauf SSH, HTTP et HTTPS, et bloque les adresses qui essaient des mots de passe ;
 5. crée un compte système dédié, sans droits, pour faire tourner Smart RH ;
-6. récupère Smart RH depuis GitHub : il affiche une **clé de déploiement** ; ajoutez-la dans GitHub (dépôt > **Settings** > **Deploy keys** > **Add deploy key**, case « Allow write access » **décochée**), puis appuyez sur Entrée ;
+6. installe le programme : avec le zip, il le copie tel quel ; depuis GitHub, il affiche une **clé de déploiement** ; ajoutez-la dans GitHub (dépôt > **Settings** > **Deploy keys** > **Add deploy key**, case « Allow write access » **décochée**), puis appuyez sur Entrée ;
 7. écrit les réglages, crée le **code d'installation** et démarre le service ;
 8. vérifie que tout répond et affiche **l'adresse de premier lancement**.
 
@@ -135,11 +152,19 @@ Gardez le mot de passe root chez l'hébergeur : sa console web reste un accès d
 
 ## 8. Mettre à jour Smart RH
 
-1. Sur votre PC, la nouvelle version est envoyée sur GitHub (`git push`).
-2. Sur le serveur :
-   ```bash
-   bash /opt/smart-rh/serveur/mettre-a-jour.sh
-   ```
+**Installé avec le zip :** envoyez le nouveau paquet sur le serveur (`scp`, comme à la section 3), puis :
+
+```bash
+bash /opt/smart-rh/serveur/mettre-a-jour.sh /root/smart-rh-deploiement-1.4.0.zip
+```
+
+L'ancienne version reste dans `/opt/smart-rh.precedent` ; si la nouvelle ne répond pas, le script y revient tout seul.
+
+**Installé depuis GitHub :** envoyez la nouvelle version sur GitHub (`git push`), puis sur le serveur :
+
+```bash
+bash /opt/smart-rh/serveur/mettre-a-jour.sh
+```
 
 Le script fait une **sauvegarde chiffrée**, récupère la nouvelle version, **lance tous les tests** sur une base temporaire, puis redémarre. Si un test échoue, il revient à la version précédente et les utilisateurs ne voient rien. Prévenez-les : le redémarrage coupe l'accès quelques secondes (les saisies en cours sont à refaire).
 

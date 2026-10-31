@@ -19,7 +19,7 @@ etape "1/8 Mise à jour du système"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -q
 apt-get upgrade -yq
-apt-get install -yq curl git ufw fail2ban unattended-upgrades gnupg ca-certificates openssl debian-keyring debian-archive-keyring apt-transport-https
+apt-get install -yq curl git unzip ufw fail2ban unattended-upgrades gnupg ca-certificates openssl debian-keyring debian-archive-keyring apt-transport-https
 # correctifs de sécurité installés automatiquement chaque nuit
 dpkg-reconfigure -f noninteractive unattended-upgrades
 timedatectl set-timezone Africa/Brazzaville || true
@@ -54,8 +54,19 @@ id smartrh >/dev/null 2>&1 || useradd --system --home-dir "$DONNEES" --shell /us
 install -d -o smartrh -g smartrh -m 0700 "$DONNEES" "$DONNEES/sauvegardes" "$DONNEES/logs"
 install -d -o root -g smartrh -m 0750 "$CONF"
 
+ICI=$(cd "$(dirname "$0")" && pwd)
+if [ -f "$ICI/../app/package.json" ] && [ ! -d "$CODE/.git" ]; then
+  # installation depuis le paquet zip : le programme est copié tel quel, sans passer par GitHub
+  etape "6/8 Programme Smart RH, depuis le paquet"
+  if [ -d "$CODE/app" ]; then echo "Smart RH est déjà installé : pour une nouvelle version, utilisez mettre-a-jour.sh (voir le guide)."; else
+    install -d -m 0755 "$CODE"
+    cp -a "$ICI/../app" "$ICI/../serveur" "$CODE/"
+    [ -f "$ICI/../VERSION.txt" ] && cp "$ICI/../VERSION.txt" "$CODE/"
+  fi
+else
 etape "6/8 Programme Smart RH, depuis GitHub"
-if [ ! -d "$CODE/.git" ]; then
+fi
+if [ ! -d "$CODE/.git" ] && [ ! -d "$CODE/app" ]; then
   if [[ "$DEPOT" == git@* ]]; then
     # clé de déploiement : le serveur peut lire le dépôt, et rien d'autre
     install -d -m 0700 /root/.ssh
